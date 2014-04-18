@@ -43,9 +43,14 @@
                 if (moduleNameElement != null)
                 {
                     string moduleName = moduleNameElement.Value;
+                    int lineCovered = (int)module.Element("LinesCovered");
+                    int lineNotCovered = (int)module.Element("LinesNotCovered");
+
                     codeCoverage.Add(new CodeCoverageLineModel
                     {
                         Project = moduleName,
+                        CoveredLine = lineCovered,
+                        CoveredLinePercentage = lineCovered / lineNotCovered * 100,
                         Children = GetNamespaces(module, moduleName)
                     });
                 }
@@ -67,10 +72,15 @@
                 if (namespaceeeNameElement != null)
                 {
                     string namespaceeeName = namespaceeeNameElement.Value;
+                    int lineCovered = (int)namespaceee.Element("LinesCovered");
+                    int lineNotCovered = (int)namespaceee.Element("LinesNotCovered");
+
                     codeCoverage.Add(new CodeCoverageLineModel
                     {
                         Project = moduleName,
                         Namespace = namespaceeeName,
+                        CoveredLine = lineCovered,
+                        CoveredLinePercentage = lineCovered / lineNotCovered * 100,
                         Children = GetClasses(namespaceee, moduleName, namespaceeeName)
                     });
                 }
@@ -92,11 +102,16 @@
                 if (classsNameElement != null)
                 {
                     string classsName = classsNameElement.Value;
+                    int lineCovered = (int)classs.Element("LinesCovered");
+                    int lineNotCovered = (int)classs.Element("LinesNotCovered");
+
                     codeCoverage.Add(new CodeCoverageLineModel
                     {
                         Project = moduleName,
                         Namespace = namespaceeeName,
                         Type = classsName,
+                        CoveredLine = lineCovered,
+                        CoveredLinePercentage = lineCovered / lineNotCovered * 100,
                         Children = GetMethods(classs, moduleName, namespaceeeName, classsName)
                     });
                 }
@@ -118,12 +133,17 @@
                 if (methodNameElement != null)
                 {
                     string methodName = methodNameElement.Value;
+                    int lineCovered = (int)method.Element("LinesCovered");
+                    int lineNotCovered = (int)method.Element("LinesNotCovered");
+
                     codeCoverage.Add(new CodeCoverageLineModel
                     {
                         Project = moduleName,
                         Namespace = namespaceeeName,
                         Type = classsName,
-                        Member = methodName
+                        Member = methodName,
+                        CoveredLine = lineCovered,
+                        CoveredLinePercentage = lineCovered / lineNotCovered * 100
                     });
                 }
             }
