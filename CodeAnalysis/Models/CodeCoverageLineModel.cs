@@ -14,8 +14,10 @@
         public string Type { get; set; }
         public string Member { get; set; }
 
-        public double? CoveredLinePercentage { get; set; }
-        public double? CoveredLine { get; set; }
+        public int CoveredLines { get; set; }
+        public int CoveredLinesPercentage { get; set; }
+        public int CoveredBlocks { get; set; }
+        public int CoveredBlocksPercentage { get; set; }
 
         public List<CodeCoverageLineModel> Children { get; set; }
     }
