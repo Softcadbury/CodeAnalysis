@@ -11,7 +11,7 @@
     public class CodeCoverageGenerator
     {
         /// <summary>
-        ///
+        /// Generates a list of CodeCoverageLineView with two code coverage files
         /// </summary>
         public static IEnumerable<CodeCoverageLineView> Generate(StreamReader codeCoverageTrunkFile, StreamReader codeCoverageBrancheFile)
         {
@@ -21,11 +21,11 @@
             List<CodeCoverageLineModel> codeCoverageBranche = InitCodeCoverage(codeCoverageBrancheFile);
             codeCoverageBrancheFile.Close();
 
-            return new List<CodeCoverageLineView>();
+            return InitializeCodeCoverageDifferences(codeCoverageTrunk, codeCoverageBranche);
         }
 
         /// <summary>
-        /// Creates a list of CodeCoverageLineModel with information from the file
+        /// Initializes the list of CodeCoverageLineModel with a coverage code file
         /// </summary>
         private static List<CodeCoverageLineModel> InitCodeCoverage(StreamReader file)
         {
@@ -34,7 +34,7 @@
         }
 
         /// <summary>
-        ///
+        /// Gets the modules from a coverage code file
         /// </summary>
         private static List<CodeCoverageLineModel> GetModules(XDocument document)
         {
@@ -62,7 +62,7 @@
         }
 
         /// <summary>
-        ///
+        /// Gets the namespaces from a coverage code file
         /// </summary>
         private static List<CodeCoverageLineModel> GetNamespaces(XElement module, string moduleName)
         {
@@ -79,7 +79,7 @@
                     {
                         Project = moduleName,
                         Namespace = namespaceeeName,
-                        Children = GetNamespaces(namespaceee, moduleName)
+                        Children = GetClasses(namespaceee, moduleName, namespaceeeName)
                     };
 
                     InitLine(namespaceee, line);
@@ -91,7 +91,7 @@
         }
 
         /// <summary>
-        ///
+        /// Gets the classes from a coverage code file
         /// </summary>
         private static List<CodeCoverageLineModel> GetClasses(XElement namespaceee, string moduleName, string namespaceeeName)
         {
@@ -109,7 +109,7 @@
                         Project = moduleName,
                         Namespace = namespaceeeName,
                         Type = classsName,
-                        Children = GetNamespaces(classs, moduleName)
+                        Children = GetMethods(classs, moduleName, namespaceeeName, classsName)
                     };
 
                     InitLine(classs, line);
@@ -121,7 +121,7 @@
         }
 
         /// <summary>
-        ///
+        /// Gets the methods from a coverage code file
         /// </summary>
         private static List<CodeCoverageLineModel> GetMethods(XElement classs, string moduleName, string namespaceeeName, string classsName)
         {
@@ -139,8 +139,7 @@
                         Project = moduleName,
                         Namespace = namespaceeeName,
                         Type = classsName,
-                        Member = methodName,
-                        Children = GetNamespaces(method, moduleName)
+                        Member = methodName
                     };
 
                     InitLine(method, line);
@@ -152,7 +151,7 @@
         }
 
         /// <summary>
-        ///
+        /// Initializes informations with a coverage code file
         /// </summary>
         private static void InitLine(XElement element, CodeCoverageLineModel line)
         {
@@ -171,7 +170,17 @@
             line.CoveredLines = linesCovered;
             line.CoveredLinesPercentage = (int)((float)linesCovered / (float)linesTotal * 100);
             line.CoveredBlocks = blocksCovered;
-            line.CoveredBlocksPercentage = (int)((float)blocksCovered / (float)blocksTotal * 100); 
+            line.CoveredBlocksPercentage = (int)((float)blocksCovered / (float)blocksTotal * 100);
+        }
+
+        /// <summary>
+        /// Creates a list of CodeCoverageLineView containing difference of code coverage between two lists of CodeCoverageLineModel
+        /// </summary>
+        private static IEnumerable<CodeCoverageLineView> InitializeCodeCoverageDifferences(List<CodeCoverageLineModel> codeCoverageTrunk, List<CodeCoverageLineModel> codeCoverageBranche)
+        {
+            var codeCoverageLineView = new List<CodeCoverageLineView>();
+
+            return codeCoverageLineView;
         }
     }
 }

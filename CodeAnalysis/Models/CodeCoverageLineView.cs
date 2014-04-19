@@ -9,17 +9,20 @@
             Children = new List<CodeCoverageLineView>();
         }
 
-        public string Scope { get; set; }
         public string Project { get; set; }
         public string Namespace { get; set; }
         public string Type { get; set; }
         public string Member { get; set; }
 
-        public double? CoveredLinePercentageDifference { get; set; }
-        public double? CoveredLineNumberDifference { get; set; }
+        public int? CoveredLinesTrunk { get; set; }
+        public int? CoveredLinesPercentageTrunk { get; set; }
+        public int? CoveredBlocksTrunk { get; set; }
+        public int? CoveredBlocksPercentageTrunk { get; set; }
 
-        public CodeCoverageLineModel CodeCoverageTrunk { get; set; }
-        public CodeCoverageLineModel CodeCoverageBranche { get; set; }
+        public int? CoveredLinesBranche { get; set; }
+        public int? CoveredLinesPercentageBranche { get; set; }
+        public int? CoveredBlocksBranche { get; set; }
+        public int? CoveredBlocksPercentageBranche { get; set; }
 
         public List<CodeCoverageLineView> Children { get; set; }
     }
