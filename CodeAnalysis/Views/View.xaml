@@ -168,13 +168,17 @@
                             <ColumnDefinition Width="500" />
                             <ColumnDefinition Width="150" />
                             <ColumnDefinition Width="150" />
+                            <ColumnDefinition Width="150" />
+                            <ColumnDefinition Width="150" />
                         </Grid.ColumnDefinitions>
                         <Label Grid.Column="0" Content="Project"></Label>
                         <Label Grid.Column="1" Content="Namespace"></Label>
                         <Label Grid.Column="2" Content="Type"></Label>
                         <Label Grid.Column="3" Content="Member"></Label>
-                        <Label Grid.Column="4" Content="Covered Line (%)"></Label>
-                        <Label Grid.Column="5" Content="Covered Line"></Label>
+                        <Label Grid.Column="4" Content="Covered Lines"></Label>
+                        <Label Grid.Column="5" Content="Covered Lines (%)"></Label>
+                        <Label Grid.Column="6" Content="Covered Blocks"></Label>
+                        <Label Grid.Column="7" Content="Covered Blocks (%)"></Label>
                     </Grid>
 
                     <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="5" Margin="10,0,10,10">
@@ -189,6 +193,8 @@
                                             <ColumnDefinition Width="500" />
                                             <ColumnDefinition Width="150" />
                                             <ColumnDefinition Width="150" />
+                                            <ColumnDefinition Width="150" />
+                                            <ColumnDefinition Width="150" />
                                         </Grid.ColumnDefinitions>
 
                                         <Label Grid.Column="0" Content="{Binding Project}"></Label>
@@ -199,8 +205,8 @@
                                         <TextBlock Grid.Column="4" Background="{Binding CoveredLinesDifference, Converter={StaticResource BrushConverter}}">
                                             <TextBlock.Text>
                                                 <MultiBinding StringFormat="{} {0} / {1}">
-                                                    <Binding Path="CodeCoverageTrunk.CoveredLinesBranche" />
-                                                    <Binding Path="CodeCoverageBranche.CoveredLinesTrunk" />
+                                                    <Binding Path="CoveredLinesTrunk" />
+                                                    <Binding Path="CoveredLinesBranche" />
                                                 </MultiBinding>
                                             </TextBlock.Text>
                                         </TextBlock>
@@ -208,8 +214,26 @@
                                         <TextBlock Grid.Column="5" Background="{Binding CoveredLinesPercentageDifference, Converter={StaticResource BrushConverter}}">
                                             <TextBlock.Text>
                                                 <MultiBinding StringFormat="{} {0} / {1}">
-                                                    <Binding Path="CodeCoverageTrunk.CoveredLinesPercentageBranche" />
-                                                    <Binding Path="CodeCoverageBranche.CoveredLinesPercentageTrunk" />
+                                                    <Binding Path="CoveredLinesPercentageTrunk" />
+                                                    <Binding Path="CoveredLinesPercentageBranche" />
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+
+                                        <TextBlock Grid.Column="6" Background="{Binding CoveredLinesPercentageDifference, Converter={StaticResource BrushConverter}}">
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{} {0} / {1}">
+                                                    <Binding Path="CoveredBlocksTrunk" />
+                                                    <Binding Path="CoveredBlocksBranche" />
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+
+                                        <TextBlock Grid.Column="7" Background="{Binding CoveredLinesPercentageDifference, Converter={StaticResource BrushConverter}}">
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{} {0} / {1}">
+                                                    <Binding Path="CoveredBlocksPercentageTrunk" />
+                                                    <Binding Path="CoveredBlocksPercentageBranche" />
                                                 </MultiBinding>
                                             </TextBlock.Text>
                                         </TextBlock>

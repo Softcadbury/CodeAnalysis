@@ -201,5 +201,27 @@
 
             return codeCoverageLineViews;
         }
+
+        /// <summary>
+        ///
+        /// </summary>
+        private static CodeCoverageLineModel GetSameLine(CodeCoverageLineModel codeCoverageTrunk, CodeCoverageLineModel codeCoverageBranche)
+        {
+            if (codeCoverageBranche != null)
+            {
+                foreach (var item in codeCoverageBranche.Children)
+                {
+                    if (item.Project == codeCoverageTrunk.Project
+                        && item.Namespace == codeCoverageTrunk.Namespace
+                        && item.Type == codeCoverageTrunk.Type
+                        && item.Member == codeCoverageTrunk.Member)
+                    {
+                        return item;
+                    }
+                }
+            }
+
+            return null;
+        }
     }
 }
