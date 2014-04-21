@@ -162,7 +162,6 @@
 
                     <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" Margin="36,10,0,0">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="200" />
                             <ColumnDefinition Width="180" />
                             <ColumnDefinition Width="200" />
                             <ColumnDefinition Width="250" />
@@ -170,22 +169,20 @@
                             <ColumnDefinition Width="150" />
                             <ColumnDefinition Width="150" />
                         </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0" Content="Scope"></Label>
-                        <Label Grid.Column="1" Content="Project"></Label>
-                        <Label Grid.Column="2" Content="Namespace"></Label>
-                        <Label Grid.Column="3" Content="Type"></Label>
-                        <Label Grid.Column="4" Content="Member"></Label>
-                        <Label Grid.Column="5" Content="Covered Line (%)"></Label>
-                        <Label Grid.Column="6" Content="Covered Line"></Label>
+                        <Label Grid.Column="0" Content="Project"></Label>
+                        <Label Grid.Column="1" Content="Namespace"></Label>
+                        <Label Grid.Column="2" Content="Type"></Label>
+                        <Label Grid.Column="3" Content="Member"></Label>
+                        <Label Grid.Column="4" Content="Covered Line (%)"></Label>
+                        <Label Grid.Column="5" Content="Covered Line"></Label>
                     </Grid>
 
-                    <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="5" Margin="10">
-                        <!--<TreeView ItemsSource="{Binding CodeCoverageTree}">
+                    <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="5" Margin="10,0,10,10">
+                        <TreeView ItemsSource="{Binding CodeCoverageTree}">
                             <TreeView.ItemTemplate>
                                 <HierarchicalDataTemplate ItemsSource="{Binding Children}">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="200" />
                                             <ColumnDefinition Width="180" />
                                             <ColumnDefinition Width="200" />
                                             <ColumnDefinition Width="250" />
@@ -194,33 +191,32 @@
                                             <ColumnDefinition Width="150" />
                                         </Grid.ColumnDefinitions>
 
-                                        <Label Grid.Column="0" Content="{Binding Scope}"></Label>
-                                        <Label Grid.Column="1" Content="{Binding Project}"></Label>
-                                        <Label Grid.Column="2" Content="{Binding Namespace}"></Label>
-                                        <Label Grid.Column="3" Content="{Binding Type}"></Label>
-                                        <Label Grid.Column="4" Content="{Binding Member}"></Label>
+                                        <Label Grid.Column="0" Content="{Binding Project}"></Label>
+                                        <Label Grid.Column="1" Content="{Binding Namespace}"></Label>
+                                        <Label Grid.Column="2" Content="{Binding Type}"></Label>
+                                        <Label Grid.Column="3" Content="{Binding Member}"></Label>
 
-                                        <TextBlock Grid.Column="5" Background="{Binding CoveredLinePercentageDifference, Converter={StaticResource BrushConverter}}">
+                                        <TextBlock Grid.Column="4" Background="{Binding CoveredLinesDifference, Converter={StaticResource BrushConverter}}">
                                             <TextBlock.Text>
                                                 <MultiBinding StringFormat="{} {0} / {1}">
-                                                    <Binding Path="CodeCoverageTrunk.CoveredLinePercentage" />
-                                                    <Binding Path="CodeCoverageBranche.CoveredLinePercentage" />
+                                                    <Binding Path="CodeCoverageTrunk.CoveredLinesBranche" />
+                                                    <Binding Path="CodeCoverageBranche.CoveredLinesTrunk" />
                                                 </MultiBinding>
                                             </TextBlock.Text>
                                         </TextBlock>
-                        
-                                        <TextBlock Grid.Column="6" Background="{Binding CoveredLineNumberDifference, Converter={StaticResource BrushConverter}}">
+
+                                        <TextBlock Grid.Column="5" Background="{Binding CoveredLinesPercentageDifference, Converter={StaticResource BrushConverter}}">
                                             <TextBlock.Text>
                                                 <MultiBinding StringFormat="{} {0} / {1}">
-                                                    <Binding Path="CodeCoverageTrunk.CoveredLineNumber" />
-                                                    <Binding Path="CodeCoverageBranche.CoveredLineNumber" />
+                                                    <Binding Path="CodeCoverageTrunk.CoveredLinesPercentageBranche" />
+                                                    <Binding Path="CodeCoverageBranche.CoveredLinesPercentageTrunk" />
                                                 </MultiBinding>
                                             </TextBlock.Text>
                                         </TextBlock>
                                     </Grid>
                                 </HierarchicalDataTemplate>
                             </TreeView.ItemTemplate>
-                        </TreeView>-->
+                        </TreeView>
                     </Grid>
                 </Grid>
             </TabItem>

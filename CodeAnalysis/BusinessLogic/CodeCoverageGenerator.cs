@@ -176,11 +176,30 @@
         /// <summary>
         /// Creates a list of CodeCoverageLineView containing difference of code coverage between two lists of CodeCoverageLineModel
         /// </summary>
-        private static IEnumerable<CodeCoverageLineView> InitializeCodeCoverageDifferences(List<CodeCoverageLineModel> codeCoverageTrunk, List<CodeCoverageLineModel> codeCoverageBranche)
+        private static List<CodeCoverageLineView> InitializeCodeCoverageDifferences(List<CodeCoverageLineModel> codeCoverageTrunk, List<CodeCoverageLineModel> codeCoverageBranche)
         {
-            var codeCoverageLineView = new List<CodeCoverageLineView>();
+            var codeCoverageLineViews = new List<CodeCoverageLineView>();
 
-            return codeCoverageLineView;
+            foreach (var line in codeCoverageBranche)
+            {
+                var codeCoverageLineView = new CodeCoverageLineView
+                {
+                    Project = line.Project,
+                    Namespace = line.Namespace,
+                    Type = line.Type,
+                    Member = line.Member,
+
+                    CoveredLinesBranche = line.CoveredLines,
+                    CoveredLinesPercentageBranche = line.CoveredLinesPercentage,
+                    CoveredBlocksBranche = line.CoveredBlocks,
+                    CoveredBlocksPercentageBranche = line.CoveredBlocksPercentage
+                };
+
+                codeCoverageLineView.Children = InitializeCodeCoverageDifferences(null, line.Children);
+                codeCoverageLineViews.Add(codeCoverageLineView);
+            }
+
+            return codeCoverageLineViews;
         }
     }
 }
