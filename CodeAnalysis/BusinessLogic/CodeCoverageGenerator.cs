@@ -1,9 +1,9 @@
 ﻿namespace CodeAnalysis.BusinessLogic
 {
-    using CodeAnalysis.Models;
     using System.Collections.Generic;
     using System.IO;
     using System.Xml.Linq;
+    using CodeAnalysis.Models;
 
     /// <summary>
     /// This class compares two code coverage files
@@ -25,7 +25,7 @@
         }
 
         /// <summary>
-        /// Initializes the list of CodeCoverageLineModel with a coverage code file
+        /// Initializes a list of CodeCoverageLineModel with a coverage code file
         /// </summary>
         private static List<CodeCoverageLineModel> InitCodeCoverage(StreamReader file)
         {
@@ -53,7 +53,7 @@
                         Children = GetNamespaces(module, moduleName)
                     };
 
-                    InitLine(module, line);
+                    GetStatistics(module, line);
                     codeCoverage.Add(line);
                 }
             }
@@ -68,21 +68,21 @@
         {
             var codeCoverage = new List<CodeCoverageLineModel>();
 
-            foreach (var namespaceee in module.Descendants("NamespaceTable"))
+            foreach (var namespacee in module.Descendants("NamespaceTable"))
             {
-                var namespaceeeNameElement = namespaceee.Element("NamespaceName");
-                if (namespaceeeNameElement != null)
+                var namespaceNameElement = namespacee.Element("NamespaceName");
+                if (namespaceNameElement != null)
                 {
-                    string namespaceeeName = namespaceeeNameElement.Value;
+                    string namespaceName = namespaceNameElement.Value;
 
                     var line = new CodeCoverageLineModel
                     {
                         Project = moduleName,
-                        Namespace = namespaceeeName,
-                        Children = GetClasses(namespaceee, moduleName, namespaceeeName)
+                        Namespace = namespaceName,
+                        Children = GetClasses(namespacee, moduleName, namespaceName)
                     };
 
-                    InitLine(namespaceee, line);
+                    GetStatistics(namespacee, line);
                     codeCoverage.Add(line);
                 }
             }
@@ -93,26 +93,26 @@
         /// <summary>
         /// Gets the classes from a coverage code file
         /// </summary>
-        private static List<CodeCoverageLineModel> GetClasses(XElement namespaceee, string moduleName, string namespaceeeName)
+        private static List<CodeCoverageLineModel> GetClasses(XElement namespacee, string moduleName, string namespaceName)
         {
             var codeCoverage = new List<CodeCoverageLineModel>();
 
-            foreach (var classs in namespaceee.Descendants("Class"))
+            foreach (var classs in namespacee.Descendants("Class"))
             {
-                var classsNameElement = classs.Element("ClassName");
-                if (classsNameElement != null)
+                var classNameElement = classs.Element("ClassName");
+                if (classNameElement != null)
                 {
-                    string classsName = classsNameElement.Value;
+                    string className = classNameElement.Value;
 
                     var line = new CodeCoverageLineModel
                     {
                         Project = moduleName,
-                        Namespace = namespaceeeName,
-                        Type = classsName,
-                        Children = GetMethods(classs, moduleName, namespaceeeName, classsName)
+                        Namespace = namespaceName,
+                        Type = className,
+                        Children = GetMethods(classs, moduleName, namespaceName, className)
                     };
 
-                    InitLine(classs, line);
+                    GetStatistics(classs, line);
                     codeCoverage.Add(line);
                 }
             }
@@ -123,7 +123,7 @@
         /// <summary>
         /// Gets the methods from a coverage code file
         /// </summary>
-        private static List<CodeCoverageLineModel> GetMethods(XElement classs, string moduleName, string namespaceeeName, string classsName)
+        private static List<CodeCoverageLineModel> GetMethods(XElement classs, string moduleName, string namespaceName, string className)
         {
             var codeCoverage = new List<CodeCoverageLineModel>();
 
@@ -137,12 +137,12 @@
                     var line = new CodeCoverageLineModel
                     {
                         Project = moduleName,
-                        Namespace = namespaceeeName,
-                        Type = classsName,
+                        Namespace = namespaceName,
+                        Type = className,
                         Member = methodName
                     };
 
-                    InitLine(method, line);
+                    GetStatistics(method, line);
                     codeCoverage.Add(line);
                 }
             }
@@ -151,9 +151,9 @@
         }
 
         /// <summary>
-        /// Initializes informations with a coverage code file
+        /// Get the statistics from a coverage code file
         /// </summary>
-        private static void InitLine(XElement element, CodeCoverageLineModel line)
+        private static void GetStatistics(XElement element, CodeCoverageLineModel line)
         {
             int linesCovered = (int)element.Element("LinesCovered");
             int linesNotCovered = (int)element.Element("LinesNotCovered");
@@ -174,11 +174,11 @@
         }
 
         /// <summary>
-        /// Creates a list of CodeCoverageLineView containing difference of code coverage between two lists of CodeCoverageLineModel
+        /// Creates a list of CodeCoverageLineView containing differences between two lists of CodeCoverageLineModel
         /// </summary>
         private static List<CodeCoverageLineView> InitializeCodeCoverageDifferences(List<CodeCoverageLineModel> codeCoverageTrunk, List<CodeCoverageLineModel> codeCoverageBranche)
         {
-            var codeCoverageLineViews = new List<CodeCoverageLineView>();
+            var codeCoverage = new List<CodeCoverageLineView>();
 
             foreach (var line in codeCoverageBranche)
             {
@@ -192,29 +192,30 @@
                     CoveredLinesBranche = line.CoveredLines,
                     CoveredLinesPercentageBranche = line.CoveredLinesPercentage,
                     CoveredBlocksBranche = line.CoveredBlocks,
-                    CoveredBlocksPercentageBranche = line.CoveredBlocksPercentage
+                    CoveredBlocksPercentageBranche = line.CoveredBlocksPercentage,
+
+                    Children = InitializeCodeCoverageDifferences(null, line.Children)
                 };
 
-                codeCoverageLineView.Children = InitializeCodeCoverageDifferences(null, line.Children);
-                codeCoverageLineViews.Add(codeCoverageLineView);
+                codeCoverage.Add(codeCoverageLineView);
             }
 
-            return codeCoverageLineViews;
+            return codeCoverage;
         }
 
         /// <summary>
-        ///
+        /// Get a line from a list with same information
         /// </summary>
-        private static CodeCoverageLineModel GetSameLine(CodeCoverageLineModel codeCoverageTrunk, CodeCoverageLineModel codeCoverageBranche)
+        private static CodeCoverageLineModel GetSameLine(CodeCoverageLineModel codeCoverageToFind, CodeCoverageLineModel codeCoverageToExplore)
         {
-            if (codeCoverageBranche != null)
+            if (codeCoverageToExplore != null)
             {
-                foreach (var item in codeCoverageBranche.Children)
+                foreach (var item in codeCoverageToExplore.Children)
                 {
-                    if (item.Project == codeCoverageTrunk.Project
-                        && item.Namespace == codeCoverageTrunk.Namespace
-                        && item.Type == codeCoverageTrunk.Type
-                        && item.Member == codeCoverageTrunk.Member)
+                    if (item.Project == codeCoverageToFind.Project
+                        && item.Namespace == codeCoverageToFind.Namespace
+                        && item.Type == codeCoverageToFind.Type
+                        && item.Member == codeCoverageToFind.Member)
                     {
                         return item;
                     }
