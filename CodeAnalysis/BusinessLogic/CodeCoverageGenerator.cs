@@ -193,10 +193,24 @@
                     CoveredLinesPercentageBranche = line.CoveredLinesPercentage,
                     CoveredBlocksBranche = line.CoveredBlocks,
                     CoveredBlocksPercentageBranche = line.CoveredBlocksPercentage,
-
-                    Children = InitializeCodeCoverageDifferences(null, line.Children)
                 };
 
+                CodeCoverageLineModel sameLine = GetSameLine(line, codeCoverageTrunk);
+
+                if (sameLine != null)
+                {
+                    codeCoverageLineView.CoveredLinesTrunk = sameLine.CoveredLines;
+                    codeCoverageLineView.CoveredLinesPercentageTrunk = sameLine.CoveredLinesPercentage;
+                    codeCoverageLineView.CoveredBlocksTrunk = sameLine.CoveredBlocks;
+                    codeCoverageLineView.CoveredBlocksPercentageTrunk = sameLine.CoveredBlocksPercentage;
+
+                    codeCoverageLineView.CoveredLinesDifference = sameLine.CoveredLines - line.CoveredLines;
+                    codeCoverageLineView.CoveredLinesPercentageDifference = sameLine.CoveredLinesPercentage - line.CoveredLinesPercentage;
+                    codeCoverageLineView.CoveredBlocksDifference = sameLine.CoveredBlocks - line.CoveredBlocks;
+                    codeCoverageLineView.CoveredBlocksPercentageDifference = sameLine.CoveredBlocksPercentage - line.CoveredBlocksPercentage;
+                }
+
+                codeCoverageLineView.Children = InitializeCodeCoverageDifferences(sameLine != null ? sameLine.Children : null, line.Children);
                 codeCoverage.Add(codeCoverageLineView);
             }
 
@@ -206,11 +220,11 @@
         /// <summary>
         /// Get a line from a list with same information
         /// </summary>
-        private static CodeCoverageLineModel GetSameLine(CodeCoverageLineModel codeCoverageToFind, CodeCoverageLineModel codeCoverageToExplore)
+        private static CodeCoverageLineModel GetSameLine(CodeCoverageLineModel codeCoverageToFind, List<CodeCoverageLineModel> codeCoverageToExplore)
         {
             if (codeCoverageToExplore != null)
             {
-                foreach (var item in codeCoverageToExplore.Children)
+                foreach (var item in codeCoverageToExplore)
                 {
                     if (item.Project == codeCoverageToFind.Project
                         && item.Namespace == codeCoverageToFind.Namespace
