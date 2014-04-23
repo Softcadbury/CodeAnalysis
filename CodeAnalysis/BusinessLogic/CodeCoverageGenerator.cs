@@ -167,10 +167,10 @@
             int blocksTotal = blocksCovered + blocksNotCovered;
             blocksTotal = blocksTotal != 0 ? blocksTotal : 1;
 
-            line.CoveredLines = linesCovered;
             line.CoveredLinesPercentage = (int)((float)linesCovered / (float)linesTotal * 100);
-            line.CoveredBlocks = blocksCovered;
+            line.CoveredLines = linesCovered;
             line.CoveredBlocksPercentage = (int)((float)blocksCovered / (float)blocksTotal * 100);
+            line.CoveredBlocks = blocksCovered;
         }
 
         /// <summary>
@@ -189,25 +189,25 @@
                     Type = line.Type,
                     Member = line.Member,
 
-                    CoveredLinesBranche = line.CoveredLines,
                     CoveredLinesPercentageBranche = line.CoveredLinesPercentage,
-                    CoveredBlocksBranche = line.CoveredBlocks,
+                    CoveredLinesBranche = line.CoveredLines,
                     CoveredBlocksPercentageBranche = line.CoveredBlocksPercentage,
+                    CoveredBlocksBranche = line.CoveredBlocks
                 };
 
                 CodeCoverageLineModel sameLine = GetSameLine(line, codeCoverageTrunk);
 
                 if (sameLine != null)
                 {
-                    codeCoverageLineView.CoveredLinesTrunk = sameLine.CoveredLines;
                     codeCoverageLineView.CoveredLinesPercentageTrunk = sameLine.CoveredLinesPercentage;
-                    codeCoverageLineView.CoveredBlocksTrunk = sameLine.CoveredBlocks;
+                    codeCoverageLineView.CoveredLinesTrunk = sameLine.CoveredLines;
                     codeCoverageLineView.CoveredBlocksPercentageTrunk = sameLine.CoveredBlocksPercentage;
+                    codeCoverageLineView.CoveredBlocksTrunk = sameLine.CoveredBlocks;
 
-                    codeCoverageLineView.CoveredLinesDifference = sameLine.CoveredLines - line.CoveredLines;
-                    codeCoverageLineView.CoveredLinesPercentageDifference = sameLine.CoveredLinesPercentage - line.CoveredLinesPercentage;
-                    codeCoverageLineView.CoveredBlocksDifference = sameLine.CoveredBlocks - line.CoveredBlocks;
-                    codeCoverageLineView.CoveredBlocksPercentageDifference = sameLine.CoveredBlocksPercentage - line.CoveredBlocksPercentage;
+                    codeCoverageLineView.CoveredLinesPercentageDifference = line.CoveredLinesPercentage - sameLine.CoveredLinesPercentage;
+                    codeCoverageLineView.CoveredLinesDifference = line.CoveredLines - sameLine.CoveredLines;
+                    codeCoverageLineView.CoveredBlocksPercentageDifference = line.CoveredBlocksPercentage - sameLine.CoveredBlocksPercentage;
+                    codeCoverageLineView.CoveredBlocksDifference = line.CoveredBlocks - sameLine.CoveredBlocks;
                 }
 
                 codeCoverageLineView.Children = InitializeCodeCoverageDifferences(sameLine != null ? sameLine.Children : null, line.Children);
