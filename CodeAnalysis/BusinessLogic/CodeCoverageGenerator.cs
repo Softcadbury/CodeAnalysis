@@ -264,14 +264,14 @@
         {
             if (codeCoverageToExplore != null)
             {
-                foreach (var item in codeCoverageToExplore)
+                foreach (var line in codeCoverageToExplore)
                 {
-                    if (item.Project == codeCoverageToFind.Project
-                        && item.Namespace == codeCoverageToFind.Namespace
-                        && item.Type == codeCoverageToFind.Type
-                        && item.Member == codeCoverageToFind.Member)
+                    if (line.Project == codeCoverageToFind.Project
+                        && line.Namespace == codeCoverageToFind.Namespace
+                        && line.Type == codeCoverageToFind.Type
+                        && line.Member == codeCoverageToFind.Member)
                     {
-                        return item;
+                        return line;
                     }
                 }
             }

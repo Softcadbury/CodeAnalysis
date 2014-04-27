@@ -22,7 +22,7 @@
             List<CodeMetricsLineModel> codeMetricsBranche = InitializeCodeMetrics(codeMetricsBrancheFile);
             codeMetricsBrancheFile.Close();
 
-            IEnumerable<CodeMetricsLineView> codeMetrics = InitCodeMetricsDifferences(codeMetricsTrunk, codeMetricsBranche);
+            IEnumerable<CodeMetricsLineView> codeMetrics = InitializeCodeMetricsDifferences(codeMetricsTrunk, codeMetricsBranche);
 
             return InitCodeMetricsTree(codeMetrics);
         }
@@ -83,43 +83,74 @@
         /// <summary>
         /// Creates a list of CodeMetricsLineView containing difference of metrics between two lists of CodeMetricsLineModel
         /// </summary>
-        private static IEnumerable<CodeMetricsLineView> InitCodeMetricsDifferences(IEnumerable<CodeMetricsLineModel> codeMetricsTrunk, List<CodeMetricsLineModel> codeMetricsBranche)
+        private static IEnumerable<CodeMetricsLineView> InitializeCodeMetricsDifferences(List<CodeMetricsLineModel> codeMetricsTrunk, List<CodeMetricsLineModel> codeMetricsBranche)
         {
             var codeMetrics = new List<CodeMetricsLineView>();
 
-            foreach (CodeMetricsLineModel lineCodeMetricsTrunk in codeMetricsTrunk)
+            foreach (CodeMetricsLineModel line in codeMetricsBranche)
             {
-                // Get the same line from the other project
-                CodeMetricsLineModel lineCodeMetricsBranche = codeMetricsBranche
-                    .FirstOrDefault(cm => cm.Scope == lineCodeMetricsTrunk.Scope
-                                    && cm.Project == lineCodeMetricsTrunk.Project
-                                    && cm.Namespace == lineCodeMetricsTrunk.Namespace
-                                    && cm.Type == lineCodeMetricsTrunk.Type
-                                    && cm.Member == lineCodeMetricsTrunk.Member);
+                CodeMetricsLineView codeMetricsLineView = CreateCodeMetricsViewFromBranche(line);
 
-                if (lineCodeMetricsBranche != null)
-                {
-                    codeMetrics.Add(new CodeMetricsLineView()
-                    {
-                        Scope = lineCodeMetricsBranche.Scope,
-                        Project = lineCodeMetricsTrunk.Project,
-                        Namespace = lineCodeMetricsTrunk.Namespace,
-                        Type = lineCodeMetricsTrunk.Type,
-                        Member = lineCodeMetricsTrunk.Member,
+                CodeMetricsLineModel sameLine = GetSameLine(line, codeMetricsTrunk);
+                AddDifferences(codeMetricsLineView, line, sameLine);
 
-                        MaintainabilityIndexDifference = -(lineCodeMetricsTrunk.MaintainabilityIndex - lineCodeMetricsBranche.MaintainabilityIndex),
-                        CyclomaticComplexityDifference = lineCodeMetricsTrunk.CyclomaticComplexity - lineCodeMetricsBranche.CyclomaticComplexity,
-                        DepthOfInheritanceDifference = lineCodeMetricsTrunk.DepthOfInheritance - lineCodeMetricsBranche.DepthOfInheritance,
-                        ClassCouplingDifference = lineCodeMetricsTrunk.ClassCoupling - lineCodeMetricsBranche.ClassCoupling,
-                        LinesOfCodeDifference = lineCodeMetricsTrunk.LinesOfCode - lineCodeMetricsBranche.LinesOfCode,
-
-                        CodeMetricsTrunk = lineCodeMetricsTrunk,
-                        CodeMetricsBranche = lineCodeMetricsBranche
-                    });
-                }
+                codeMetrics.Add(codeMetricsLineView);
             }
 
             return codeMetrics;
+        }
+
+        /// <summary>
+        /// Gets a line from a list with same informations
+        /// </summary>
+        private static CodeMetricsLineModel GetSameLine(CodeMetricsLineModel codeMetricsToFind, List<CodeMetricsLineModel> codeMetricsToExplore)
+        {
+            foreach (var line in codeMetricsToExplore)
+            {
+                if (line.Scope == codeMetricsToFind.Scope
+                    && line.Project == codeMetricsToFind.Project
+                    && line.Namespace == codeMetricsToFind.Namespace
+                    && line.Type == codeMetricsToFind.Type
+                    && line.Member == codeMetricsToFind.Member)
+                {
+                    return line;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Creates code metrics view from branche
+        /// </summary>
+        private static CodeMetricsLineView CreateCodeMetricsViewFromBranche(CodeMetricsLineModel line)
+        {
+            return new CodeMetricsLineView
+            {
+                Scope = line.Scope,
+                Project = line.Project,
+                Namespace = line.Namespace,
+                Type = line.Type,
+                Member = line.Member,
+                CodeMetricsBranche = line
+            };
+        }
+
+        /// <summary>
+        /// Adds differences between two lines
+        /// </summary>
+        private static void AddDifferences(CodeMetricsLineView codeMetricsLineView, CodeMetricsLineModel currentLine, CodeMetricsLineModel sameLine)
+        {
+            if (sameLine != null)
+            {
+                codeMetricsLineView.MaintainabilityIndexDifference = -(currentLine.MaintainabilityIndex - sameLine.MaintainabilityIndex);
+                codeMetricsLineView.CyclomaticComplexityDifference = currentLine.CyclomaticComplexity - sameLine.CyclomaticComplexity;
+                codeMetricsLineView.DepthOfInheritanceDifference = currentLine.DepthOfInheritance - sameLine.DepthOfInheritance;
+                codeMetricsLineView.ClassCouplingDifference = currentLine.ClassCoupling - sameLine.ClassCoupling;
+                codeMetricsLineView.LinesOfCodeDifference = currentLine.LinesOfCode - sameLine.LinesOfCode;
+
+                codeMetricsLineView.CodeMetricsTrunk = sameLine;
+            }
         }
 
         /// <summary>
