@@ -7,6 +7,9 @@
     using System.Collections.ObjectModel;
     using System.IO;
 
+    /// <summary>
+    /// ViewModel for CodeMetricsView
+    /// </summary>
     public class CodeMetricsViewModel : BaseViewModel
     {
         public CodeMetricsViewModel()
@@ -50,6 +53,9 @@
             BrancheMetrics
         }
 
+        /// <summary>
+        /// Opens a dialog to browse code metrics files
+        /// </summary>
         private void BrowseFiles(FileType type)
         {
             var dialog = new OpenFileDialog();
@@ -71,6 +77,9 @@
             }
         }
 
+        /// <summary>
+        /// Generates code metrics
+        /// </summary>
         private void ProceedCodeMetrics()
         {
             if (!string.IsNullOrWhiteSpace(CodeMetricsTrunkFilePath) && !string.IsNullOrWhiteSpace(CodeMetricsBrancheFilePath))

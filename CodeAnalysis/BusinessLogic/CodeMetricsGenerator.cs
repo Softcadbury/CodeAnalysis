@@ -11,12 +11,15 @@
     /// </summary>
     public static class CodeMetricsGenerator
     {
+        /// <summary>
+        /// Generates a list of CodeMetricsLineView with two code metrics files
+        /// </summary>
         public static IEnumerable<CodeMetricsLineView> Generate(StreamReader codeMetricsTrunkFile, StreamReader codeMetricsBrancheFile)
         {
-            List<CodeMetricsLineModel> codeMetricsTrunk = InitCodeMetrics(codeMetricsTrunkFile);
+            List<CodeMetricsLineModel> codeMetricsTrunk = InitializeCodeMetrics(codeMetricsTrunkFile);
             codeMetricsTrunkFile.Close();
 
-            List<CodeMetricsLineModel> codeMetricsBranche = InitCodeMetrics(codeMetricsBrancheFile);
+            List<CodeMetricsLineModel> codeMetricsBranche = InitializeCodeMetrics(codeMetricsBrancheFile);
             codeMetricsBrancheFile.Close();
 
             IEnumerable<CodeMetricsLineView> codeMetrics = InitCodeMetricsDifferences(codeMetricsTrunk, codeMetricsBranche);
@@ -27,7 +30,7 @@
         /// <summary>
         /// Creates a list of CodeMetricsLineModel with information from the excel file
         /// </summary>
-        private static List<CodeMetricsLineModel> InitCodeMetrics(StreamReader file)
+        private static List<CodeMetricsLineModel> InitializeCodeMetrics(StreamReader file)
         {
             var codeMetrics = new List<CodeMetricsLineModel>();
 
@@ -120,7 +123,7 @@
         }
 
         /// <summary>
-        /// Init the tree of code metrics
+        /// Initializes the tree of code metrics
         /// </summary>
         private static IEnumerable<CodeMetricsLineView> InitCodeMetricsTree(IEnumerable<CodeMetricsLineView> codeMetrics)
         {

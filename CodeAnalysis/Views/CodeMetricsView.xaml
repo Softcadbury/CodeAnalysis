@@ -32,9 +32,8 @@
 
         <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" Margin="36,10,0,0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200" />
-                <ColumnDefinition Width="180" />
-                <ColumnDefinition Width="200" />
+                <ColumnDefinition Width="250" />
+                <ColumnDefinition Width="250" />
                 <ColumnDefinition Width="250" />
                 <ColumnDefinition Width="500" />
                 <ColumnDefinition Width="90" />
@@ -43,16 +42,15 @@
                 <ColumnDefinition Width="90" />
                 <ColumnDefinition Width="90" />
             </Grid.ColumnDefinitions>
-            <Label Grid.Column="0" Content="Scope"></Label>
-            <Label Grid.Column="1" Content="Project"></Label>
-            <Label Grid.Column="2" Content="Namespace"></Label>
-            <Label Grid.Column="3" Content="Type"></Label>
-            <Label Grid.Column="4" Content="Member"></Label>
-            <Label Grid.Column="5" Content="Maintainability"></Label>
-            <Label Grid.Column="6" Content="Complexity"></Label>
-            <Label Grid.Column="7" Content="Depth"></Label>
-            <Label Grid.Column="8" Content="Coupling"></Label>
-            <Label Grid.Column="9" Content="Lines"></Label>
+            <Label Grid.Column="0" Content="Project"></Label>
+            <Label Grid.Column="1" Content="Namespace"></Label>
+            <Label Grid.Column="2" Content="Type"></Label>
+            <Label Grid.Column="3" Content="Member"></Label>
+            <Label Grid.Column="4" Content="Maintainability"></Label>
+            <Label Grid.Column="5" Content="Complexity"></Label>
+            <Label Grid.Column="6" Content="Depth"></Label>
+            <Label Grid.Column="7" Content="Coupling"></Label>
+            <Label Grid.Column="8" Content="Lines"></Label>
         </Grid>
 
         <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="5" Margin="10,0,10,10">
@@ -61,9 +59,8 @@
                     <HierarchicalDataTemplate ItemsSource="{Binding Children}">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="200" />
-                                <ColumnDefinition Width="180" />
-                                <ColumnDefinition Width="200" />
+                                <ColumnDefinition Width="250" />
+                                <ColumnDefinition Width="250" />
                                 <ColumnDefinition Width="250" />
                                 <ColumnDefinition Width="500" />
                                 <ColumnDefinition Width="90" />
@@ -73,13 +70,12 @@
                                 <ColumnDefinition Width="90" />
                             </Grid.ColumnDefinitions>
 
-                            <Label Grid.Column="0" Content="{Binding Scope}"></Label>
-                            <Label Grid.Column="1" Content="{Binding Project}"></Label>
-                            <Label Grid.Column="2" Content="{Binding Namespace}"></Label>
-                            <Label Grid.Column="3" Content="{Binding Type}"></Label>
-                            <Label Grid.Column="4" Content="{Binding Member}"></Label>
+                            <Label Grid.Column="0" Content="{Binding Project}"></Label>
+                            <Label Grid.Column="1" Content="{Binding Namespace}"></Label>
+                            <Label Grid.Column="2" Content="{Binding Type}"></Label>
+                            <Label Grid.Column="3" Content="{Binding Member}"></Label>
 
-                            <TextBlock Grid.Column="5" Background="{Binding MaintainabilityIndexDifference, Converter={StaticResource BrushConverter}}">
+                            <TextBlock Grid.Column="4" Background="{Binding MaintainabilityIndexDifference, Converter={StaticResource BrushConverter}}">
                                 <TextBlock.Text>
                                     <MultiBinding StringFormat="{} {0} / {1}">
                                         <Binding Path="CodeMetricsTrunk.MaintainabilityIndex" />
@@ -88,7 +84,7 @@
                                 </TextBlock.Text>
                             </TextBlock>
 
-                            <TextBlock Grid.Column="6" Background="{Binding CyclomaticComplexityDifference, Converter={StaticResource BrushConverter}}">
+                            <TextBlock Grid.Column="5" Background="{Binding CyclomaticComplexityDifference, Converter={StaticResource BrushConverter}}">
                                 <TextBlock.Text>
                                     <MultiBinding StringFormat="{} {0} / {1}">
                                         <Binding Path="CodeMetricsTrunk.CyclomaticComplexity" />
@@ -97,7 +93,7 @@
                                 </TextBlock.Text>
                             </TextBlock>
 
-                            <TextBlock Grid.Column="7" Background="{Binding DepthOfInheritanceDifference, Converter={StaticResource BrushConverter}}">
+                            <TextBlock Grid.Column="6" Background="{Binding DepthOfInheritanceDifference, Converter={StaticResource BrushConverter}}">
                                 <TextBlock.Text>
                                     <MultiBinding StringFormat="{} {0} / {1}">
                                         <Binding Path="CodeMetricsTrunk.DepthOfInheritance" />
@@ -106,7 +102,7 @@
                                 </TextBlock.Text>
                             </TextBlock>
 
-                            <TextBlock Grid.Column="8" Background="{Binding ClassCouplingDifference, Converter={StaticResource BrushConverter}}">
+                            <TextBlock Grid.Column="7" Background="{Binding ClassCouplingDifference, Converter={StaticResource BrushConverter}}">
                                 <TextBlock.Text>
                                     <MultiBinding StringFormat="{} {0} / {1}">
                                         <Binding Path="CodeMetricsTrunk.ClassCoupling" />
@@ -115,7 +111,7 @@
                                 </TextBlock.Text>
                             </TextBlock>
 
-                            <TextBlock Grid.Column="9" Background="{Binding LinesOfCodeDifference, Converter={StaticResource BrushConverter}}">
+                            <TextBlock Grid.Column="8" Background="{Binding LinesOfCodeDifference, Converter={StaticResource BrushConverter}}">
                                 <TextBlock.Text>
                                     <MultiBinding StringFormat="{} {0} / {1}">
                                         <Binding Path="CodeMetricsTrunk.LinesOfCode" />

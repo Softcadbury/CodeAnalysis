@@ -6,7 +6,7 @@
     using System.Windows.Media;
 
     /// <summary>
-    /// This class convert an int to a color
+    /// This class converts an integer to a color
     /// Red if negative, Green if positive
     /// </summary>
     public class BrushConverter : FrameworkElement, IValueConverter

@@ -7,6 +7,9 @@
     using System.Collections.ObjectModel;
     using System.IO;
 
+    /// <summary>
+    /// ViewModel for CodeCoverageView
+    /// </summary>
     public class CodeCoverageViewModel : BaseViewModel
     {
         public CodeCoverageViewModel()
@@ -50,6 +53,9 @@
             BrancheCoverage
         }
 
+        /// <summary>
+        /// Opens a dialog to browse code coverage files
+        /// </summary>
         private void BrowseFiles(FileType type)
         {
             var dialog = new OpenFileDialog();
@@ -71,6 +77,9 @@
             }
         }
 
+        /// <summary>
+        /// Generates code coverage
+        /// </summary>
         private void ProceedCodeCoverage()
         {
             if (!string.IsNullOrWhiteSpace(CodeCoverageTrunkFilePath) && !string.IsNullOrWhiteSpace(CodeCoverageBrancheFilePath))
