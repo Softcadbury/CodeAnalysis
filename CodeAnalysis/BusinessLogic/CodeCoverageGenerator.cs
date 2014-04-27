@@ -1,9 +1,9 @@
 ﻿namespace CodeAnalysis.BusinessLogic
 {
+    using CodeAnalysis.Models;
     using System.Collections.Generic;
     using System.IO;
     using System.Xml.Linq;
-    using CodeAnalysis.Models;
 
     /// <summary>
     /// This class compares two code coverage files
@@ -196,19 +196,7 @@
                 };
 
                 CodeCoverageLineModel sameLine = GetSameLine(line, codeCoverageTrunk);
-
-                if (sameLine != null)
-                {
-                    codeCoverageLineView.CoveredLinesPercentageTrunk = sameLine.CoveredLinesPercentage;
-                    codeCoverageLineView.CoveredLinesTrunk = sameLine.CoveredLines;
-                    codeCoverageLineView.CoveredBlocksPercentageTrunk = sameLine.CoveredBlocksPercentage;
-                    codeCoverageLineView.CoveredBlocksTrunk = sameLine.CoveredBlocks;
-
-                    codeCoverageLineView.CoveredLinesPercentageDifference = line.CoveredLinesPercentage - sameLine.CoveredLinesPercentage;
-                    codeCoverageLineView.CoveredLinesDifference = line.CoveredLines - sameLine.CoveredLines;
-                    codeCoverageLineView.CoveredBlocksPercentageDifference = line.CoveredBlocksPercentage - sameLine.CoveredBlocksPercentage;
-                    codeCoverageLineView.CoveredBlocksDifference = line.CoveredBlocks - sameLine.CoveredBlocks;
-                }
+                InitializeCodeCoverageDifferenceFromSameLine(codeCoverageLineView, line, sameLine);
 
                 codeCoverageLineView.Children = InitializeCodeCoverageDifferences(sameLine != null ? sameLine.Children : null, line.Children);
                 codeCoverage.Add(codeCoverageLineView);
@@ -237,6 +225,25 @@
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Initialize the difference between two lines
+        /// </summary>
+        private static void InitializeCodeCoverageDifferenceFromSameLine(CodeCoverageLineView codeCoverageLineView, CodeCoverageLineModel currentLine, CodeCoverageLineModel sameLine)
+        {
+            if (sameLine != null)
+            {
+                codeCoverageLineView.CoveredLinesPercentageTrunk = sameLine.CoveredLinesPercentage;
+                codeCoverageLineView.CoveredLinesTrunk = sameLine.CoveredLines;
+                codeCoverageLineView.CoveredBlocksPercentageTrunk = sameLine.CoveredBlocksPercentage;
+                codeCoverageLineView.CoveredBlocksTrunk = sameLine.CoveredBlocks;
+
+                codeCoverageLineView.CoveredLinesPercentageDifference = currentLine.CoveredLinesPercentage - sameLine.CoveredLinesPercentage;
+                codeCoverageLineView.CoveredLinesDifference = currentLine.CoveredLines - sameLine.CoveredLines;
+                codeCoverageLineView.CoveredBlocksPercentageDifference = currentLine.CoveredBlocksPercentage - sameLine.CoveredBlocksPercentage;
+                codeCoverageLineView.CoveredBlocksDifference = currentLine.CoveredBlocks - sameLine.CoveredBlocks;
+            }
         }
     }
 }

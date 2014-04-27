@@ -1,10 +1,10 @@
 ﻿namespace CodeAnalysis.BusinessLogic
 {
+    using CodeAnalysis.Models;
+    using OfficeOpenXml;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using CodeAnalysis.Models;
-    using OfficeOpenXml;
 
     /// <summary>
     /// This class compares two code metrics files
@@ -53,16 +53,6 @@
 
                     if (!line.Project.Contains("Test"))
                     {
-                        // Clean project row
-                        line.Project = line.Project.Replace(" (Debug)", string.Empty);
-                        line.Project = line.Project.Split('\\')[line.Project.Split('\\').Length - 1];
-                        line.Project = line.Project.Replace("iTS.", "");
-
-                        // Clean namespace row
-                        line.Namespace = line.Namespace.Replace("iTS.", "");
-                        line.Namespace = line.Namespace.Replace(line.Project + ".", "");
-                        line.Namespace = line.Namespace.Replace("EF.", "");
-
                         codeMetrics.Add(line);
                     }
                 }
