@@ -1,7 +1,6 @@
 ﻿namespace CodeAnalysis.Views
 {
     using System.Windows;
-    using CodeAnalysis.ViewModels;
 
     /// <summary>
     /// Interaction logic for View.xaml
@@ -11,7 +10,6 @@
         public View()
         {
             InitializeComponent();
-            this.DataContext = new ViewModel();
         }
     }
 }

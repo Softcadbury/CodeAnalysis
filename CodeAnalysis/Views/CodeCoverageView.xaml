@@ -1,0 +1,116 @@
+﻿<UserControl x:Class="CodeAnalysis.Views.CodeCoverageView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:businessLogic="clr-namespace:CodeAnalysis.BusinessLogic">
+    <UserControl.Resources>
+        <businessLogic:BrushConverter x:Key="BrushConverter"></businessLogic:BrushConverter>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="32" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="90" />
+            <ColumnDefinition Width="600" />
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.Row="0" Grid.Column="0" Content="Trunk" VerticalAlignment="Center" Margin="10,0,0,0"></Label>
+        <TextBox Grid.Row="0" Grid.Column="1" Height="25" Text="{Binding CodeCoverageTrunkFilePath}"></TextBox>
+        <Button Grid.Row="0" Grid.Column="2" Width="80" Height="35" Content="Browse" Command="{Binding BrowseCodeCoverageTrunkFileCommand}"></Button>
+
+        <Label Grid.Row="1" Grid.Column="0" Content="Branche" VerticalAlignment="Center" Margin="10,0,0,0"></Label>
+        <TextBox Grid.Row="1" Grid.Column="1" Height="25" Text="{Binding CodeCoverageBrancheFilePath}"></TextBox>
+        <Button Grid.Row="1" Grid.Column="2" Width="80" Height="35" Content="Browse" Command="{Binding BrowseCodeCoverageBrancheFileCommand}"></Button>
+
+        <Button Grid.Row="0" Grid.RowSpan="2" Grid.Column="3" Width="80" Height="35" Content="Proceed" Command="{Binding ProceedCodeCoverageCommand}"></Button>
+
+        <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" Margin="36,10,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200" />
+                <ColumnDefinition Width="220" />
+                <ColumnDefinition Width="270" />
+                <ColumnDefinition Width="500" />
+                <ColumnDefinition Width="150" />
+                <ColumnDefinition Width="150" />
+                <ColumnDefinition Width="150" />
+                <ColumnDefinition Width="150" />
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Content="Project"></Label>
+            <Label Grid.Column="1" Content="Namespace"></Label>
+            <Label Grid.Column="2" Content="Type"></Label>
+            <Label Grid.Column="3" Content="Member"></Label>
+            <Label Grid.Column="4" Content="Covered Lines (%)"></Label>
+            <Label Grid.Column="5" Content="Covered Lines"></Label>
+            <Label Grid.Column="6" Content="Covered Blocks (%)"></Label>
+            <Label Grid.Column="7" Content="Covered Blocks"></Label>
+        </Grid>
+
+        <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="5" Margin="10,0,10,10">
+            <TreeView ItemsSource="{Binding CodeCoverageTree}">
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="180" />
+                                <ColumnDefinition Width="200" />
+                                <ColumnDefinition Width="250" />
+                                <ColumnDefinition Width="560" />
+                                <ColumnDefinition Width="150" />
+                                <ColumnDefinition Width="150" />
+                                <ColumnDefinition Width="150" />
+                                <ColumnDefinition Width="150" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label Grid.Column="0" Content="{Binding Project}"></Label>
+                            <Label Grid.Column="1" Content="{Binding Namespace}"></Label>
+                            <Label Grid.Column="2" Content="{Binding Type}"></Label>
+                            <Label Grid.Column="3" Content="{Binding Member}"></Label>
+
+                            <TextBlock Grid.Column="4" Background="{Binding CoveredLinesPercentageDifference, Converter={StaticResource BrushConverter}}">
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{} {0} / {1}">
+                                        <Binding Path="CoveredLinesPercentageTrunk" />
+                                        <Binding Path="CoveredLinesPercentageBranche" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+
+                            <TextBlock Grid.Column="5" Background="{Binding CoveredLinesDifference, Converter={StaticResource BrushConverter}}">
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{} {0} / {1}">
+                                        <Binding Path="CoveredLinesTrunk" />
+                                        <Binding Path="CoveredLinesBranche" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+
+                            <TextBlock Grid.Column="6" Background="{Binding CoveredLinesPercentageDifference, Converter={StaticResource BrushConverter}}">
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{} {0} / {1}">
+                                        <Binding Path="CoveredBlocksPercentageTrunk" />
+                                        <Binding Path="CoveredBlocksPercentageBranche" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+
+                            <TextBlock Grid.Column="7" Background="{Binding CoveredLinesPercentageDifference, Converter={StaticResource BrushConverter}}">
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{} {0} / {1}">
+                                        <Binding Path="CoveredBlocksTrunk" />
+                                        <Binding Path="CoveredBlocksBranche" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </Grid>
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+            </TreeView>
+        </Grid>
+    </Grid>
+</UserControl>

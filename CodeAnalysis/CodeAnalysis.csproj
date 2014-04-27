@@ -64,10 +64,17 @@
     <Compile Include="Models\CodeMetricsLineView.cs" />
     <Compile Include="Core\BaseViewModel.cs" />
     <Compile Include="Core\RelayCommand.cs" />
-    <Compile Include="ViewModels\ViewModel.cs" />
+    <Compile Include="ViewModels\CodeMetricsViewModel.cs" />
+    <Compile Include="ViewModels\CodeCoverageViewModel.cs" />
     <Compile Include="BusinessLogic\BrushConverter.cs" />
-    <Compile Include="Views\View.xaml.cs">
-      <DependentUpon>View.xaml</DependentUpon>
+    <Compile Include="Views\CodeCoverageView.xaml.cs">
+      <DependentUpon>CodeCoverageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CodeMetricsView.xaml.cs">
+      <DependentUpon>CodeMetricsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainView.xaml.cs">
+      <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
@@ -77,7 +84,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\View.xaml">
+    <Page Include="Views\CodeCoverageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CodeMetricsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
