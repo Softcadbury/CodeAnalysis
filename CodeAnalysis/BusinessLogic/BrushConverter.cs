@@ -7,6 +7,7 @@
 
     /// <summary>
     /// This class convert an int to a color
+    /// Red if negative, Green if positive
     /// </summary>
     public class BrushConverter : FrameworkElement, IValueConverter
     {
@@ -15,16 +16,16 @@
             if (value != null)
             {
                 int i;
-                Int32.TryParse(value.ToString(), out i);
-
-                if (i < 0)
+                if (Int32.TryParse(value.ToString(), out i))
                 {
-                    return new SolidColorBrush(Colors.Red);
-                }
-
-                if (i > 0)
-                {
-                    return new SolidColorBrush(Colors.Green);
+                    if (i < 0)
+                    {
+                        return new SolidColorBrush(Colors.Red);
+                    }
+                    else if (i > 0)
+                    {
+                        return new SolidColorBrush(Colors.Green);
+                    }
                 }
             }
 

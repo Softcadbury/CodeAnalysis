@@ -1,4 +1,4 @@
-﻿namespace CodeAnalysis.ViewModels
+﻿namespace CodeAnalysis.Core
 {
     using System.ComponentModel;
 

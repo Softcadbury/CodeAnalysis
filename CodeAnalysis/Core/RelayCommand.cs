@@ -1,12 +1,11 @@
-﻿namespace CodeAnalysis.BusinessLogic
+﻿namespace CodeAnalysis.Core
 {
     using System;
     using System.Windows.Input;
 
     /// <summary>
     /// This class implements commands
-    /// Example :
-    /// public RelayCommand command = new RelayCommand(param => Action());
+    /// Example : public RelayCommand command = new RelayCommand(param => Action());
     /// </summary>
     public class RelayCommand : ICommand
     {

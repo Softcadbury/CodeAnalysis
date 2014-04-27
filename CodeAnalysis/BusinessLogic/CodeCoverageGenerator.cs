@@ -15,10 +15,10 @@
         /// </summary>
         public static IEnumerable<CodeCoverageLineView> Generate(StreamReader codeCoverageTrunkFile, StreamReader codeCoverageBrancheFile)
         {
-            List<CodeCoverageLineModel> codeCoverageTrunk = InitCodeCoverage(codeCoverageTrunkFile);
+            List<CodeCoverageLineModel> codeCoverageTrunk = InitializeCodeCoverage(codeCoverageTrunkFile);
             codeCoverageTrunkFile.Close();
 
-            List<CodeCoverageLineModel> codeCoverageBranche = InitCodeCoverage(codeCoverageBrancheFile);
+            List<CodeCoverageLineModel> codeCoverageBranche = InitializeCodeCoverage(codeCoverageBrancheFile);
             codeCoverageBrancheFile.Close();
 
             return InitializeCodeCoverageDifferences(codeCoverageTrunk, codeCoverageBranche);
@@ -27,7 +27,7 @@
         /// <summary>
         /// Initializes a list of CodeCoverageLineModel with a coverage code file
         /// </summary>
-        private static List<CodeCoverageLineModel> InitCodeCoverage(StreamReader file)
+        private static List<CodeCoverageLineModel> InitializeCodeCoverage(StreamReader file)
         {
             var document = XDocument.Parse(file.ReadLine());
             return GetModules(document);
@@ -151,7 +151,7 @@
         }
 
         /// <summary>
-        /// Get the statistics from a coverage code file
+        /// Gets the statistics from a coverage code file
         /// </summary>
         private static void GetStatistics(XElement element, CodeCoverageLineModel line)
         {
@@ -182,21 +182,10 @@
 
             foreach (var line in codeCoverageBranche)
             {
-                var codeCoverageLineView = new CodeCoverageLineView
-                {
-                    Project = line.Project,
-                    Namespace = line.Namespace,
-                    Type = line.Type,
-                    Member = line.Member,
-
-                    CoveredLinesPercentageBranche = line.CoveredLinesPercentage,
-                    CoveredLinesBranche = line.CoveredLines,
-                    CoveredBlocksPercentageBranche = line.CoveredBlocksPercentage,
-                    CoveredBlocksBranche = line.CoveredBlocks
-                };
+                CodeCoverageLineView codeCoverageLineView = CreateCodeCoverageViewFromBranche(line);
 
                 CodeCoverageLineModel sameLine = GetSameLine(line, codeCoverageTrunk);
-                InitializeCodeCoverageDifferenceFromSameLine(codeCoverageLineView, line, sameLine);
+                AddDifferences(codeCoverageLineView, line, sameLine);
 
                 codeCoverageLineView.Children = InitializeCodeCoverageDifferences(sameLine != null ? sameLine.Children : null, line.Children);
                 codeCoverage.Add(codeCoverageLineView);
@@ -206,7 +195,26 @@
         }
 
         /// <summary>
-        /// Get a line from a list with same information
+        /// Creates code coverage view from branche
+        /// </summary>
+        private static CodeCoverageLineView CreateCodeCoverageViewFromBranche(CodeCoverageLineModel line)
+        {
+            return new CodeCoverageLineView
+            {
+                Project = line.Project,
+                Namespace = line.Namespace,
+                Type = line.Type,
+                Member = line.Member,
+
+                CoveredLinesPercentageBranche = line.CoveredLinesPercentage,
+                CoveredLinesBranche = line.CoveredLines,
+                CoveredBlocksPercentageBranche = line.CoveredBlocksPercentage,
+                CoveredBlocksBranche = line.CoveredBlocks
+            };
+        }
+
+        /// <summary>
+        /// Gets a line from a list with same informations
         /// </summary>
         private static CodeCoverageLineModel GetSameLine(CodeCoverageLineModel codeCoverageToFind, List<CodeCoverageLineModel> codeCoverageToExplore)
         {
@@ -228,9 +236,9 @@
         }
 
         /// <summary>
-        /// Initialize the difference between two lines
+        /// Adds differences between two lines
         /// </summary>
-        private static void InitializeCodeCoverageDifferenceFromSameLine(CodeCoverageLineView codeCoverageLineView, CodeCoverageLineModel currentLine, CodeCoverageLineModel sameLine)
+        private static void AddDifferences(CodeCoverageLineView codeCoverageLineView, CodeCoverageLineModel currentLine, CodeCoverageLineModel sameLine)
         {
             if (sameLine != null)
             {

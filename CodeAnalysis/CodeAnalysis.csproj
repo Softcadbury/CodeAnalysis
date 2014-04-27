@@ -62,8 +62,8 @@
     <Compile Include="Models\CodeCoverageLineView.cs" />
     <Compile Include="Models\CodeMetricsLineModel.cs" />
     <Compile Include="Models\CodeMetricsLineView.cs" />
-    <Compile Include="ViewModels\BaseViewModel.cs" />
-    <Compile Include="BusinessLogic\RelayCommand.cs" />
+    <Compile Include="Core\BaseViewModel.cs" />
+    <Compile Include="Core\RelayCommand.cs" />
     <Compile Include="ViewModels\ViewModel.cs" />
     <Compile Include="BusinessLogic\BrushConverter.cs" />
     <Compile Include="Views\View.xaml.cs">

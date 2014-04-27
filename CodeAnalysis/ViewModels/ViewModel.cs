@@ -1,10 +1,11 @@
 ﻿namespace CodeAnalysis.ViewModels
 {
-    using System.Collections.ObjectModel;
-    using System.IO;
     using CodeAnalysis.BusinessLogic;
+    using CodeAnalysis.Core;
     using CodeAnalysis.Models;
     using Microsoft.Win32;
+    using System.Collections.ObjectModel;
+    using System.IO;
 
     public class ViewModel : BaseViewModel
     {
