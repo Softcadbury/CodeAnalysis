@@ -191,7 +191,32 @@
                 codeCoverage.Add(codeCoverageLineView);
             }
 
+            codeCoverage.AddRange(AddCodeCoverageViewFromTrunk(codeCoverageTrunk, codeCoverageBranche));
+
             return codeCoverage;
+        }
+
+        /// <summary>
+        /// Adds lines from trunk not in branche
+        /// </summary>
+        private static List<CodeCoverageLineView> AddCodeCoverageViewFromTrunk(List<CodeCoverageLineModel> codeCoverageTrunk, List<CodeCoverageLineModel> codeCoverageBranche)
+        {
+            var codeCoverageToAdd = new List<CodeCoverageLineView>();
+
+            if (codeCoverageTrunk != null)
+            {
+                foreach (var line in codeCoverageTrunk)
+                {
+                    CodeCoverageLineModel sameLine = GetSameLine(line, codeCoverageBranche);
+
+                    if (sameLine == null)
+                    {
+                        codeCoverageToAdd.Add(CreateCodeCoverageViewFromTrunk(line));
+                    }
+                }
+            }
+
+            return codeCoverageToAdd;
         }
 
         /// <summary>
@@ -210,6 +235,25 @@
                 CoveredLinesBranche = line.CoveredLines,
                 CoveredBlocksPercentageBranche = line.CoveredBlocksPercentage,
                 CoveredBlocksBranche = line.CoveredBlocks
+            };
+        }
+
+        /// <summary>
+        /// Creates code coverage view from trunk
+        /// </summary>
+        private static CodeCoverageLineView CreateCodeCoverageViewFromTrunk(CodeCoverageLineModel line)
+        {
+            return new CodeCoverageLineView
+            {
+                Project = line.Project,
+                Namespace = line.Namespace,
+                Type = line.Type,
+                Member = line.Member,
+
+                CoveredLinesPercentageTrunk = line.CoveredLinesPercentage,
+                CoveredLinesTrunk = line.CoveredLines,
+                CoveredBlocksPercentageTrunk = line.CoveredBlocksPercentage,
+                CoveredBlocksTrunk = line.CoveredBlocks
             };
         }
 
