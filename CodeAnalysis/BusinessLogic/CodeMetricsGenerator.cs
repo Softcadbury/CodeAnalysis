@@ -2,6 +2,7 @@
 {
     using CodeAnalysis.Models;
     using OfficeOpenXml;
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
@@ -56,6 +57,9 @@
 
                     if (!line.Project.Contains("Test"))
                     {
+                        line.Project = line.Project.Replace(" (Debug)", string.Empty);
+                        line.Project = line.Project.Split('\\')[line.Project.Split('\\').Length - 1];
+
                         codeMetrics.Add(line);
                     }
                 }
@@ -132,7 +136,12 @@
                 Namespace = line.Namespace,
                 Type = line.Type,
                 Member = line.Member,
-                CodeMetricsBranche = line
+
+                MaintainabilityIndexBranche = line.MaintainabilityIndex,
+                CyclomaticComplexityBranche = line.CyclomaticComplexity,
+                DepthOfInheritanceBranche = line.DepthOfInheritance,
+                ClassCouplingBranche = line.ClassCoupling,
+                LinesOfCodeBranche = line.LinesOfCode
             };
         }
 
@@ -143,13 +152,17 @@
         {
             if (sameLine != null)
             {
+                codeMetricsLineView.MaintainabilityIndexTrunk = sameLine.MaintainabilityIndex;
+                codeMetricsLineView.CyclomaticComplexityTrunk = sameLine.CyclomaticComplexity;
+                codeMetricsLineView.DepthOfInheritanceTrunk = sameLine.DepthOfInheritance;
+                codeMetricsLineView.ClassCouplingTrunk = sameLine.ClassCoupling;
+                codeMetricsLineView.LinesOfCodeTrunk = sameLine.LinesOfCode;
+
                 codeMetricsLineView.MaintainabilityIndexDifference = -(currentLine.MaintainabilityIndex - sameLine.MaintainabilityIndex);
                 codeMetricsLineView.CyclomaticComplexityDifference = currentLine.CyclomaticComplexity - sameLine.CyclomaticComplexity;
                 codeMetricsLineView.DepthOfInheritanceDifference = currentLine.DepthOfInheritance - sameLine.DepthOfInheritance;
                 codeMetricsLineView.ClassCouplingDifference = currentLine.ClassCoupling - sameLine.ClassCoupling;
                 codeMetricsLineView.LinesOfCodeDifference = currentLine.LinesOfCode - sameLine.LinesOfCode;
-
-                codeMetricsLineView.CodeMetricsTrunk = sameLine;
             }
         }
 

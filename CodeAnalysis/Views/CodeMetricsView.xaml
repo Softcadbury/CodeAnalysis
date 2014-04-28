@@ -78,8 +78,8 @@
                             <TextBlock Grid.Column="4" Background="{Binding MaintainabilityIndexDifference, Converter={StaticResource BrushConverter}}">
                                 <TextBlock.Text>
                                     <MultiBinding StringFormat="{} {0} / {1}">
-                                        <Binding Path="CodeMetricsTrunk.MaintainabilityIndex" />
-                                        <Binding Path="CodeMetricsBranche.MaintainabilityIndex" />
+                                        <Binding Path="MaintainabilityIndexTrunk" />
+                                        <Binding Path="MaintainabilityIndexBranche" />
                                     </MultiBinding>
                                 </TextBlock.Text>
                             </TextBlock>
@@ -87,8 +87,8 @@
                             <TextBlock Grid.Column="5" Background="{Binding CyclomaticComplexityDifference, Converter={StaticResource BrushConverter}}">
                                 <TextBlock.Text>
                                     <MultiBinding StringFormat="{} {0} / {1}">
-                                        <Binding Path="CodeMetricsTrunk.CyclomaticComplexity" />
-                                        <Binding Path="CodeMetricsBranche.CyclomaticComplexity" />
+                                        <Binding Path="CyclomaticComplexityTrunk" />
+                                        <Binding Path="CyclomaticComplexityBranche" />
                                     </MultiBinding>
                                 </TextBlock.Text>
                             </TextBlock>
@@ -96,8 +96,8 @@
                             <TextBlock Grid.Column="6" Background="{Binding DepthOfInheritanceDifference, Converter={StaticResource BrushConverter}}">
                                 <TextBlock.Text>
                                     <MultiBinding StringFormat="{} {0} / {1}">
-                                        <Binding Path="CodeMetricsTrunk.DepthOfInheritance" />
-                                        <Binding Path="CodeMetricsBranche.DepthOfInheritance" />
+                                        <Binding Path="DepthOfInheritanceTrunk" />
+                                        <Binding Path="DepthOfInheritanceBranche" />
                                     </MultiBinding>
                                 </TextBlock.Text>
                             </TextBlock>
@@ -105,8 +105,8 @@
                             <TextBlock Grid.Column="7" Background="{Binding ClassCouplingDifference, Converter={StaticResource BrushConverter}}">
                                 <TextBlock.Text>
                                     <MultiBinding StringFormat="{} {0} / {1}">
-                                        <Binding Path="CodeMetricsTrunk.ClassCoupling" />
-                                        <Binding Path="CodeMetricsBranche.ClassCoupling" />
+                                        <Binding Path="ClassCouplingTrunk" />
+                                        <Binding Path="ClassCouplingBranche" />
                                     </MultiBinding>
                                 </TextBlock.Text>
                             </TextBlock>
@@ -114,8 +114,8 @@
                             <TextBlock Grid.Column="8" Background="{Binding LinesOfCodeDifference, Converter={StaticResource BrushConverter}}">
                                 <TextBlock.Text>
                                     <MultiBinding StringFormat="{} {0} / {1}">
-                                        <Binding Path="CodeMetricsTrunk.LinesOfCode" />
-                                        <Binding Path="CodeMetricsBranche.LinesOfCode" />
+                                        <Binding Path="LinesOfCodeTrunk" />
+                                        <Binding Path="LinesOfCodeBranche" />
                                     </MultiBinding>
                                 </TextBlock.Text>
                             </TextBlock>
