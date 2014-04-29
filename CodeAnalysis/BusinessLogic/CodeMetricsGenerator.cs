@@ -1,11 +1,10 @@
 ﻿namespace CodeAnalysis.BusinessLogic
 {
-    using CodeAnalysis.Models;
-    using OfficeOpenXml;
-    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using CodeAnalysis.Models;
+    using OfficeOpenXml;
 
     /// <summary>
     /// This class compares two code metrics files
@@ -41,19 +40,7 @@
 
                 for (int row = 2; worksheet.Cells[row, 1].Value != null; row++)
                 {
-                    var line = new CodeMetricsLineModel
-                    {
-                        Scope = ConvertString(worksheet.Cells[row, 1]),
-                        Project = ConvertString(worksheet.Cells[row, 2]),
-                        Namespace = ConvertString(worksheet.Cells[row, 3]),
-                        Type = ConvertString(worksheet.Cells[row, 4]),
-                        Member = ConvertString(worksheet.Cells[row, 5]),
-                        MaintainabilityIndex = ConvertDouble(worksheet.Cells[row, 6]),
-                        CyclomaticComplexity = ConvertDouble(worksheet.Cells[row, 7]),
-                        DepthOfInheritance = ConvertDouble(worksheet.Cells[row, 8]),
-                        ClassCoupling = ConvertDouble(worksheet.Cells[row, 9]),
-                        LinesOfCode = ConvertDouble(worksheet.Cells[row, 10]),
-                    };
+                    CodeMetricsLineModel line = CreateCodeMetricsLineModel(worksheet.Cells, row);
 
                     if (!line.Project.Contains("Test"))
                     {
@@ -66,6 +53,26 @@
             }
 
             return codeMetrics;
+        }
+
+        /// <summary>
+        /// Creates a CodeMetricsLineModel from an excel row
+        /// </summary>
+        private static CodeMetricsLineModel CreateCodeMetricsLineModel(ExcelRange cells, int row)
+        {
+            return new CodeMetricsLineModel
+            {
+                Scope = ConvertString(cells[row, 1]),
+                Project = ConvertString(cells[row, 2]),
+                Namespace = ConvertString(cells[row, 3]),
+                Type = ConvertString(cells[row, 4]),
+                Member = ConvertString(cells[row, 5]),
+                MaintainabilityIndex = ConvertDouble(cells[row, 6]),
+                CyclomaticComplexity = ConvertDouble(cells[row, 7]),
+                DepthOfInheritance = ConvertDouble(cells[row, 8]),
+                ClassCoupling = ConvertDouble(cells[row, 9]),
+                LinesOfCode = ConvertDouble(cells[row, 10]),
+            };
         }
 
         /// <summary>
