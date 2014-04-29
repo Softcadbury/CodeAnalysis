@@ -33,13 +33,13 @@
         <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" Margin="36,10,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200" />
-                <ColumnDefinition Width="220" />
-                <ColumnDefinition Width="270" />
-                <ColumnDefinition Width="500" />
-                <ColumnDefinition Width="150" />
-                <ColumnDefinition Width="150" />
-                <ColumnDefinition Width="150" />
-                <ColumnDefinition Width="150" />
+                <ColumnDefinition Width="240" />
+                <ColumnDefinition Width="290" />
+                <ColumnDefinition Width="580" />
+                <ColumnDefinition Width="120" />
+                <ColumnDefinition Width="120" />
+                <ColumnDefinition Width="120" />
+                <ColumnDefinition Width="120" />
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0" Content="Project"></Label>
             <Label Grid.Column="1" Content="Namespace"></Label>
@@ -58,13 +58,13 @@
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="180" />
-                                <ColumnDefinition Width="200" />
-                                <ColumnDefinition Width="250" />
-                                <ColumnDefinition Width="560" />
-                                <ColumnDefinition Width="150" />
-                                <ColumnDefinition Width="150" />
-                                <ColumnDefinition Width="150" />
-                                <ColumnDefinition Width="150" />
+                                <ColumnDefinition Width="220" />
+                                <ColumnDefinition Width="270" />
+                                <ColumnDefinition Width="640" />
+                                <ColumnDefinition Width="120" />
+                                <ColumnDefinition Width="120" />
+                                <ColumnDefinition Width="120" />
+                                <ColumnDefinition Width="120" />
                             </Grid.ColumnDefinitions>
 
                             <Label Grid.Column="0" Content="{Binding Project}"></Label>
