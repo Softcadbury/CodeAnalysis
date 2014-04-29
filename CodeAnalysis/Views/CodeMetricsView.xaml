@@ -47,8 +47,8 @@
             <Label Grid.Column="2" Content="Type"></Label>
             <Label Grid.Column="3" Content="Member"></Label>
             <Label Grid.Column="4" Content="Maintainability"></Label>
-            <Label Grid.Column="5" Content="Complexity"></Label>
-            <Label Grid.Column="6" Content="Depth"></Label>
+            <Label Grid.Column="5" Content="Depth"></Label>
+            <Label Grid.Column="6" Content="Complexity"></Label>
             <Label Grid.Column="7" Content="Coupling"></Label>
             <Label Grid.Column="8" Content="Lines"></Label>
         </Grid>
@@ -84,20 +84,20 @@
                                 </TextBlock.Text>
                             </TextBlock>
 
-                            <TextBlock Grid.Column="5" Background="{Binding CyclomaticComplexityDifference, Converter={StaticResource BrushConverter}}">
-                                <TextBlock.Text>
-                                    <MultiBinding StringFormat="{} {0} / {1}">
-                                        <Binding Path="CyclomaticComplexityTrunk" />
-                                        <Binding Path="CyclomaticComplexityBranche" />
-                                    </MultiBinding>
-                                </TextBlock.Text>
-                            </TextBlock>
-
-                            <TextBlock Grid.Column="6" Background="{Binding DepthOfInheritanceDifference, Converter={StaticResource BrushConverter}}">
+                            <TextBlock Grid.Column="5" Background="{Binding DepthOfInheritanceDifference, Converter={StaticResource BrushConverter}}">
                                 <TextBlock.Text>
                                     <MultiBinding StringFormat="{} {0} / {1}">
                                         <Binding Path="DepthOfInheritanceTrunk" />
                                         <Binding Path="DepthOfInheritanceBranche" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+
+                            <TextBlock Grid.Column="6" Background="{Binding CyclomaticComplexityDifference, Converter={StaticResource BrushConverter}}">
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{} {0} / {1}">
+                                        <Binding Path="CyclomaticComplexityTrunk" />
+                                        <Binding Path="CyclomaticComplexityBranche" />
                                     </MultiBinding>
                                 </TextBlock.Text>
                             </TextBlock>
