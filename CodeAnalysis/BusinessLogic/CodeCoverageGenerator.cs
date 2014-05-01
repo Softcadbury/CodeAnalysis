@@ -197,7 +197,7 @@
         }
 
         /// <summary>
-        /// Adds lines from trunk not in branche
+        /// Adds lines from trunk but not in branche
         /// </summary>
         private static List<CodeCoverageLineView> AddCodeCoverageViewFromTrunk(List<CodeCoverageLineModel> codeCoverageTrunk, List<CodeCoverageLineModel> codeCoverageBranche)
         {

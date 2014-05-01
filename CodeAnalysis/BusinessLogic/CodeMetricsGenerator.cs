@@ -1,10 +1,10 @@
 ﻿namespace CodeAnalysis.BusinessLogic
 {
+    using CodeAnalysis.Models;
+    using OfficeOpenXml;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using CodeAnalysis.Models;
-    using OfficeOpenXml;
 
     /// <summary>
     /// This class compares two code metrics files
@@ -24,11 +24,11 @@
 
             IEnumerable<CodeMetricsLineView> codeMetrics = InitializeCodeMetricsDifferences(codeMetricsTrunk, codeMetricsBranche);
 
-            return InitCodeMetricsTree(codeMetrics);
+            return InitializeCodeMetricsTree(codeMetrics);
         }
 
         /// <summary>
-        /// Creates a list of CodeMetricsLineModel with information from the excel file
+        /// Creates a list of CodeMetricsLineModel with information from a metrics file
         /// </summary>
         private static List<CodeMetricsLineModel> InitializeCodeMetrics(StreamReader file)
         {
@@ -76,7 +76,7 @@
         }
 
         /// <summary>
-        /// Converts an excel range to a string or null
+        /// Converts an excel column to a string
         /// </summary>
         private static string ConvertString(ExcelRange cell)
         {
@@ -84,7 +84,7 @@
         }
 
         /// <summary>
-        /// Converts an excel range to a double? or null
+        /// Converts an excel column to a double?
         /// </summary>
         private static double? ConvertDouble(ExcelRange cell)
         {
@@ -92,7 +92,7 @@
         }
 
         /// <summary>
-        /// Creates a list of CodeMetricsLineView containing difference of metrics between two lists of CodeMetricsLineModel
+        /// Creates a list of CodeMetricsLineView containing differences between two lists of CodeMetricsLineModel
         /// </summary>
         private static IEnumerable<CodeMetricsLineView> InitializeCodeMetricsDifferences(List<CodeMetricsLineModel> codeMetricsTrunk, List<CodeMetricsLineModel> codeMetricsBranche)
         {
@@ -108,27 +108,29 @@
                 codeMetrics.Add(codeMetricsLineView);
             }
 
-            return codeMetrics;
+            codeMetrics.AddRange(AddCodeMetricsViewFromTrunk(codeMetricsTrunk, codeMetricsBranche));
+
+            return codeMetrics.OrderBy(p => p.Project).ThenBy(p => p.Namespace).ThenBy(p => p.Type).ThenBy(p => p.Member).ToList();
         }
 
         /// <summary>
-        /// Gets a line from a list with same informations
+        /// Adds lines from trunk but not in branche
         /// </summary>
-        private static CodeMetricsLineModel GetSameLine(CodeMetricsLineModel codeMetricsToFind, List<CodeMetricsLineModel> codeMetricsToExplore)
+        private static List<CodeMetricsLineView> AddCodeMetricsViewFromTrunk(List<CodeMetricsLineModel> codeMetricsTrunk, List<CodeMetricsLineModel> codeMetricsBranche)
         {
-            foreach (var line in codeMetricsToExplore)
+            var codeCoverageToAdd = new List<CodeMetricsLineView>();
+
+            foreach (CodeMetricsLineModel line in codeMetricsTrunk)
             {
-                if (line.Scope == codeMetricsToFind.Scope
-                    && line.Project == codeMetricsToFind.Project
-                    && line.Namespace == codeMetricsToFind.Namespace
-                    && line.Type == codeMetricsToFind.Type
-                    && line.Member == codeMetricsToFind.Member)
+                CodeMetricsLineModel sameLine = GetSameLine(line, codeMetricsBranche);
+
+                if (sameLine == null)
                 {
-                    return line;
+                    codeCoverageToAdd.Add(CreateCodeMetricsViewFromTrunk(line));
                 }
             }
 
-            return null;
+            return codeCoverageToAdd;
         }
 
         /// <summary>
@@ -150,6 +152,47 @@
                 ClassCouplingBranche = line.ClassCoupling,
                 LinesOfCodeBranche = line.LinesOfCode
             };
+        }
+
+        /// <summary>
+        /// Creates code metrics view from trunk
+        /// </summary>
+        private static CodeMetricsLineView CreateCodeMetricsViewFromTrunk(CodeMetricsLineModel line)
+        {
+            return new CodeMetricsLineView
+            {
+                Scope = line.Scope,
+                Project = line.Project,
+                Namespace = line.Namespace,
+                Type = line.Type,
+                Member = line.Member,
+
+                MaintainabilityIndexTrunk = line.MaintainabilityIndex,
+                CyclomaticComplexityTrunk = line.CyclomaticComplexity,
+                DepthOfInheritanceTrunk = line.DepthOfInheritance,
+                ClassCouplingTrunk = line.ClassCoupling,
+                LinesOfCodeTrunk = line.LinesOfCode
+            };
+        }
+
+        /// <summary>
+        /// Gets a line from a list with same informations
+        /// </summary>
+        private static CodeMetricsLineModel GetSameLine(CodeMetricsLineModel codeMetricsToFind, List<CodeMetricsLineModel> codeMetricsToExplore)
+        {
+            foreach (var line in codeMetricsToExplore)
+            {
+                if (line.Scope == codeMetricsToFind.Scope
+                    && line.Project == codeMetricsToFind.Project
+                    && line.Namespace == codeMetricsToFind.Namespace
+                    && line.Type == codeMetricsToFind.Type
+                    && line.Member == codeMetricsToFind.Member)
+                {
+                    return line;
+                }
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -176,7 +219,7 @@
         /// <summary>
         /// Initializes the tree of code metrics
         /// </summary>
-        private static IEnumerable<CodeMetricsLineView> InitCodeMetricsTree(IEnumerable<CodeMetricsLineView> codeMetrics)
+        private static IEnumerable<CodeMetricsLineView> InitializeCodeMetricsTree(IEnumerable<CodeMetricsLineView> codeMetrics)
         {
             var list = new List<CodeMetricsLineView>();
 
