@@ -76,6 +76,12 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
+    <!--Control Template for TreeListViewSpace's.-->
+    <ControlTemplate TargetType="{x:Type core:TreeListViewSpace}" x:Key="TreeListViewSpace">
+        <FrameworkElement Width="{Binding RelativeSource={x:Static RelativeSource.Self},
+                Converter={StaticResource TreeListViewConverter}}" />
+    </ControlTemplate>
+
     <!--Apply this style to all controls of type 'TreeListView'.-->
     <Style TargetType="{x:Type core:TreeListView}">
         <!--Set the control template.-->
@@ -90,6 +96,10 @@
                         <!--Apply this style to all 'TreeListViewExpander's.-->
                         <Style TargetType="core:TreeListViewExpander">
                             <Setter Property="Template" Value="{StaticResource TreeListViewExpander}" />
+                        </Style>
+                        <!--Apply this style to all 'TreeListViewExpander's.-->
+                        <Style TargetType="core:TreeListViewSpace">
+                            <Setter Property="Template" Value="{StaticResource TreeListViewSpace}" />
                         </Style>
                     </ControlTemplate.Resources>
                     <!--Create a standard border around the 'TreeListView'.-->

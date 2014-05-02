@@ -66,6 +66,11 @@
     public class TreeListViewExpander : ToggleButton { }
 
     /// <summary>
+    /// Represents a control that can generate spaces depending of the node of a TreeListView.
+    /// </summary>
+    public class TreeListViewSpace : ToggleButton { }
+
+    /// <summary>
     /// Represents a convert that can calculate the indentation of any element in a class derived from TreeView.
     /// </summary>
     public class TreeListViewConverter : IValueConverter

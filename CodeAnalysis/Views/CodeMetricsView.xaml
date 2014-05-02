@@ -71,80 +71,95 @@
                     <GridViewColumn Header="Maintainability" Width="100">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock HorizontalAlignment="Center"
+                                <StackPanel Orientation="Horizontal">
+                                    <core:TreeListViewSpace />
+                                    <TextBlock Width="100"
                                            Background="{Binding MaintainabilityIndexDifference, Converter={StaticResource BackgroundColorConverter}}"
                                            Foreground="{Binding MaintainabilityIndexDifference, Converter={StaticResource ForegroundColorConverter}}">
-                                    <TextBlock.Text>
-                                        <MultiBinding StringFormat="{}    {0} / {1}    ">
-                                            <Binding Path="MaintainabilityIndexTrunk" />
-                                            <Binding Path="MaintainabilityIndexBranche" />
-                                        </MultiBinding>
-                                    </TextBlock.Text>
-                                </TextBlock>
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{} {0} / {1}">
+                                                <Binding Path="MaintainabilityIndexTrunk" />
+                                                <Binding Path="MaintainabilityIndexBranche" />
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </StackPanel>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Header="Depth" Width="100">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock HorizontalAlignment="Center"
+                                <StackPanel Orientation="Horizontal">
+                                    <core:TreeListViewSpace />
+                                    <TextBlock HorizontalAlignment="Center" Width="100"
                                            Background="{Binding DepthOfInheritanceDifference, Converter={StaticResource BackgroundColorConverter}}"
                                            Foreground="{Binding DepthOfInheritanceDifference, Converter={StaticResource ForegroundColorConverter}}">
-                                    <TextBlock.Text>
-                                        <MultiBinding StringFormat="{}    {0} / {1}    ">
-                                            <Binding Path="DepthOfInheritanceTrunk" />
-                                            <Binding Path="DepthOfInheritanceBranche" />
-                                        </MultiBinding>
-                                    </TextBlock.Text>
-                                </TextBlock>
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{} {0} / {1}">
+                                                <Binding Path="DepthOfInheritanceTrunk" />
+                                                <Binding Path="DepthOfInheritanceBranche" />
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </StackPanel>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Header="Complexity" Width="100">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock HorizontalAlignment="Center"
+                                <StackPanel Orientation="Horizontal">
+                                    <core:TreeListViewSpace />
+                                    <TextBlock HorizontalAlignment="Center" Width="100"
                                            Background="{Binding CyclomaticComplexityDifference, Converter={StaticResource BackgroundColorConverter}}"
                                            Foreground="{Binding CyclomaticComplexityDifference, Converter={StaticResource ForegroundColorConverter}}">
-                                    <TextBlock.Text>
-                                        <MultiBinding StringFormat="{}    {0} / {1}    ">
-                                            <Binding Path="CyclomaticComplexityTrunk" />
-                                            <Binding Path="CyclomaticComplexityBranche" />
-                                        </MultiBinding>
-                                    </TextBlock.Text>
-                                </TextBlock>
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{} {0} / {1}">
+                                                <Binding Path="CyclomaticComplexityTrunk" />
+                                                <Binding Path="CyclomaticComplexityBranche" />
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </StackPanel>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Header="Coupling" Width="100">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock HorizontalAlignment="Center"
+                                <StackPanel Orientation="Horizontal">
+                                    <core:TreeListViewSpace />
+                                    <TextBlock HorizontalAlignment="Center" Width="100"
                                            Background="{Binding ClassCouplingDifference, Converter={StaticResource BackgroundColorConverter}}"
                                            Foreground="{Binding ClassCouplingDifference, Converter={StaticResource ForegroundColorConverter}}">
-                                    <TextBlock.Text>
-                                        <MultiBinding StringFormat="{}    {0} / {1}    ">
-                                            <Binding Path="ClassCouplingTrunk" />
-                                            <Binding Path="ClassCouplingBranche" />
-                                        </MultiBinding>
-                                    </TextBlock.Text>
-                                </TextBlock>
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{} {0} / {1}">
+                                                <Binding Path="ClassCouplingTrunk" />
+                                                <Binding Path="ClassCouplingBranche" />
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </StackPanel>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Header="Lines" Width="100">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock HorizontalAlignment="Center"
+                                <StackPanel Orientation="Horizontal">
+                                    <core:TreeListViewSpace />
+                                    <TextBlock HorizontalAlignment="Center" Width="100"
                                            Background="{Binding LinesOfCodeDifference, Converter={StaticResource BackgroundColorConverter}}"
                                            Foreground="{Binding LinesOfCodeDifference, Converter={StaticResource ForegroundColorConverter}}">
-                                    <TextBlock.Text>
-                                        <MultiBinding StringFormat="{}    {0} / {1}    ">
-                                            <Binding Path="LinesOfCodeTrunk" />
-                                            <Binding Path="LinesOfCodeBranche" />
-                                        </MultiBinding>
-                                    </TextBlock.Text>
-                                </TextBlock>
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{} {0} / {1}">
+                                                <Binding Path="LinesOfCodeTrunk" />
+                                                <Binding Path="LinesOfCodeBranche" />
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </StackPanel>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

@@ -71,64 +71,76 @@
                     <GridViewColumn Header="Covered Lines (%)" Width="120">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock HorizontalAlignment="Center"
+                                <StackPanel Orientation="Horizontal">
+                                    <core:TreeListViewSpace />
+                                    <TextBlock Width="120"
                                            Background="{Binding CoveredLinesPercentageDifference, Converter={StaticResource BackgroundColorConverter}}"
                                            Foreground="{Binding CoveredLinesPercentageDifference, Converter={StaticResource ForegroundColorConverter}}">
-                                    <TextBlock.Text>
-                                        <MultiBinding StringFormat="{}    {0} / {1}    ">
-                                            <Binding Path="CoveredLinesPercentageTrunk" />
-                                            <Binding Path="CoveredLinesPercentageBranche" />
-                                        </MultiBinding>
-                                    </TextBlock.Text>
-                                </TextBlock>
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{} {0} / {1}">
+                                                <Binding Path="CoveredLinesPercentageTrunk" />
+                                                <Binding Path="CoveredLinesPercentageBranche" />
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </StackPanel>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Header="Covered Lines" Width="120">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock HorizontalAlignment="Center"
+                                <StackPanel Orientation="Horizontal">
+                                    <core:TreeListViewSpace />
+                                    <TextBlock Width="120"
                                            Background="{Binding CoveredLinesDifference, Converter={StaticResource BackgroundColorConverter}}"
                                            Foreground="{Binding CoveredLinesDifference, Converter={StaticResource ForegroundColorConverter}}">
-                                    <TextBlock.Text>
-                                        <MultiBinding StringFormat="{}    {0} / {1}    ">
-                                            <Binding Path="CoveredLinesTrunk" />
-                                            <Binding Path="CoveredLinesBranche" />
-                                        </MultiBinding>
-                                    </TextBlock.Text>
-                                </TextBlock>
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{} {0} / {1}">
+                                                <Binding Path="CoveredLinesTrunk" />
+                                                <Binding Path="CoveredLinesBranche" />
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </StackPanel>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Header="Covered Blocks (%)" Width="120">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock HorizontalAlignment="Center"
+                                <StackPanel Orientation="Horizontal">
+                                    <core:TreeListViewSpace />
+                                    <TextBlock Width="120"
                                            Background="{Binding CoveredBlocksPercentageDifference, Converter={StaticResource BackgroundColorConverter}}"
                                            Foreground="{Binding CoveredBlocksPercentageDifference, Converter={StaticResource ForegroundColorConverter}}">
-                                    <TextBlock.Text>
-                                        <MultiBinding StringFormat="{}    {0} / {1}    ">
-                                            <Binding Path="CoveredBlocksPercentageTrunk" />
-                                            <Binding Path="CoveredBlocksPercentageBranche" />
-                                        </MultiBinding>
-                                    </TextBlock.Text>
-                                </TextBlock>
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{} {0} / {1}">
+                                                <Binding Path="CoveredBlocksPercentageTrunk" />
+                                                <Binding Path="CoveredBlocksPercentageBranche" />
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </StackPanel>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Header="Covered Blocks" Width="120">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock HorizontalAlignment="Center"
+                                <StackPanel Orientation="Horizontal">
+                                    <core:TreeListViewSpace />
+                                    <TextBlock Width="120"
                                            Background="{Binding CoveredBlocksDifference, Converter={StaticResource BackgroundColorConverter}}"
                                            Foreground="{Binding CoveredBlocksDifference, Converter={StaticResource ForegroundColorConverter}}">
-                                    <TextBlock.Text>
-                                        <MultiBinding StringFormat="{}    {0} / {1}    ">
-                                            <Binding Path="CoveredBlocksTrunk" />
-                                            <Binding Path="CoveredBlocksBranche" />
-                                        </MultiBinding>
-                                    </TextBlock.Text>
-                                </TextBlock>
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{} {0} / {1}">
+                                                <Binding Path="CoveredBlocksTrunk" />
+                                                <Binding Path="CoveredBlocksBranche" />
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </StackPanel>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
