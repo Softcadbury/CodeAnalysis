@@ -1,15 +1,16 @@
 ﻿<UserControl x:Class="CodeAnalysis.Views.CodeMetricsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:businessLogic="clr-namespace:CodeAnalysis.BusinessLogic">
+             xmlns:businessLogic="clr-namespace:CodeAnalysis.BusinessLogic"
+             xmlns:core="clr-namespace:CodeAnalysis.Core">
     <UserControl.Resources>
-        <businessLogic:BrushConverter x:Key="BrushConverter"></businessLogic:BrushConverter>
+        <businessLogic:BackgroundColorConverter x:Key="BackgroundColorConverter"></businessLogic:BackgroundColorConverter>
+        <businessLogic:ForegroundColorConverter x:Key="ForegroundColorConverter"></businessLogic:ForegroundColorConverter>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
             <RowDefinition Height="50" />
-            <RowDefinition Height="32" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -30,99 +31,125 @@
 
         <Button Grid.Row="0" Grid.RowSpan="2" Grid.Column="3" Width="80" Height="35" Content="Proceed" Command="{Binding ProceedCodeMetricsCommand}"></Button>
 
-        <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" Margin="36,10,0,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="220" />
-                <ColumnDefinition Width="290" />
-                <ColumnDefinition Width="220" />
-                <ColumnDefinition Width="540" />
-                <ColumnDefinition Width="100" />
-                <ColumnDefinition Width="100" />
-                <ColumnDefinition Width="100" />
-                <ColumnDefinition Width="100" />
-                <ColumnDefinition Width="100" />
-            </Grid.ColumnDefinitions>
-            <Label Grid.Column="0" Content="Project"></Label>
-            <Label Grid.Column="1" Content="Namespace"></Label>
-            <Label Grid.Column="2" Content="Type"></Label>
-            <Label Grid.Column="3" Content="Member"></Label>
-            <Label Grid.Column="4" Content="Maintainability"></Label>
-            <Label Grid.Column="5" Content="Depth"></Label>
-            <Label Grid.Column="6" Content="Complexity"></Label>
-            <Label Grid.Column="7" Content="Coupling"></Label>
-            <Label Grid.Column="8" Content="Lines"></Label>
-        </Grid>
-
-        <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="5" Margin="10,0,10,10">
-            <TreeView ItemsSource="{Binding CodeMetricsTree}">
-                <TreeView.ItemTemplate>
-                    <HierarchicalDataTemplate ItemsSource="{Binding Children}">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="200" />
-                                <ColumnDefinition Width="270" />
-                                <ColumnDefinition Width="200" />
-                                <ColumnDefinition Width="600" />
-                                <ColumnDefinition Width="100" />
-                                <ColumnDefinition Width="100" />
-                                <ColumnDefinition Width="100" />
-                                <ColumnDefinition Width="100" />
-                                <ColumnDefinition Width="100" />
-                            </Grid.ColumnDefinitions>
-
-                            <Label Grid.Column="0" Content="{Binding Project}"></Label>
-                            <Label Grid.Column="1" Content="{Binding Namespace}"></Label>
-                            <Label Grid.Column="2" Content="{Binding Type}"></Label>
-                            <Label Grid.Column="3" Content="{Binding Member}"></Label>
-
-                            <TextBlock Grid.Column="4" Background="{Binding MaintainabilityIndexDifference, Converter={StaticResource BrushConverter}}">
-                                <TextBlock.Text>
-                                    <MultiBinding StringFormat="{} {0} / {1}">
-                                        <Binding Path="MaintainabilityIndexTrunk" />
-                                        <Binding Path="MaintainabilityIndexBranche" />
-                                    </MultiBinding>
-                                </TextBlock.Text>
-                            </TextBlock>
-
-                            <TextBlock Grid.Column="5" Background="{Binding DepthOfInheritanceDifference, Converter={StaticResource BrushConverter}}">
-                                <TextBlock.Text>
-                                    <MultiBinding StringFormat="{} {0} / {1}">
-                                        <Binding Path="DepthOfInheritanceTrunk" />
-                                        <Binding Path="DepthOfInheritanceBranche" />
-                                    </MultiBinding>
-                                </TextBlock.Text>
-                            </TextBlock>
-
-                            <TextBlock Grid.Column="6" Background="{Binding CyclomaticComplexityDifference, Converter={StaticResource BrushConverter}}">
-                                <TextBlock.Text>
-                                    <MultiBinding StringFormat="{} {0} / {1}">
-                                        <Binding Path="CyclomaticComplexityTrunk" />
-                                        <Binding Path="CyclomaticComplexityBranche" />
-                                    </MultiBinding>
-                                </TextBlock.Text>
-                            </TextBlock>
-
-                            <TextBlock Grid.Column="7" Background="{Binding ClassCouplingDifference, Converter={StaticResource BrushConverter}}">
-                                <TextBlock.Text>
-                                    <MultiBinding StringFormat="{} {0} / {1}">
-                                        <Binding Path="ClassCouplingTrunk" />
-                                        <Binding Path="ClassCouplingBranche" />
-                                    </MultiBinding>
-                                </TextBlock.Text>
-                            </TextBlock>
-
-                            <TextBlock Grid.Column="8" Background="{Binding LinesOfCodeDifference, Converter={StaticResource BrushConverter}}">
-                                <TextBlock.Text>
-                                    <MultiBinding StringFormat="{} {0} / {1}">
-                                        <Binding Path="LinesOfCodeTrunk" />
-                                        <Binding Path="LinesOfCodeBranche" />
-                                    </MultiBinding>
-                                </TextBlock.Text>
-                            </TextBlock>
-                        </Grid>
-                    </HierarchicalDataTemplate>
-                </TreeView.ItemTemplate>
-            </TreeView>
+        <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" Margin="10,20,10,10">
+            <core:TreeListView AllowsColumnReorder="True" ItemsSource="{Binding CodeMetricsTree}">
+                <core:TreeListView.ItemTemplate>
+                    <HierarchicalDataTemplate ItemsSource="{Binding Children}" />
+                </core:TreeListView.ItemTemplate>
+                <core:TreeListView.Columns>
+                    <GridViewColumn Header="Project" Width="200">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <core:TreeListViewExpander />
+                                    <TextBlock Text="{Binding Project}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Namespace" Width="240">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Namespace}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Type" Width="290">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Type}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Member" Width="580">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Member}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Maintainability" Width="100">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Center"
+                                           Background="{Binding MaintainabilityIndexDifference, Converter={StaticResource BackgroundColorConverter}}"
+                                           Foreground="{Binding MaintainabilityIndexDifference, Converter={StaticResource ForegroundColorConverter}}">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="{}    {0} / {1}    ">
+                                            <Binding Path="MaintainabilityIndexTrunk" />
+                                            <Binding Path="MaintainabilityIndexBranche" />
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Depth" Width="100">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Center"
+                                           Background="{Binding DepthOfInheritanceDifference, Converter={StaticResource BackgroundColorConverter}}"
+                                           Foreground="{Binding DepthOfInheritanceDifference, Converter={StaticResource ForegroundColorConverter}}">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="{}    {0} / {1}    ">
+                                            <Binding Path="DepthOfInheritanceTrunk" />
+                                            <Binding Path="DepthOfInheritanceBranche" />
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Complexity" Width="100">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Center"
+                                           Background="{Binding CyclomaticComplexityDifference, Converter={StaticResource BackgroundColorConverter}}"
+                                           Foreground="{Binding CyclomaticComplexityDifference, Converter={StaticResource ForegroundColorConverter}}">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="{}    {0} / {1}    ">
+                                            <Binding Path="CyclomaticComplexityTrunk" />
+                                            <Binding Path="CyclomaticComplexityBranche" />
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Coupling" Width="100">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Center"
+                                           Background="{Binding ClassCouplingDifference, Converter={StaticResource BackgroundColorConverter}}"
+                                           Foreground="{Binding ClassCouplingDifference, Converter={StaticResource ForegroundColorConverter}}">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="{}    {0} / {1}    ">
+                                            <Binding Path="ClassCouplingTrunk" />
+                                            <Binding Path="ClassCouplingBranche" />
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Lines" Width="100">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Center"
+                                           Background="{Binding LinesOfCodeDifference, Converter={StaticResource BackgroundColorConverter}}"
+                                           Foreground="{Binding LinesOfCodeDifference, Converter={StaticResource ForegroundColorConverter}}">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="{}    {0} / {1}    ">
+                                            <Binding Path="LinesOfCodeTrunk" />
+                                            <Binding Path="LinesOfCodeBranche" />
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </core:TreeListView.Columns>
+            </core:TreeListView>
         </Grid>
     </Grid>
 </UserControl>
