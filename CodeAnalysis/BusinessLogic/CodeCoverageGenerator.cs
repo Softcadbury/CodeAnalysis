@@ -180,7 +180,7 @@
         {
             var codeCoverage = new List<CodeCoverageLineView>();
 
-            foreach (var line in codeCoverageBranche)
+            foreach (CodeCoverageLineModel line in codeCoverageBranche)
             {
                 CodeCoverageLineView codeCoverageLineView = CreateCodeCoverageViewFromBranche(line);
 
@@ -205,7 +205,7 @@
 
             if (codeCoverageTrunk != null)
             {
-                foreach (var line in codeCoverageTrunk)
+                foreach (CodeCoverageLineModel line in codeCoverageTrunk)
                 {
                     CodeCoverageLineModel sameLine = GetSameLine(line, codeCoverageBranche);
 
@@ -264,7 +264,7 @@
         {
             if (codeCoverageToExplore != null)
             {
-                foreach (var line in codeCoverageToExplore)
+                foreach (CodeCoverageLineModel line in codeCoverageToExplore)
                 {
                     if (line.Project == codeCoverageToFind.Project
                         && line.Namespace == codeCoverageToFind.Namespace

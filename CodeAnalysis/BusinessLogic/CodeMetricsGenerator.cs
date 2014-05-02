@@ -180,7 +180,7 @@
         /// </summary>
         private static CodeMetricsLineModel GetSameLine(CodeMetricsLineModel codeMetricsToFind, List<CodeMetricsLineModel> codeMetricsToExplore)
         {
-            foreach (var line in codeMetricsToExplore)
+            foreach (CodeMetricsLineModel line in codeMetricsToExplore)
             {
                 if (line.Scope == codeMetricsToFind.Scope
                     && line.Project == codeMetricsToFind.Project
