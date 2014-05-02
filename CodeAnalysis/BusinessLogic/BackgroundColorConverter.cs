@@ -9,7 +9,7 @@
     /// This class converts an integer to a color
     /// Red if negative, Green if positive
     /// </summary>
-    public class BrushConverter : FrameworkElement, IValueConverter
+    public class BackgroundColorConverter : FrameworkElement, IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {

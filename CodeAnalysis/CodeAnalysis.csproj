@@ -58,6 +58,8 @@
     </ApplicationDefinition>
     <Compile Include="BusinessLogic\CodeCoverageGenerator.cs" />
     <Compile Include="BusinessLogic\CodeMetricsGenerator.cs" />
+    <Compile Include="BusinessLogic\ForegroundColorConverter.cs" />
+    <Compile Include="Core\TreeListView.cs" />
     <Compile Include="Models\CodeCoverageLineModel.cs" />
     <Compile Include="Models\CodeCoverageLineView.cs" />
     <Compile Include="Models\CodeMetricsLineModel.cs" />
@@ -66,7 +68,7 @@
     <Compile Include="Core\RelayCommand.cs" />
     <Compile Include="ViewModels\CodeMetricsViewModel.cs" />
     <Compile Include="ViewModels\CodeCoverageViewModel.cs" />
-    <Compile Include="BusinessLogic\BrushConverter.cs" />
+    <Compile Include="BusinessLogic\BackgroundColorConverter.cs" />
     <Compile Include="Views\CodeCoverageView.xaml.cs">
       <DependentUpon>CodeCoverageView.xaml</DependentUpon>
     </Compile>
@@ -80,7 +82,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="ExpressionDark.xaml">
+    <Page Include="Themes\TreeListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
