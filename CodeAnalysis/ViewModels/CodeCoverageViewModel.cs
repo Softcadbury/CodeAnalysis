@@ -14,11 +14,15 @@
     {
         public CodeCoverageViewModel()
         {
-            CodeCoverageTree = new ObservableCollection<CodeCoverageLineView>();
-
             BrowseCodeCoverageTrunkFileCommand = new RelayCommand(param => BrowseFiles(FileType.TrunkCoverage));
             BrowseCodeCoverageBrancheFileCommand = new RelayCommand(param => BrowseFiles(FileType.BrancheCoverage));
             ProceedCodeCoverageCommand = new RelayCommand(param => ProceedCodeCoverage());
+
+            CodeCoverageTree = new ObservableCollection<CodeCoverageLineView>();
+
+            CodeCoverageTrunkFilePath = CommandLineArguments.GetArgument("CodeCoverageTrunkFilePath");
+            CodeCoverageBrancheFilePath = CommandLineArguments.GetArgument("CodeCoverageBrancheFilePath");
+            ProceedCodeCoverage();
         }
 
         public RelayCommand BrowseCodeCoverageTrunkFileCommand { get; set; }

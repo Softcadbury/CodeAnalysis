@@ -14,11 +14,15 @@
     {
         public CodeMetricsViewModel()
         {
-            CodeMetricsTree = new ObservableCollection<CodeMetricsLineView>();
-
             BrowseCodeMetricsTrunkFileCommand = new RelayCommand(param => BrowseFiles(FileType.TrunkMetrics));
             BrowseCodeMetricsBrancheFileCommand = new RelayCommand(param => BrowseFiles(FileType.BrancheMetrics));
             ProceedCodeMetricsCommand = new RelayCommand(param => ProceedCodeMetrics());
+
+            CodeMetricsTree = new ObservableCollection<CodeMetricsLineView>();
+
+            CodeMetricsTrunkFilePath = CommandLineArguments.GetArgument("CodeMetricsTrunkFilePath");
+            CodeMetricsBrancheFilePath = CommandLineArguments.GetArgument("CodeMetricsBrancheFilePath");
+            ProceedCodeMetrics();
         }
 
         public RelayCommand BrowseCodeMetricsTrunkFileCommand { get; set; }
