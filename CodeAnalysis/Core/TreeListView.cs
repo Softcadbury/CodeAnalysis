@@ -75,7 +75,7 @@
     /// </summary>
     public class TreeListViewConverter : IValueConverter
     {
-        public const double Indentation = 10;
+        public const double Indentation = 15;
 
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {

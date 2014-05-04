@@ -41,7 +41,7 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <core:TreeListViewExpander />
+                                    <core:TreeListViewSpace />
                                     <TextBlock Text="{Binding Project}" />
                                 </StackPanel>
                             </DataTemplate>
