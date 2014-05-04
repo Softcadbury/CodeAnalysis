@@ -14,6 +14,8 @@
     {
         public CodeCoverageViewModel()
         {
+            CodeCoverageTree = new ObservableCollection<CodeCoverageLineView>();
+
             BrowseCodeCoverageTrunkFileCommand = new RelayCommand(param => BrowseFiles(FileType.TrunkCoverage));
             BrowseCodeCoverageBrancheFileCommand = new RelayCommand(param => BrowseFiles(FileType.BrancheCoverage));
             ProceedCodeCoverageCommand = new RelayCommand(param => ProceedCodeCoverage());
@@ -82,13 +84,14 @@
         /// </summary>
         private void ProceedCodeCoverage()
         {
-            if (!string.IsNullOrWhiteSpace(CodeCoverageTrunkFilePath) && !string.IsNullOrWhiteSpace(CodeCoverageBrancheFilePath))
+            if (File.Exists(CodeCoverageTrunkFilePath) && File.Exists(CodeCoverageBrancheFilePath))
             {
                 var codeCoverageTrunkFile = new StreamReader(CodeCoverageTrunkFilePath);
                 var codeCoverageBrancheFile = new StreamReader(CodeCoverageBrancheFilePath);
 
-                var tmpTree = CodeCoverageGenerator.Generate(codeCoverageTrunkFile, codeCoverageBrancheFile);
-                CodeCoverageTree = new ObservableCollection<CodeCoverageLineView>(tmpTree);
+                CodeCoverageTree.Clear();
+                var tree = CodeCoverageGenerator.Generate(codeCoverageTrunkFile, codeCoverageBrancheFile);
+                CodeCoverageTree = new ObservableCollection<CodeCoverageLineView>(tree);
             }
         }
     }

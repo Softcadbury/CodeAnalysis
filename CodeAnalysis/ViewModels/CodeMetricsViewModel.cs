@@ -14,6 +14,8 @@
     {
         public CodeMetricsViewModel()
         {
+            CodeMetricsTree = new ObservableCollection<CodeMetricsLineView>();
+
             BrowseCodeMetricsTrunkFileCommand = new RelayCommand(param => BrowseFiles(FileType.TrunkMetrics));
             BrowseCodeMetricsBrancheFileCommand = new RelayCommand(param => BrowseFiles(FileType.BrancheMetrics));
             ProceedCodeMetricsCommand = new RelayCommand(param => ProceedCodeMetrics());
@@ -82,13 +84,14 @@
         /// </summary>
         private void ProceedCodeMetrics()
         {
-            if (!string.IsNullOrWhiteSpace(CodeMetricsTrunkFilePath) && !string.IsNullOrWhiteSpace(CodeMetricsBrancheFilePath))
+            if (File.Exists(CodeMetricsTrunkFilePath) && File.Exists(CodeMetricsBrancheFilePath))
             {
                 var codeMetricsTrunkFile = new StreamReader(CodeMetricsTrunkFilePath);
                 var codeMetricsBrancheFile = new StreamReader(CodeMetricsBrancheFilePath);
 
-                var tmpTree = CodeMetricsGenerator.Generate(codeMetricsTrunkFile, codeMetricsBrancheFile);
-                CodeMetricsTree = new ObservableCollection<CodeMetricsLineView>(tmpTree);
+                CodeMetricsTree.Clear();
+                var tree = CodeMetricsGenerator.Generate(codeMetricsTrunkFile, codeMetricsBrancheFile);
+                CodeMetricsTree = new ObservableCollection<CodeMetricsLineView>(tree);
             }
         }
     }
