@@ -79,7 +79,7 @@
                     {
                         Project = moduleName,
                         Namespace = namespaceName,
-                        Children = GetClasses(namespacee, moduleName, namespaceName)
+                        Children = GetTypes(namespacee, moduleName, namespaceName)
                     };
 
                     GetStatistics(namespacee, line);
@@ -91,28 +91,28 @@
         }
 
         /// <summary>
-        /// Gets the classes from a coverage code file
+        /// Gets the types from a coverage code file
         /// </summary>
-        private static List<CodeCoverageLineModel> GetClasses(XElement namespacee, string moduleName, string namespaceName)
+        private static List<CodeCoverageLineModel> GetTypes(XElement namespacee, string moduleName, string namespaceName)
         {
             var codeCoverage = new List<CodeCoverageLineModel>();
 
-            foreach (var classs in namespacee.Descendants("Class"))
+            foreach (var type in namespacee.Descendants("Class"))
             {
-                var classNameElement = classs.Element("ClassName");
-                if (classNameElement != null)
+                var typeNameElement = type.Element("ClassName");
+                if (typeNameElement != null)
                 {
-                    string className = classNameElement.Value;
+                    string className = typeNameElement.Value;
 
                     var line = new CodeCoverageLineModel
                     {
                         Project = moduleName,
                         Namespace = namespaceName,
                         Type = className,
-                        Children = GetMethods(classs, moduleName, namespaceName, className)
+                        Children = GetMethods(type, moduleName, namespaceName, className)
                     };
 
-                    GetStatistics(classs, line);
+                    GetStatistics(type, line);
                     codeCoverage.Add(line);
                 }
             }
@@ -123,11 +123,11 @@
         /// <summary>
         /// Gets the methods from a coverage code file
         /// </summary>
-        private static List<CodeCoverageLineModel> GetMethods(XElement classs, string moduleName, string namespaceName, string className)
+        private static List<CodeCoverageLineModel> GetMethods(XElement type, string moduleName, string namespaceName, string className)
         {
             var codeCoverage = new List<CodeCoverageLineModel>();
 
-            foreach (var method in classs.Descendants("Method"))
+            foreach (var method in type.Descendants("Method"))
             {
                 var methodNameElement = method.Element("MethodName");
                 if (methodNameElement != null)
