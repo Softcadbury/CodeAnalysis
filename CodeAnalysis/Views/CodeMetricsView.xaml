@@ -61,19 +61,19 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Member" Width="580">
+                    <GridViewColumn Header="Member" Width="550">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Member}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Maintainability" Width="100">
+                    <GridViewColumn Header="Maintainability" Width="120">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
                                     <core:TreeListViewSpace />
-                                    <TextBlock Width="100"
+                                    <TextBlock Width="120"
                                            Background="{Binding MaintainabilityIndexDifference, Converter={StaticResource BackgroundColorConverter}}"
                                            Foreground="{Binding MaintainabilityIndexDifference, Converter={StaticResource ForegroundColorConverter}}">
                                         <TextBlock.Text>
@@ -87,12 +87,12 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Depth" Width="100">
+                    <GridViewColumn Header="Depth" Width="120">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
                                     <core:TreeListViewSpace />
-                                    <TextBlock HorizontalAlignment="Center" Width="100"
+                                    <TextBlock HorizontalAlignment="Center" Width="120"
                                            Background="{Binding DepthOfInheritanceDifference, Converter={StaticResource BackgroundColorConverter}}"
                                            Foreground="{Binding DepthOfInheritanceDifference, Converter={StaticResource ForegroundColorConverter}}">
                                         <TextBlock.Text>
@@ -106,12 +106,12 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Complexity" Width="100">
+                    <GridViewColumn Header="Complexity" Width="120">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
                                     <core:TreeListViewSpace />
-                                    <TextBlock HorizontalAlignment="Center" Width="100"
+                                    <TextBlock HorizontalAlignment="Center" Width="120"
                                            Background="{Binding CyclomaticComplexityDifference, Converter={StaticResource BackgroundColorConverter}}"
                                            Foreground="{Binding CyclomaticComplexityDifference, Converter={StaticResource ForegroundColorConverter}}">
                                         <TextBlock.Text>
@@ -125,12 +125,12 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Coupling" Width="100">
+                    <GridViewColumn Header="Coupling" Width="120">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
                                     <core:TreeListViewSpace />
-                                    <TextBlock HorizontalAlignment="Center" Width="100"
+                                    <TextBlock HorizontalAlignment="Center" Width="120"
                                            Background="{Binding ClassCouplingDifference, Converter={StaticResource BackgroundColorConverter}}"
                                            Foreground="{Binding ClassCouplingDifference, Converter={StaticResource ForegroundColorConverter}}">
                                         <TextBlock.Text>
@@ -144,12 +144,12 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Lines" Width="100">
+                    <GridViewColumn Header="Lines" Width="120">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
                                     <core:TreeListViewSpace />
-                                    <TextBlock HorizontalAlignment="Center" Width="100"
+                                    <TextBlock HorizontalAlignment="Center" Width="120"
                                            Background="{Binding LinesOfCodeDifference, Converter={StaticResource BackgroundColorConverter}}"
                                            Foreground="{Binding LinesOfCodeDifference, Converter={StaticResource ForegroundColorConverter}}">
                                         <TextBlock.Text>
