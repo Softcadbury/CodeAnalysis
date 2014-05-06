@@ -1,6 +1,6 @@
 ﻿namespace CodeAnalysis.Models
 {
-    public class CodeMetricsLineModel
+    public class CodeMetricsLineModelFromExcel
     {
         public string Scope { get; set; }
         public string Project { get; set; }

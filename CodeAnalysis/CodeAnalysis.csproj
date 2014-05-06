@@ -60,13 +60,15 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="BusinessLogic\CodeCoverageGenerator.cs" />
-    <Compile Include="BusinessLogic\CodeMetricsGenerator.cs" />
+    <Compile Include="BusinessLogic\CodeMetricsGeneratorFromExcel.cs" />
+    <Compile Include="BusinessLogic\CodeMetricsGeneratorFromXml.cs" />
     <Compile Include="BusinessLogic\ForegroundColorConverter.cs" />
     <Compile Include="Core\CommandLineArguments.cs" />
     <Compile Include="Core\TreeListView.cs" />
     <Compile Include="Models\CodeCoverageLineModel.cs" />
     <Compile Include="Models\CodeCoverageLineView.cs" />
-    <Compile Include="Models\CodeMetricsLineModel.cs" />
+    <Compile Include="Models\CodeMetricsLineModelFromExcel.cs" />
+    <Compile Include="Models\CodeMetricsLineModelFromXml.cs" />
     <Compile Include="Models\CodeMetricsLineView.cs" />
     <Compile Include="Core\BaseViewModel.cs" />
     <Compile Include="Core\RelayCommand.cs" />

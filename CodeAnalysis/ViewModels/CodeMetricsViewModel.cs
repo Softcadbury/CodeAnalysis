@@ -1,11 +1,11 @@
 ﻿namespace CodeAnalysis.ViewModels
 {
+    using System.Collections.ObjectModel;
+    using System.IO;
     using CodeAnalysis.BusinessLogic;
     using CodeAnalysis.Core;
     using CodeAnalysis.Models;
     using Microsoft.Win32;
-    using System.Collections.ObjectModel;
-    using System.IO;
 
     /// <summary>
     /// ViewModel for CodeMetricsView
@@ -66,7 +66,7 @@
         {
             var dialog = new OpenFileDialog();
             dialog.Title = "Open a code metrics file";
-            dialog.Filter = "Code Metrics Files|*.xlsx";
+            dialog.Filter = "Code Metrics Files|*.xlsx;*.xml";
 
             if (dialog.ShowDialog() == true)
             {
@@ -90,12 +90,23 @@
         {
             if (File.Exists(CodeMetricsTrunkFilePath) && File.Exists(CodeMetricsBrancheFilePath))
             {
-                var codeMetricsTrunkFile = new StreamReader(CodeMetricsTrunkFilePath);
-                var codeMetricsBrancheFile = new StreamReader(CodeMetricsBrancheFilePath);
+                const string xlsxFile = ".xlsx";
+                const string xmlFile = ".xml";
 
                 CodeMetricsTree.Clear();
-                var tree = CodeMetricsGenerator.Generate(codeMetricsTrunkFile, codeMetricsBrancheFile);
-                CodeMetricsTree = new ObservableCollection<CodeMetricsLineView>(tree);
+
+                if (CodeMetricsTrunkFilePath.EndsWith(xlsxFile) && CodeMetricsBrancheFilePath.EndsWith(xlsxFile))
+                {
+                    var codeMetricsTrunkFile = new StreamReader(CodeMetricsTrunkFilePath);
+                    var codeMetricsBrancheFile = new StreamReader(CodeMetricsBrancheFilePath);
+                    CodeMetricsTree = new ObservableCollection<CodeMetricsLineView>(CodeMetricsGeneratorFromExcel.Generate(codeMetricsTrunkFile, codeMetricsBrancheFile));
+                }
+                else if (CodeMetricsTrunkFilePath.EndsWith(xmlFile) && CodeMetricsBrancheFilePath.EndsWith(xmlFile))
+                {
+                    var codeMetricsTrunkFile = new StreamReader(CodeMetricsTrunkFilePath);
+                    var codeMetricsBrancheFile = new StreamReader(CodeMetricsBrancheFilePath);
+                    CodeMetricsTree = new ObservableCollection<CodeMetricsLineView>(CodeMetricsGeneratorFromXml.Generate(codeMetricsTrunkFile, codeMetricsBrancheFile));
+                }
             }
         }
     }

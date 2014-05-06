@@ -1,25 +1,25 @@
 ﻿namespace CodeAnalysis.BusinessLogic
 {
-    using CodeAnalysis.Models;
-    using OfficeOpenXml;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using CodeAnalysis.Models;
+    using OfficeOpenXml;
 
     /// <summary>
-    /// This class compares two code metrics files
+    /// This class compares two code metrics excel files
     /// </summary>
-    public static class CodeMetricsGenerator
+    public static class CodeMetricsGeneratorFromExcel
     {
         /// <summary>
         /// Generates a list of CodeMetricsLineView with two code metrics files
         /// </summary>
         public static IEnumerable<CodeMetricsLineView> Generate(StreamReader codeMetricsTrunkFile, StreamReader codeMetricsBrancheFile)
         {
-            List<CodeMetricsLineModel> codeMetricsTrunk = InitializeCodeMetrics(codeMetricsTrunkFile);
+            List<CodeMetricsLineModelFromExcel> codeMetricsTrunk = InitializeCodeMetrics(codeMetricsTrunkFile);
             codeMetricsTrunkFile.Close();
 
-            List<CodeMetricsLineModel> codeMetricsBranche = InitializeCodeMetrics(codeMetricsBrancheFile);
+            List<CodeMetricsLineModelFromExcel> codeMetricsBranche = InitializeCodeMetrics(codeMetricsBrancheFile);
             codeMetricsBrancheFile.Close();
 
             IEnumerable<CodeMetricsLineView> codeMetrics = InitializeCodeMetricsDifferences(codeMetricsTrunk, codeMetricsBranche);
@@ -30,9 +30,9 @@
         /// <summary>
         /// Creates a list of CodeMetricsLineModel with information from a metrics file
         /// </summary>
-        private static List<CodeMetricsLineModel> InitializeCodeMetrics(StreamReader file)
+        private static List<CodeMetricsLineModelFromExcel> InitializeCodeMetrics(StreamReader file)
         {
-            var codeMetrics = new List<CodeMetricsLineModel>();
+            var codeMetrics = new List<CodeMetricsLineModelFromExcel>();
 
             using (var excelPackage = new ExcelPackage(file.BaseStream))
             {
@@ -40,7 +40,7 @@
 
                 for (int row = 2; worksheet.Cells[row, 1].Value != null; row++)
                 {
-                    CodeMetricsLineModel line = CreateCodeMetricsLineModel(worksheet.Cells, row);
+                    CodeMetricsLineModelFromExcel line = CreateCodeMetricsLineModel(worksheet.Cells, row);
 
                     if (!line.Project.Contains("Test"))
                     {
@@ -58,9 +58,9 @@
         /// <summary>
         /// Creates a CodeMetricsLineModel from an excel row
         /// </summary>
-        private static CodeMetricsLineModel CreateCodeMetricsLineModel(ExcelRange cells, int row)
+        private static CodeMetricsLineModelFromExcel CreateCodeMetricsLineModel(ExcelRange cells, int row)
         {
-            return new CodeMetricsLineModel
+            return new CodeMetricsLineModelFromExcel
             {
                 Scope = ConvertString(cells[row, 1]),
                 Project = ConvertString(cells[row, 2]),
@@ -94,15 +94,15 @@
         /// <summary>
         /// Creates a list of CodeMetricsLineView containing differences between two lists of CodeMetricsLineModel
         /// </summary>
-        private static IEnumerable<CodeMetricsLineView> InitializeCodeMetricsDifferences(List<CodeMetricsLineModel> codeMetricsTrunk, List<CodeMetricsLineModel> codeMetricsBranche)
+        private static IEnumerable<CodeMetricsLineView> InitializeCodeMetricsDifferences(List<CodeMetricsLineModelFromExcel> codeMetricsTrunk, List<CodeMetricsLineModelFromExcel> codeMetricsBranche)
         {
             var codeMetrics = new List<CodeMetricsLineView>();
 
-            foreach (CodeMetricsLineModel line in codeMetricsBranche)
+            foreach (CodeMetricsLineModelFromExcel line in codeMetricsBranche)
             {
                 CodeMetricsLineView codeMetricsLineView = CreateCodeMetricsViewFromBranche(line);
 
-                CodeMetricsLineModel sameLine = GetSameLine(line, codeMetricsTrunk);
+                CodeMetricsLineModelFromExcel sameLine = GetSameLine(line, codeMetricsTrunk);
                 AddDifferences(codeMetricsLineView, line, sameLine);
 
                 codeMetrics.Add(codeMetricsLineView);
@@ -116,13 +116,13 @@
         /// <summary>
         /// Adds lines from trunk but not in branche
         /// </summary>
-        private static List<CodeMetricsLineView> AddCodeMetricsViewFromTrunk(List<CodeMetricsLineModel> codeMetricsTrunk, List<CodeMetricsLineModel> codeMetricsBranche)
+        private static List<CodeMetricsLineView> AddCodeMetricsViewFromTrunk(List<CodeMetricsLineModelFromExcel> codeMetricsTrunk, List<CodeMetricsLineModelFromExcel> codeMetricsBranche)
         {
             var codeCoverageToAdd = new List<CodeMetricsLineView>();
 
-            foreach (CodeMetricsLineModel line in codeMetricsTrunk)
+            foreach (CodeMetricsLineModelFromExcel line in codeMetricsTrunk)
             {
-                CodeMetricsLineModel sameLine = GetSameLine(line, codeMetricsBranche);
+                CodeMetricsLineModelFromExcel sameLine = GetSameLine(line, codeMetricsBranche);
 
                 if (sameLine == null)
                 {
@@ -136,7 +136,7 @@
         /// <summary>
         /// Creates code metrics view from branche
         /// </summary>
-        private static CodeMetricsLineView CreateCodeMetricsViewFromBranche(CodeMetricsLineModel line)
+        private static CodeMetricsLineView CreateCodeMetricsViewFromBranche(CodeMetricsLineModelFromExcel line)
         {
             return new CodeMetricsLineView
             {
@@ -157,7 +157,7 @@
         /// <summary>
         /// Creates code metrics view from trunk
         /// </summary>
-        private static CodeMetricsLineView CreateCodeMetricsViewFromTrunk(CodeMetricsLineModel line)
+        private static CodeMetricsLineView CreateCodeMetricsViewFromTrunk(CodeMetricsLineModelFromExcel line)
         {
             return new CodeMetricsLineView
             {
@@ -178,9 +178,9 @@
         /// <summary>
         /// Gets a line from a list with same informations
         /// </summary>
-        private static CodeMetricsLineModel GetSameLine(CodeMetricsLineModel codeMetricsToFind, List<CodeMetricsLineModel> codeMetricsToExplore)
+        private static CodeMetricsLineModelFromExcel GetSameLine(CodeMetricsLineModelFromExcel codeMetricsToFind, List<CodeMetricsLineModelFromExcel> codeMetricsToExplore)
         {
-            foreach (CodeMetricsLineModel line in codeMetricsToExplore)
+            foreach (CodeMetricsLineModelFromExcel line in codeMetricsToExplore)
             {
                 if (line.Scope == codeMetricsToFind.Scope
                     && line.Project == codeMetricsToFind.Project
@@ -198,7 +198,7 @@
         /// <summary>
         /// Adds differences between two lines
         /// </summary>
-        private static void AddDifferences(CodeMetricsLineView codeMetricsLineView, CodeMetricsLineModel currentLine, CodeMetricsLineModel sameLine)
+        private static void AddDifferences(CodeMetricsLineView codeMetricsLineView, CodeMetricsLineModelFromExcel currentLine, CodeMetricsLineModelFromExcel sameLine)
         {
             if (sameLine != null)
             {
