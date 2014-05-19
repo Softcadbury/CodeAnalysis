@@ -31,7 +31,6 @@
         public double? CyclomaticComplexityDifference { get; set; }
         public double? DepthOfInheritanceDifference { get; set; }
         public double? ClassCouplingDifference { get; set; }
-        public double? LinesOfCodeDifference { get; set; }
 
         public List<CodeMetricsLineView> Children { get; set; }
     }

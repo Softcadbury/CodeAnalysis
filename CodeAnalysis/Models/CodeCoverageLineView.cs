@@ -24,9 +24,7 @@
         public int? CoveredBlocksBranche { get; set; }
         public int? CoveredBlocksPercentageBranche { get; set; }
 
-        public int? CoveredLinesDifference { get; set; }
         public int? CoveredLinesPercentageDifference { get; set; }
-        public int? CoveredBlocksDifference  { get; set; }
         public int? CoveredBlocksPercentageDifference { get; set; }
 
         public List<CodeCoverageLineView> Children { get; set; }

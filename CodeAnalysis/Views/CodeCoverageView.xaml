@@ -92,9 +92,7 @@
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
                                     <core:TreeListViewSpace />
-                                    <TextBlock Width="120"
-                                           Background="{Binding CoveredLinesDifference, Converter={StaticResource BackgroundColorConverter}}"
-                                           Foreground="{Binding CoveredLinesDifference, Converter={StaticResource ForegroundColorConverter}}">
+                                    <TextBlock Width="120">
                                         <TextBlock.Text>
                                             <MultiBinding StringFormat="{} {0} / {1}">
                                                 <Binding Path="CoveredLinesTrunk" />
@@ -130,9 +128,7 @@
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
                                     <core:TreeListViewSpace />
-                                    <TextBlock Width="120"
-                                           Background="{Binding CoveredBlocksDifference, Converter={StaticResource BackgroundColorConverter}}"
-                                           Foreground="{Binding CoveredBlocksDifference, Converter={StaticResource ForegroundColorConverter}}">
+                                    <TextBlock Width="120">
                                         <TextBlock.Text>
                                             <MultiBinding StringFormat="{} {0} / {1}">
                                                 <Binding Path="CoveredBlocksTrunk" />

@@ -149,9 +149,7 @@
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
                                     <core:TreeListViewSpace />
-                                    <TextBlock HorizontalAlignment="Center" Width="120"
-                                           Background="{Binding LinesOfCodeDifference, Converter={StaticResource BackgroundColorConverter}}"
-                                           Foreground="{Binding LinesOfCodeDifference, Converter={StaticResource ForegroundColorConverter}}">
+                                    <TextBlock HorizontalAlignment="Center" Width="120">
                                         <TextBlock.Text>
                                             <MultiBinding StringFormat="{} {0} / {1}">
                                                 <Binding Path="LinesOfCodeTrunk" />

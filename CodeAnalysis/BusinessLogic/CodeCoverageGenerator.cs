@@ -292,9 +292,7 @@
                 codeCoverageLineView.CoveredBlocksTrunk = sameLine.CoveredBlocks;
 
                 codeCoverageLineView.CoveredLinesPercentageDifference = currentLine.CoveredLinesPercentage - sameLine.CoveredLinesPercentage;
-                codeCoverageLineView.CoveredLinesDifference = currentLine.CoveredLines - sameLine.CoveredLines;
                 codeCoverageLineView.CoveredBlocksPercentageDifference = currentLine.CoveredBlocksPercentage - sameLine.CoveredBlocksPercentage;
-                codeCoverageLineView.CoveredBlocksDifference = currentLine.CoveredBlocks - sameLine.CoveredBlocks;
             }
         }
     }
