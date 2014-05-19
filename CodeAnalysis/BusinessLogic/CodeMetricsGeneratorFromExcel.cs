@@ -208,10 +208,10 @@
                 codeMetricsLineView.ClassCouplingTrunk = sameLine.ClassCoupling;
                 codeMetricsLineView.LinesOfCodeTrunk = sameLine.LinesOfCode;
 
-                codeMetricsLineView.MaintainabilityIndexDifference = -(currentLine.MaintainabilityIndex - sameLine.MaintainabilityIndex);
-                codeMetricsLineView.CyclomaticComplexityDifference = currentLine.CyclomaticComplexity - sameLine.CyclomaticComplexity;
-                codeMetricsLineView.DepthOfInheritanceDifference = currentLine.DepthOfInheritance - sameLine.DepthOfInheritance;
-                codeMetricsLineView.ClassCouplingDifference = currentLine.ClassCoupling - sameLine.ClassCoupling;
+                codeMetricsLineView.MaintainabilityIndexDifference = currentLine.MaintainabilityIndex - sameLine.MaintainabilityIndex;
+                codeMetricsLineView.CyclomaticComplexityDifference = -(currentLine.CyclomaticComplexity - sameLine.CyclomaticComplexity);
+                codeMetricsLineView.DepthOfInheritanceDifference = -(currentLine.DepthOfInheritance - sameLine.DepthOfInheritance);
+                codeMetricsLineView.ClassCouplingDifference = -(currentLine.ClassCoupling - sameLine.ClassCoupling);
             }
         }
 
