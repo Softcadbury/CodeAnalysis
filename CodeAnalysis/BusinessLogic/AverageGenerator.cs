@@ -19,6 +19,7 @@
 
             InitializeCodeMetricsTrunkAverage(codeMetricsTree, codeMetricsLineView);
             InitializeCodeMetricsBrancheAverage(codeMetricsTree, codeMetricsLineView);
+            InitializeCodeMetricsDifferenceAverage(codeMetricsLineView);
 
             codeMetricsTree.Add(codeMetricsLineView);
         }
@@ -32,6 +33,7 @@
 
             InitializeCodeCoverageTrunkAverage(codeCoverageTree, codeCoverageLineView);
             InitializeCodeCoverageBrancheAverage(codeCoverageTree, codeCoverageLineView);
+            InitializeCodeCoverageDifferenceAverage(codeCoverageLineView);
 
             codeCoverageTree.Add(codeCoverageLineView);
         }
@@ -89,6 +91,17 @@
         }
 
         /// <summary>
+        /// Initializes CodeMetricsDifferenceAverage
+        /// </summary>
+        private static void InitializeCodeMetricsDifferenceAverage(CodeMetricsLineView codeMetricsLineView)
+        {
+            codeMetricsLineView.MaintainabilityIndexDifference = codeMetricsLineView.MaintainabilityIndexBranche - codeMetricsLineView.MaintainabilityIndexTrunk;
+            codeMetricsLineView.CyclomaticComplexityDifference = -(codeMetricsLineView.CyclomaticComplexityBranche - codeMetricsLineView.CyclomaticComplexityTrunk);
+            codeMetricsLineView.DepthOfInheritanceDifference = -(codeMetricsLineView.DepthOfInheritanceBranche - codeMetricsLineView.DepthOfInheritanceTrunk);
+            codeMetricsLineView.ClassCouplingDifference = -(codeMetricsLineView.ClassCouplingBranche - codeMetricsLineView.ClassCouplingTrunk);
+        }
+
+        /// <summary>
         /// Initializes CodeCoverageTrunkAverage
         /// </summary>
         private static void InitializeCodeCoverageTrunkAverage(ObservableCollection<CodeCoverageLineView> codeCoverageTree, CodeCoverageLineView codeCoverageLineView)
@@ -130,6 +143,15 @@
             double coveredBlocksPercentageSum = codeCoverageTree.Sum(line => line.CoveredBlocksPercentageBranche.HasValue ? line.CoveredBlocksPercentageBranche.Value : 0);
             int coveredBlocksPercentageCount = codeCoverageTree.Count(line => line.CoveredBlocksPercentageBranche.HasValue);
             codeCoverageLineView.CoveredBlocksPercentageBranche = (int)(coveredBlocksPercentageSum / coveredBlocksPercentageCount);
+        }
+
+        /// <summary>
+        /// Initializes CodeCoverageDifferenceAverage
+        /// </summary>
+        private static void InitializeCodeCoverageDifferenceAverage(CodeCoverageLineView codeCoverageLineView)
+        {
+            codeCoverageLineView.CoveredLinesPercentageDifference = codeCoverageLineView.CoveredLinesPercentageBranche - codeCoverageLineView.CoveredLinesPercentageTrunk;
+            codeCoverageLineView.CoveredBlocksPercentageDifference = codeCoverageLineView.CoveredBlocksPercentageBranche - codeCoverageLineView.CoveredBlocksPercentageTrunk;
         }
     }
 }
