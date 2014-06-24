@@ -96,6 +96,8 @@
                 CodeCoverageTree.Clear();
                 var tree = CodeCoverageGenerator.Generate(codeCoverageTrunkFile, codeCoverageBrancheFile);
                 CodeCoverageTree = new ObservableCollection<CodeCoverageLineView>(tree);
+
+                AverageGenerator.AddCodeCoverageAverage(CodeCoverageTree);
             }
         }
     }
