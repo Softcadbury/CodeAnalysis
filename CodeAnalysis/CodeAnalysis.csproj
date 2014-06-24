@@ -59,6 +59,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BusinessLogic\AverageGenerator.cs" />
     <Compile Include="BusinessLogic\CodeCoverageGenerator.cs" />
     <Compile Include="BusinessLogic\CodeMetricsGeneratorFromExcel.cs" />
     <Compile Include="BusinessLogic\CodeMetricsGeneratorFromXml.cs" />

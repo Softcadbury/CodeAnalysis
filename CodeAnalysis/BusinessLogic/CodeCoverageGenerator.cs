@@ -8,7 +8,7 @@
     /// <summary>
     /// This class compares two code coverage files
     /// </summary>
-    public class CodeCoverageGenerator
+    public static class CodeCoverageGenerator
     {
         /// <summary>
         /// Generates a list of CodeCoverageLineView with two code coverage files

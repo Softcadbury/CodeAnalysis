@@ -107,6 +107,11 @@
                     var codeMetricsBrancheFile = new StreamReader(CodeMetricsBrancheFilePath);
                     CodeMetricsTree = new ObservableCollection<CodeMetricsLineView>(CodeMetricsGeneratorFromXml.Generate(codeMetricsTrunkFile, codeMetricsBrancheFile));
                 }
+
+                if (CodeMetricsTree != null)
+                {
+                    AverageGenerator.AddCodeMetricsAverage(CodeMetricsTree);
+                }
             }
         }
     }
