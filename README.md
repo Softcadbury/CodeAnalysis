@@ -2,7 +2,7 @@
 
 ## Description
 
-Wpf application to compare code metrics and code coverage of two Visual Studio projects.
+This project is a Wpf application useful to compare code metrics and code coverage of two Visual Studio solutions.
 
 ## Screenshot
 
