@@ -26,15 +26,15 @@
 
         [UserScopedSetting()]
         [DebuggerNonUserCode()]
-        public string RepositoryURL
+        public string RepositoryUrl
         {
             get
             {
-                return ((string)(this["RepositoryURL"]));
+                return ((string)(this["RepositoryUrl"]));
             }
             set
             {
-                this["RepositoryURL"] = value;
+                this["RepositoryUrl"] = value;
             }
         }
 

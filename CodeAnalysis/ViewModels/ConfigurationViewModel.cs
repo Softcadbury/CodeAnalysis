@@ -1,7 +1,13 @@
 ﻿namespace CodeAnalysis.ViewModels
 {
+    using System;
+    using System.IO;
+
     using CodeAnalysis.Core;
     using CodeAnalysis.Properties;
+
+    using GitSharp;
+    using GitSharp.Commands;
 
     /// <summary>
     /// ViewModel for ConfigurationView
@@ -14,7 +20,7 @@
             ProceedCodeMetricsCommand = new RelayCommand(param => ProceedCodeMetrics());
             ProceedCodeCoverageCommand = new RelayCommand(param => ProceedCodeCoverage());
 
-            Repository = Settings.Default.RepositoryURL;
+            RepositoryUrl = Settings.Default.RepositoryUrl;
             TrunkName = Settings.Default.TrunkName;
             BrancheName = Settings.Default.BrancheName;
         }
@@ -25,10 +31,10 @@
 
         private string repository;
 
-        public string Repository
+        public string RepositoryUrl
         {
             get { return repository; }
-            set { Settings.Default.RepositoryURL = repository = value; OnPropertyChanged("Repository"); }
+            set { Settings.Default.RepositoryUrl = repository = value; OnPropertyChanged("RepositoryUrl"); }
         }
 
         private string trunkName;
@@ -52,8 +58,20 @@
         /// </summary>
         private void UpdateRepositories()
         {
-            if (!string.IsNullOrWhiteSpace(Repository) && !string.IsNullOrWhiteSpace(TrunkName) && !string.IsNullOrWhiteSpace(BrancheName))
+            if (!string.IsNullOrWhiteSpace(RepositoryUrl) && !string.IsNullOrWhiteSpace(TrunkName) && !string.IsNullOrWhiteSpace(BrancheName))
             {
+                string rootPath = AppDomain.CurrentDomain.BaseDirectory + "data";
+                string trunkPath = rootPath + "\\" + TrunkName;
+                string branchePath = rootPath + "\\" + BrancheName;
+                string analysisPath = rootPath + "\\analysis";
+
+                Directory.CreateDirectory(rootPath);
+                Directory.CreateDirectory(trunkPath);
+                Directory.CreateDirectory(branchePath);
+                Directory.CreateDirectory(analysisPath);
+
+                Git.Clone(new CloneCommand { Source = RepositoryUrl, GitDirectory = trunkPath, OriginName = TrunkName });
+                Git.Clone(new CloneCommand { Source = RepositoryUrl, GitDirectory = branchePath, OriginName = BrancheName });
             }
         }
 
@@ -62,7 +80,7 @@
         /// </summary>
         private void ProceedCodeMetrics()
         {
-            if (!string.IsNullOrWhiteSpace(Repository) && !string.IsNullOrWhiteSpace(TrunkName) && !string.IsNullOrWhiteSpace(BrancheName))
+            if (!string.IsNullOrWhiteSpace(RepositoryUrl) && !string.IsNullOrWhiteSpace(TrunkName) && !string.IsNullOrWhiteSpace(BrancheName))
             {
             }
         }
@@ -72,7 +90,7 @@
         /// </summary>
         private void ProceedCodeCoverage()
         {
-            if (!string.IsNullOrWhiteSpace(Repository) && !string.IsNullOrWhiteSpace(TrunkName) && !string.IsNullOrWhiteSpace(BrancheName))
+            if (!string.IsNullOrWhiteSpace(RepositoryUrl) && !string.IsNullOrWhiteSpace(TrunkName) && !string.IsNullOrWhiteSpace(BrancheName))
             {
             }
         }

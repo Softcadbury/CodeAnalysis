@@ -18,13 +18,13 @@
         </Grid.ColumnDefinitions>
 
         <Label Grid.Row="0" Grid.Column="0" Content="Repository URL" VerticalAlignment="Center" Margin="10,0,0,0"></Label>
-        <TextBox Grid.Row="0" Grid.Column="1" Height="25" Text="{Binding Repository}"></TextBox>
+        <TextBox Grid.Row="0" Grid.Column="1" Height="25" Text="{Binding RepositoryUrl}"></TextBox>
 
         <Label Grid.Row="1" Grid.Column="0" Content="Trunk Name" VerticalAlignment="Center" Margin="10,0,0,0"></Label>
-        <TextBox Grid.Row="1" Grid.Column="1" Height="25" Text="{Binding BrancheRepository}"></TextBox>
+        <TextBox Grid.Row="1" Grid.Column="1" Height="25" Text="{Binding TrunkName}"></TextBox>
 
         <Label Grid.Row="2" Grid.Column="0" Content="Branche Name" VerticalAlignment="Center" Margin="10,0,0,0"></Label>
-        <TextBox Grid.Row="2" Grid.Column="1" Height="25" Text="{Binding BrancheRepository}"></TextBox>
+        <TextBox Grid.Row="2" Grid.Column="1" Height="25" Text="{Binding BrancheName}"></TextBox>
 
         <Button Grid.Row="0" Grid.RowSpan="3" Grid.Column="2" Width="140" Height="35" Content="Update repositories" Command="{Binding UpdateRepositoriesCommand}"></Button>
         <Button Grid.Row="0" Grid.RowSpan="3" Grid.Column="3" Width="140" Height="35" Content="Proceed Code Metrics" Command="{Binding ProceedCodeMetricsCommand}"></Button>
