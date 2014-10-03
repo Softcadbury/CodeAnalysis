@@ -6,8 +6,7 @@
     using CodeAnalysis.Core;
     using CodeAnalysis.Properties;
 
-    using GitSharp;
-    using GitSharp.Commands;
+    using NGit.Api;
 
     /// <summary>
     /// ViewModel for ConfigurationView
@@ -70,8 +69,7 @@
                 Directory.CreateDirectory(branchePath);
                 Directory.CreateDirectory(analysisPath);
 
-                Git.Clone(new CloneCommand { Source = RepositoryUrl, GitDirectory = trunkPath, OriginName = TrunkName });
-                Git.Clone(new CloneCommand { Source = RepositoryUrl, GitDirectory = branchePath, OriginName = BrancheName });
+                var clone = Git.CloneRepository().SetDirectory(trunkPath).SetURI(RepositoryUrl).Call();//.SetBranch(trunkPath);
             }
         }
 
