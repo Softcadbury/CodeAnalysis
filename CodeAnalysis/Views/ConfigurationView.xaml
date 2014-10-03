@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="CodeAnalysis.Views.ConfigurationView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="120" />
+            <ColumnDefinition Width="600" />
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.Row="0" Grid.Column="0" Content="Repository URL" VerticalAlignment="Center" Margin="10,0,0,0"></Label>
+        <TextBox Grid.Row="0" Grid.Column="1" Height="25" Text="{Binding Repository}"></TextBox>
+
+        <Label Grid.Row="1" Grid.Column="0" Content="Trunk Name" VerticalAlignment="Center" Margin="10,0,0,0"></Label>
+        <TextBox Grid.Row="1" Grid.Column="1" Height="25" Text="{Binding BrancheRepository}"></TextBox>
+
+        <Label Grid.Row="2" Grid.Column="0" Content="Branche Name" VerticalAlignment="Center" Margin="10,0,0,0"></Label>
+        <TextBox Grid.Row="2" Grid.Column="1" Height="25" Text="{Binding BrancheRepository}"></TextBox>
+
+        <Button Grid.Row="0" Grid.RowSpan="3" Grid.Column="2" Width="140" Height="35" Content="Update repositories" Command="{Binding UpdateRepositoriesCommand}"></Button>
+        <Button Grid.Row="0" Grid.RowSpan="3" Grid.Column="3" Width="140" Height="35" Content="Proceed Code Metrics" Command="{Binding ProceedCodeMetricsCommand}"></Button>
+        <Button Grid.Row="0" Grid.RowSpan="3" Grid.Column="4" Width="140" Height="35" Content="Proceed Code Coverage" Command="{Binding ProceedCodeCoverageCommand}"></Button>
+    </Grid>
+</UserControl>

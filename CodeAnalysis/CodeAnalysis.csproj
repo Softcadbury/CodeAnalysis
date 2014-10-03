@@ -64,7 +64,7 @@
     <Compile Include="BusinessLogic\CodeMetricsGeneratorFromExcel.cs" />
     <Compile Include="BusinessLogic\CodeMetricsGeneratorFromXml.cs" />
     <Compile Include="BusinessLogic\ForegroundColorConverter.cs" />
-    <Compile Include="Core\CommandLineArguments.cs" />
+    <Compile Include="BusinessLogic\UserSettings.cs" />
     <Compile Include="Core\TreeListView.cs" />
     <Compile Include="Models\CodeCoverageLineModel.cs" />
     <Compile Include="Models\CodeCoverageLineView.cs" />
@@ -76,11 +76,15 @@
     <Compile Include="ViewModels\CodeMetricsViewModel.cs" />
     <Compile Include="ViewModels\CodeCoverageViewModel.cs" />
     <Compile Include="BusinessLogic\BackgroundColorConverter.cs" />
+    <Compile Include="ViewModels\ConfigurationViewModel.cs" />
     <Compile Include="Views\CodeCoverageView.xaml.cs">
       <DependentUpon>CodeCoverageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CodeMetricsView.xaml.cs">
       <DependentUpon>CodeMetricsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ConfigurationView.xaml.cs">
+      <DependentUpon>ConfigurationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
@@ -98,6 +102,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CodeMetricsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ConfigurationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

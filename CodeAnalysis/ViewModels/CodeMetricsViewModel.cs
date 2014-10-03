@@ -19,10 +19,6 @@
             ProceedCodeMetricsCommand = new RelayCommand(param => ProceedCodeMetrics());
 
             CodeMetricsTree = new ObservableCollection<CodeMetricsLineView>();
-
-            CodeMetricsTrunkFilePath = CommandLineArguments.GetArgument("CodeMetricsTrunkFilePath");
-            CodeMetricsBrancheFilePath = CommandLineArguments.GetArgument("CodeMetricsBrancheFilePath");
-            ProceedCodeMetrics();
         }
 
         public RelayCommand BrowseCodeMetricsTrunkFileCommand { get; set; }
@@ -64,9 +60,11 @@
         /// </summary>
         private void BrowseFiles(FileType type)
         {
-            var dialog = new OpenFileDialog();
-            dialog.Title = "Open a code metrics file";
-            dialog.Filter = "Code Metrics Files|*.xlsx;*.xml";
+            var dialog = new OpenFileDialog
+            {
+                Title = "Open a code metrics file",
+                Filter = "Code Metrics Files|*.xlsx;*.xml"
+            };
 
             if (dialog.ShowDialog() == true)
             {
@@ -90,18 +88,18 @@
         {
             if (File.Exists(CodeMetricsTrunkFilePath) && File.Exists(CodeMetricsBrancheFilePath))
             {
-                const string xlsxFile = ".xlsx";
-                const string xmlFile = ".xml";
+                const string XlsxFile = ".xlsx";
+                const string XmlFile = ".xml";
 
                 CodeMetricsTree.Clear();
 
-                if (CodeMetricsTrunkFilePath.EndsWith(xlsxFile) && CodeMetricsBrancheFilePath.EndsWith(xlsxFile))
+                if (CodeMetricsTrunkFilePath.EndsWith(XlsxFile) && CodeMetricsBrancheFilePath.EndsWith(XlsxFile))
                 {
                     var codeMetricsTrunkFile = new StreamReader(CodeMetricsTrunkFilePath);
                     var codeMetricsBrancheFile = new StreamReader(CodeMetricsBrancheFilePath);
                     CodeMetricsTree = new ObservableCollection<CodeMetricsLineView>(CodeMetricsGeneratorFromExcel.Generate(codeMetricsTrunkFile, codeMetricsBrancheFile));
                 }
-                else if (CodeMetricsTrunkFilePath.EndsWith(xmlFile) && CodeMetricsBrancheFilePath.EndsWith(xmlFile))
+                else if (CodeMetricsTrunkFilePath.EndsWith(XmlFile) && CodeMetricsBrancheFilePath.EndsWith(XmlFile))
                 {
                     var codeMetricsTrunkFile = new StreamReader(CodeMetricsTrunkFilePath);
                     var codeMetricsBrancheFile = new StreamReader(CodeMetricsBrancheFilePath);

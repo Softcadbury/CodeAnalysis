@@ -55,9 +55,7 @@
 
         // Using a DependencyProperty as the backing store for Columns.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ColumnsProperty =
-            DependencyProperty.Register("Columns", typeof(GridViewColumnCollection),
-            typeof(TreeListView),
-            new UIPropertyMetadata(null));
+            DependencyProperty.Register("Columns", typeof(GridViewColumnCollection), typeof(TreeListView), new UIPropertyMetadata(null));
     }
 
     /// <summary>
@@ -102,9 +100,7 @@
             }
 
             //Type conversion is not supported
-            throw new NotSupportedException(
-                string.Format("Cannot convert from <{0}> to <{1}> using <TreeListViewConverter>.",
-                value.GetType(), targetType));
+            throw new NotSupportedException(string.Format("Cannot convert from <{0}> to <{1}> using <TreeListViewConverter>.", value.GetType(), targetType));
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

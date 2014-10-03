@@ -5,6 +5,9 @@
         Title="Code Analysis" WindowState="Maximized">
     <Grid>
         <TabControl>
+            <TabItem Header="Configuration" Height="28" Width="150">
+                <local:ConfigurationView></local:ConfigurationView>
+            </TabItem>
             <TabItem Header="Code Metrics" Height="28" Width="150">
                 <local:CodeMetricsView></local:CodeMetricsView>
             </TabItem>

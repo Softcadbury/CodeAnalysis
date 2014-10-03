@@ -19,10 +19,6 @@
             ProceedCodeCoverageCommand = new RelayCommand(param => ProceedCodeCoverage());
 
             CodeCoverageTree = new ObservableCollection<CodeCoverageLineView>();
-
-            CodeCoverageTrunkFilePath = CommandLineArguments.GetArgument("CodeCoverageTrunkFilePath");
-            CodeCoverageBrancheFilePath = CommandLineArguments.GetArgument("CodeCoverageBrancheFilePath");
-            ProceedCodeCoverage();
         }
 
         public RelayCommand BrowseCodeCoverageTrunkFileCommand { get; set; }
@@ -64,9 +60,11 @@
         /// </summary>
         private void BrowseFiles(FileType type)
         {
-            var dialog = new OpenFileDialog();
-            dialog.Title = "Open a code coverage file";
-            dialog.Filter = "Code Coverage Files|*.coveragexml";
+            var dialog = new OpenFileDialog
+            {
+                Title = "Open a code coverage file",
+                Filter = "Code Coverage Files|*.coveragexml"
+            };
 
             if (dialog.ShowDialog() == true)
             {
