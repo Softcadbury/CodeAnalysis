@@ -2,6 +2,8 @@
 {
     using System.Collections.ObjectModel;
     using System.IO;
+    using System.Linq;
+
     using CodeAnalysis.BusinessLogic;
     using CodeAnalysis.Core;
     using CodeAnalysis.Models;
@@ -46,7 +48,20 @@
         public ObservableCollection<CodeMetricsLineView> CodeMetricsTree
         {
             get { return codeMetricsTree; }
-            set { codeMetricsTree = value; OnPropertyChanged("CodeMetricsTree"); }
+            set
+            {
+                codeMetricsTree = value;
+                IsTreeVisible = codeMetricsTree != null && codeMetricsTree.Any();
+                OnPropertyChanged("CodeMetricsTree");
+            }
+        }
+
+        private bool isTreeVisible;
+
+        public bool IsTreeVisible
+        {
+            get { return isTreeVisible; }
+            set { isTreeVisible = value; OnPropertyChanged("IsTreeVisible"); }
         }
 
         private enum FileType

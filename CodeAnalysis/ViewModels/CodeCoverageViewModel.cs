@@ -1,5 +1,7 @@
 ﻿namespace CodeAnalysis.ViewModels
 {
+    using System.Linq;
+
     using CodeAnalysis.BusinessLogic;
     using CodeAnalysis.Core;
     using CodeAnalysis.Models;
@@ -46,7 +48,20 @@
         public ObservableCollection<CodeCoverageLineView> CodeCoverageTree
         {
             get { return codeCoverageTree; }
-            set { codeCoverageTree = value; OnPropertyChanged("CodeCoverageTree"); }
+            set
+            {
+                codeCoverageTree = value;
+                IsTreeVisible = codeCoverageTree != null && codeCoverageTree.Any();
+                OnPropertyChanged("CodeCoverageTree");
+            }
+        }
+
+        private bool isTreeVisible;
+
+        public bool IsTreeVisible
+        {
+            get { return isTreeVisible; }
+            set { isTreeVisible = value; OnPropertyChanged("IsTreeVisible"); }
         }
 
         private enum FileType

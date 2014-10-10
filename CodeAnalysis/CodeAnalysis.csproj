@@ -87,6 +87,7 @@
     <Compile Include="BusinessLogic\CodeMetricsGeneratorFromXml.cs" />
     <Compile Include="Converters\ForegroundColorConverter.cs" />
     <Compile Include="BusinessLogic\UserSettings.cs" />
+    <Compile Include="Converters\VisibiltyConverter.cs" />
     <Compile Include="Core\TreeListView.cs" />
     <Compile Include="Models\CodeCoverageLineModel.cs" />
     <Compile Include="Models\CodeCoverageLineView.cs" />
