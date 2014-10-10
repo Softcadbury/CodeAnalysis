@@ -18,6 +18,7 @@
     {
         public CodeMetricsViewModel()
         {
+            IsNotLoading = true;
             BrowseCodeMetricsTrunkFileCommand = new RelayCommand(param => BrowseFiles(FileType.TrunkMetrics));
             BrowseCodeMetricsBrancheFileCommand = new RelayCommand(param => BrowseFiles(FileType.BrancheMetrics));
             ProceedCodeMetricsCommand = new RelayCommand(param => ProceedCodeMetrics());
@@ -29,10 +30,9 @@
         public RelayCommand BrowseCodeMetricsTrunkFileCommand { get; set; }
         public RelayCommand BrowseCodeMetricsBrancheFileCommand { get; set; }
         public RelayCommand ProceedCodeMetricsCommand { get; set; }
-        private object _lock = new object();
+        private readonly object _lock = new object();
 
         private string codeMetricsTrunkFilePath;
-
         public string CodeMetricsTrunkFilePath
         {
             get { return codeMetricsTrunkFilePath; }
@@ -40,7 +40,6 @@
         }
 
         private string codeMetricsBrancheFilePath;
-
         public string CodeMetricsBrancheFilePath
         {
             get { return codeMetricsBrancheFilePath; }
@@ -48,7 +47,6 @@
         }
 
         private ObservableCollection<CodeMetricsLineView> codeMetricsTree;
-
         public ObservableCollection<CodeMetricsLineView> CodeMetricsTree
         {
             get { return codeMetricsTree; }
@@ -61,11 +59,17 @@
         }
 
         private bool isTreeVisible;
-
         public bool IsTreeVisible
         {
             get { return isTreeVisible; }
             set { isTreeVisible = value; OnPropertyChanged("IsTreeVisible"); }
+        }
+
+        private bool isNotLoading;
+        public bool IsNotLoading
+        {
+            get { return !isNotLoading; }
+            set { isNotLoading = !value; OnPropertyChanged("IsNotLoading"); }
         }
 
         private enum FileType
@@ -111,6 +115,7 @@
                 const string XmlFile = ".xml";
 
                 CodeMetricsTree.Clear();
+                IsNotLoading = false;
 
                 Task.Factory.StartNew(() =>
                 {
@@ -132,6 +137,8 @@
                         AverageGenerator.AddCodeMetricsAverage(tree);
                         CodeMetricsTree = new ObservableCollection<CodeMetricsLineView>(tree);
                     }
+
+                    IsNotLoading = true;
                 });
             }
         }

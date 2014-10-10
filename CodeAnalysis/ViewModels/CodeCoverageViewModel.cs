@@ -18,6 +18,7 @@
     {
         public CodeCoverageViewModel()
         {
+            IsNotLoading = true;
             BrowseCodeCoverageTrunkFileCommand = new RelayCommand(param => BrowseFiles(FileType.TrunkCoverage));
             BrowseCodeCoverageBrancheFileCommand = new RelayCommand(param => BrowseFiles(FileType.BrancheCoverage));
             ProceedCodeCoverageCommand = new RelayCommand(param => ProceedCodeCoverage());
@@ -29,10 +30,9 @@
         public RelayCommand BrowseCodeCoverageTrunkFileCommand { get; set; }
         public RelayCommand BrowseCodeCoverageBrancheFileCommand { get; set; }
         public RelayCommand ProceedCodeCoverageCommand { get; set; }
-        private object _lock = new object();
+        private readonly object _lock = new object();
 
         private string codeCoverageTrunkFilePath;
-
         public string CodeCoverageTrunkFilePath
         {
             get { return codeCoverageTrunkFilePath; }
@@ -40,7 +40,6 @@
         }
 
         private string codeCoverageBrancheFilePath;
-
         public string CodeCoverageBrancheFilePath
         {
             get { return codeCoverageBrancheFilePath; }
@@ -48,7 +47,6 @@
         }
 
         private ObservableCollection<CodeCoverageLineView> codeCoverageTree;
-
         public ObservableCollection<CodeCoverageLineView> CodeCoverageTree
         {
             get { return codeCoverageTree; }
@@ -61,11 +59,17 @@
         }
 
         private bool isTreeVisible;
-
         public bool IsTreeVisible
         {
             get { return isTreeVisible; }
             set { isTreeVisible = value; OnPropertyChanged("IsTreeVisible"); }
+        }
+
+        private bool isNotLoading;
+        public bool IsNotLoading
+        {
+            get { return !isNotLoading; }
+            set { isNotLoading = !value; OnPropertyChanged("IsNotLoading"); }
         }
 
         private enum FileType
@@ -108,6 +112,7 @@
             if (File.Exists(CodeCoverageTrunkFilePath) && File.Exists(CodeCoverageBrancheFilePath))
             {
                 CodeCoverageTree.Clear();
+                IsNotLoading = false;
 
                 Task.Factory.StartNew(() =>
                 {
@@ -117,6 +122,7 @@
                     var tree = CodeCoverageGenerator.Generate(codeCoverageTrunkFile, codeCoverageBrancheFile);
                     AverageGenerator.AddCodeCoverageAverage(tree);
                     CodeCoverageTree = new ObservableCollection<CodeCoverageLineView>(tree);
+                    IsNotLoading = true;
                 });
             }
         }

@@ -23,14 +23,19 @@
         </Grid.ColumnDefinitions>
 
         <Label Grid.Row="0" Grid.Column="0" Content="Trunk" VerticalAlignment="Center" Margin="10,0,0,0"></Label>
-        <TextBox Grid.Row="0" Grid.Column="1" Height="25" Text="{Binding CodeCoverageTrunkFilePath}"></TextBox>
-        <Button Grid.Row="0" Grid.Column="2" Width="80" Height="35" Content="Browse" Command="{Binding BrowseCodeCoverageTrunkFileCommand}"></Button>
+        <TextBox Grid.Row="0" Grid.Column="1" Height="25" Text="{Binding CodeCoverageTrunkFilePath}"
+                 IsEnabled="{Binding IsNotLoading}"></TextBox>
+        <Button Grid.Row="0" Grid.Column="2" Width="80" Height="35" Content="Browse" Command="{Binding BrowseCodeCoverageTrunkFileCommand}"
+                Visibility="{Binding IsNotLoading, Converter={StaticResource VisibiltyConverter}}"></Button>
 
         <Label Grid.Row="1" Grid.Column="0" Content="Branche" VerticalAlignment="Center" Margin="10,0,0,0"></Label>
-        <TextBox Grid.Row="1" Grid.Column="1" Height="25" Text="{Binding CodeCoverageBrancheFilePath}"></TextBox>
-        <Button Grid.Row="1" Grid.Column="2" Width="80" Height="35" Content="Browse" Command="{Binding BrowseCodeCoverageBrancheFileCommand}"></Button>
+        <TextBox Grid.Row="1" Grid.Column="1" Height="25" Text="{Binding CodeCoverageBrancheFilePath}"
+                 IsEnabled="{Binding IsNotLoading}"></TextBox>
+        <Button Grid.Row="1" Grid.Column="2" Width="80" Height="35" Content="Browse" Command="{Binding BrowseCodeCoverageBrancheFileCommand}"
+                Visibility="{Binding IsNotLoading, Converter={StaticResource VisibiltyConverter}}"></Button>
 
-        <Button Grid.Row="0" Grid.RowSpan="2" Grid.Column="3" Width="80" Height="35" Content="Proceed" Command="{Binding ProceedCodeCoverageCommand}"></Button>
+        <Button Grid.Row="0" Grid.RowSpan="2" Grid.Column="3" Width="80" Height="35" Content="Proceed" Command="{Binding ProceedCodeCoverageCommand}"
+                Visibility="{Binding IsNotLoading, Converter={StaticResource VisibiltyConverter}}"></Button>
 
         <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" Margin="10,20,10,10" Visibility="{Binding IsTreeVisible, Converter={StaticResource VisibiltyConverter}}">
             <core:TreeListView AllowsColumnReorder="True" ItemsSource="{Binding CodeCoverageTree}">

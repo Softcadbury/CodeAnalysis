@@ -23,14 +23,19 @@
         </Grid.ColumnDefinitions>
 
         <Label Grid.Row="0" Grid.Column="0" Content="Trunk" VerticalAlignment="Center" Margin="10,0,0,0"></Label>
-        <TextBox Grid.Row="0" Grid.Column="1" Height="25" Text="{Binding CodeMetricsTrunkFilePath}"></TextBox>
-        <Button Grid.Row="0" Grid.Column="2" Width="80" Height="35" Content="Browse" Command="{Binding BrowseCodeMetricsTrunkFileCommand}"></Button>
+        <TextBox Grid.Row="0" Grid.Column="1" Height="25" Text="{Binding CodeMetricsTrunkFilePath}"
+                 IsEnabled="{Binding IsNotLoading}"></TextBox>
+        <Button Grid.Row="0" Grid.Column="2" Width="80" Height="35" Content="Browse" Command="{Binding BrowseCodeMetricsTrunkFileCommand}"
+                Visibility="{Binding IsNotLoading, Converter={StaticResource VisibiltyConverter}}"></Button>
 
         <Label Grid.Row="1" Grid.Column="0" Content="Branche" VerticalAlignment="Center" Margin="10,0,0,0"></Label>
-        <TextBox Grid.Row="1" Grid.Column="1" Height="25" Text="{Binding CodeMetricsBrancheFilePath}"></TextBox>
-        <Button Grid.Row="1" Grid.Column="2" Width="80" Height="35" Content="Browse" Command="{Binding BrowseCodeMetricsBrancheFileCommand}"></Button>
+        <TextBox Grid.Row="1" Grid.Column="1" Height="25" Text="{Binding CodeMetricsBrancheFilePath}"
+                 IsEnabled="{Binding IsNotLoading}"></TextBox>
+        <Button Grid.Row="1" Grid.Column="2" Width="80" Height="35" Content="Browse" Command="{Binding BrowseCodeMetricsBrancheFileCommand}"
+                Visibility="{Binding IsNotLoading, Converter={StaticResource VisibiltyConverter}}"></Button>
 
-        <Button Grid.Row="0" Grid.RowSpan="2" Grid.Column="3" Width="80" Height="35" Content="Proceed" Command="{Binding ProceedCodeMetricsCommand}"></Button>
+        <Button Grid.Row="0" Grid.RowSpan="2" Grid.Column="3" Width="80" Height="35" Content="Proceed" Command="{Binding ProceedCodeMetricsCommand}"
+                Visibility="{Binding IsNotLoading, Converter={StaticResource VisibiltyConverter}}"></Button>
 
         <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" Margin="10,20,10,10" Visibility="{Binding IsTreeVisible, Converter={StaticResource VisibiltyConverter}}">
             <core:TreeListView AllowsColumnReorder="True" ItemsSource="{Binding CodeMetricsTree}">

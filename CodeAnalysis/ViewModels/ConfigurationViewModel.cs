@@ -29,7 +29,6 @@
         public RelayCommand ProceedCodeCoverageCommand { get; set; }
 
         private string repository;
-
         public string RepositoryUrl
         {
             get { return repository; }
@@ -37,7 +36,6 @@
         }
 
         private string trunkName;
-
         public string TrunkName
         {
             get { return trunkName; }
@@ -45,7 +43,6 @@
         }
 
         private string brancheName;
-
         public string BrancheName
         {
             get { return brancheName; }
