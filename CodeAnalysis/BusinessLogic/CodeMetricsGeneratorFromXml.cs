@@ -16,7 +16,7 @@
         /// <summary>
         /// Generates a list of CodeMetricsLineView with two code metrics files
         /// </summary>
-        public static IEnumerable<CodeMetricsLineView> Generate(StreamReader codeMetricsTrunkFile, StreamReader codeMetricsBrancheFile)
+        public static List<CodeMetricsLineView> Generate(StreamReader codeMetricsTrunkFile, StreamReader codeMetricsBrancheFile)
         {
             List<CodeMetricsLineModelFromXml> codeMetricsTrunk = InitializeCodeMetrics(codeMetricsTrunkFile);
             codeMetricsTrunkFile.Close();
@@ -213,7 +213,7 @@
         /// <summary>
         /// Adds lines from trunk but not in branche
         /// </summary>
-        private static List<CodeMetricsLineView> AddCodeMetricsViewFromTrunk(List<CodeMetricsLineModelFromXml> codeMetricsTrunk, List<CodeMetricsLineModelFromXml> codeMetricsBranche)
+        private static IEnumerable<CodeMetricsLineView> AddCodeMetricsViewFromTrunk(IEnumerable<CodeMetricsLineModelFromXml> codeMetricsTrunk, List<CodeMetricsLineModelFromXml> codeMetricsBranche)
         {
             var codeMetricsToAdd = new List<CodeMetricsLineView>();
 
@@ -276,7 +276,7 @@
         /// <summary>
         /// Gets a line from a list with same informations
         /// </summary>
-        private static CodeMetricsLineModelFromXml GetSameLine(CodeMetricsLineModelFromXml codeMetricsToFind, List<CodeMetricsLineModelFromXml> codeMetricsToExplore)
+        private static CodeMetricsLineModelFromXml GetSameLine(CodeMetricsLineModelFromXml codeMetricsToFind, IEnumerable<CodeMetricsLineModelFromXml> codeMetricsToExplore)
         {
             if (codeMetricsToExplore != null)
             {

@@ -1,6 +1,6 @@
 ﻿namespace CodeAnalysis.BusinessLogic
 {
-    using System.Collections.ObjectModel;
+    using System.Collections.Generic;
     using System.Linq;
 
     using CodeAnalysis.Models;
@@ -13,7 +13,7 @@
         /// <summary>
         /// Adds average for code metrics
         /// </summary>
-        public static void AddCodeMetricsAverage(ObservableCollection<CodeMetricsLineView> codeMetricsTree)
+        public static void AddCodeMetricsAverage(List<CodeMetricsLineView> codeMetricsTree)
         {
             var codeMetricsLineView = new CodeMetricsLineView { Project = "------ Average ------" };
 
@@ -27,7 +27,7 @@
         /// <summary>
         /// Adds average for code coverage
         /// </summary>
-        public static void AddCodeCoverageAverage(ObservableCollection<CodeCoverageLineView> codeCoverageTree)
+        public static void AddCodeCoverageAverage(List<CodeCoverageLineView> codeCoverageTree)
         {
             var codeCoverageLineView = new CodeCoverageLineView { Project = "------ Average ------" };
 
@@ -41,7 +41,7 @@
         /// <summary>
         /// Initializes CodeMetricsTrunkAverage
         /// </summary>
-        private static void InitializeCodeMetricsTrunkAverage(ObservableCollection<CodeMetricsLineView> codeMetricsTree, CodeMetricsLineView codeMetricsLineView)
+        private static void InitializeCodeMetricsTrunkAverage(List<CodeMetricsLineView> codeMetricsTree, CodeMetricsLineView codeMetricsLineView)
         {
             double maintainabilityIndexSum = codeMetricsTree.Sum(line => line.MaintainabilityIndexTrunk.HasValue ? line.MaintainabilityIndexTrunk.Value : 0);
             double maintainabilityIndexCount = codeMetricsTree.Count(line => line.MaintainabilityIndexTrunk.HasValue);
@@ -67,7 +67,7 @@
         /// <summary>
         /// Initializes CodeMetricsBrancheAverage
         /// </summary>
-        private static void InitializeCodeMetricsBrancheAverage(ObservableCollection<CodeMetricsLineView> codeMetricsTree, CodeMetricsLineView codeMetricsLineView)
+        private static void InitializeCodeMetricsBrancheAverage(List<CodeMetricsLineView> codeMetricsTree, CodeMetricsLineView codeMetricsLineView)
         {
             double maintainabilityIndexSum = codeMetricsTree.Sum(line => line.MaintainabilityIndexBranche.HasValue ? line.MaintainabilityIndexBranche.Value : 0);
             double maintainabilityIndexCount = codeMetricsTree.Count(line => line.MaintainabilityIndexBranche.HasValue);
@@ -104,7 +104,7 @@
         /// <summary>
         /// Initializes CodeCoverageTrunkAverage
         /// </summary>
-        private static void InitializeCodeCoverageTrunkAverage(ObservableCollection<CodeCoverageLineView> codeCoverageTree, CodeCoverageLineView codeCoverageLineView)
+        private static void InitializeCodeCoverageTrunkAverage(List<CodeCoverageLineView> codeCoverageTree, CodeCoverageLineView codeCoverageLineView)
         {
             double coveredLinesSum = codeCoverageTree.Sum(line => line.CoveredLinesTrunk.HasValue ? line.CoveredLinesTrunk.Value : 0);
             int coveredLinesCount = codeCoverageTree.Count(line => line.CoveredLinesTrunk.HasValue);
@@ -126,7 +126,7 @@
         /// <summary>
         /// Initializes CodeCoverageBrancheAverage
         /// </summary>
-        private static void InitializeCodeCoverageBrancheAverage(ObservableCollection<CodeCoverageLineView> codeCoverageTree, CodeCoverageLineView codeCoverageLineView)
+        private static void InitializeCodeCoverageBrancheAverage(List<CodeCoverageLineView> codeCoverageTree, CodeCoverageLineView codeCoverageLineView)
         {
             double coveredLinesSum = codeCoverageTree.Sum(line => line.CoveredLinesBranche.HasValue ? line.CoveredLinesBranche.Value : 0);
             int coveredLinesCount = codeCoverageTree.Count(line => line.CoveredLinesBranche.HasValue);

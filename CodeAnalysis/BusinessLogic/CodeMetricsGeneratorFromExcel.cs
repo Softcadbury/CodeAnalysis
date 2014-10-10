@@ -14,7 +14,7 @@
         /// <summary>
         /// Generates a list of CodeMetricsLineView with two code metrics files
         /// </summary>
-        public static IEnumerable<CodeMetricsLineView> Generate(StreamReader codeMetricsTrunkFile, StreamReader codeMetricsBrancheFile)
+        public static List<CodeMetricsLineView> Generate(StreamReader codeMetricsTrunkFile, StreamReader codeMetricsBrancheFile)
         {
             List<CodeMetricsLineModelFromExcel> codeMetricsTrunk = InitializeCodeMetrics(codeMetricsTrunkFile);
             codeMetricsTrunkFile.Close();
@@ -22,7 +22,7 @@
             List<CodeMetricsLineModelFromExcel> codeMetricsBranche = InitializeCodeMetrics(codeMetricsBrancheFile);
             codeMetricsBrancheFile.Close();
 
-            IEnumerable<CodeMetricsLineView> codeMetrics = InitializeCodeMetricsDifferences(codeMetricsTrunk, codeMetricsBranche);
+            List<CodeMetricsLineView> codeMetrics = InitializeCodeMetricsDifferences(codeMetricsTrunk, codeMetricsBranche);
 
             return InitializeCodeMetricsTree(codeMetrics);
         }
@@ -94,7 +94,7 @@
         /// <summary>
         /// Creates a list of CodeMetricsLineView containing differences between two lists of CodeMetricsLineModel
         /// </summary>
-        private static IEnumerable<CodeMetricsLineView> InitializeCodeMetricsDifferences(List<CodeMetricsLineModelFromExcel> codeMetricsTrunk, List<CodeMetricsLineModelFromExcel> codeMetricsBranche)
+        private static List<CodeMetricsLineView> InitializeCodeMetricsDifferences(List<CodeMetricsLineModelFromExcel> codeMetricsTrunk, List<CodeMetricsLineModelFromExcel> codeMetricsBranche)
         {
             var codeMetrics = new List<CodeMetricsLineView>();
 
@@ -116,7 +116,7 @@
         /// <summary>
         /// Adds lines from trunk but not in branche
         /// </summary>
-        private static List<CodeMetricsLineView> AddCodeMetricsViewFromTrunk(List<CodeMetricsLineModelFromExcel> codeMetricsTrunk, List<CodeMetricsLineModelFromExcel> codeMetricsBranche)
+        private static IEnumerable<CodeMetricsLineView> AddCodeMetricsViewFromTrunk(IEnumerable<CodeMetricsLineModelFromExcel> codeMetricsTrunk, List<CodeMetricsLineModelFromExcel> codeMetricsBranche)
         {
             var codeCoverageToAdd = new List<CodeMetricsLineView>();
 
@@ -178,7 +178,7 @@
         /// <summary>
         /// Gets a line from a list with same informations
         /// </summary>
-        private static CodeMetricsLineModelFromExcel GetSameLine(CodeMetricsLineModelFromExcel codeMetricsToFind, List<CodeMetricsLineModelFromExcel> codeMetricsToExplore)
+        private static CodeMetricsLineModelFromExcel GetSameLine(CodeMetricsLineModelFromExcel codeMetricsToFind, IEnumerable<CodeMetricsLineModelFromExcel> codeMetricsToExplore)
         {
             foreach (CodeMetricsLineModelFromExcel line in codeMetricsToExplore)
             {
@@ -218,7 +218,7 @@
         /// <summary>
         /// Initializes the tree of code metrics
         /// </summary>
-        private static IEnumerable<CodeMetricsLineView> InitializeCodeMetricsTree(IEnumerable<CodeMetricsLineView> codeMetrics)
+        private static List<CodeMetricsLineView> InitializeCodeMetricsTree(IEnumerable<CodeMetricsLineView> codeMetrics)
         {
             var list = new List<CodeMetricsLineView>();
 

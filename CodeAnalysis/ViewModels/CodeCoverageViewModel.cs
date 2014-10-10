@@ -1,6 +1,8 @@
 ﻿namespace CodeAnalysis.ViewModels
 {
     using System.Linq;
+    using System.Threading.Tasks;
+    using System.Windows.Data;
 
     using CodeAnalysis.BusinessLogic;
     using CodeAnalysis.Core;
@@ -21,11 +23,13 @@
             ProceedCodeCoverageCommand = new RelayCommand(param => ProceedCodeCoverage());
 
             CodeCoverageTree = new ObservableCollection<CodeCoverageLineView>();
+            BindingOperations.EnableCollectionSynchronization(CodeCoverageTree, _lock);
         }
 
         public RelayCommand BrowseCodeCoverageTrunkFileCommand { get; set; }
         public RelayCommand BrowseCodeCoverageBrancheFileCommand { get; set; }
         public RelayCommand ProceedCodeCoverageCommand { get; set; }
+        private object _lock = new object();
 
         private string codeCoverageTrunkFilePath;
 
@@ -103,14 +107,17 @@
         {
             if (File.Exists(CodeCoverageTrunkFilePath) && File.Exists(CodeCoverageBrancheFilePath))
             {
-                var codeCoverageTrunkFile = new StreamReader(CodeCoverageTrunkFilePath);
-                var codeCoverageBrancheFile = new StreamReader(CodeCoverageBrancheFilePath);
-
                 CodeCoverageTree.Clear();
-                var tree = CodeCoverageGenerator.Generate(codeCoverageTrunkFile, codeCoverageBrancheFile);
-                CodeCoverageTree = new ObservableCollection<CodeCoverageLineView>(tree);
 
-                AverageGenerator.AddCodeCoverageAverage(CodeCoverageTree);
+                Task.Factory.StartNew(() =>
+                {
+                    var codeCoverageTrunkFile = new StreamReader(CodeCoverageTrunkFilePath);
+                    var codeCoverageBrancheFile = new StreamReader(CodeCoverageBrancheFilePath);
+
+                    var tree = CodeCoverageGenerator.Generate(codeCoverageTrunkFile, codeCoverageBrancheFile);
+                    AverageGenerator.AddCodeCoverageAverage(tree);
+                    CodeCoverageTree = new ObservableCollection<CodeCoverageLineView>(tree);
+                });
             }
         }
     }

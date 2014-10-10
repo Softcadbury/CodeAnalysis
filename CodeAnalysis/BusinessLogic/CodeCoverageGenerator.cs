@@ -13,7 +13,7 @@
         /// <summary>
         /// Generates a list of CodeCoverageLineView with two code coverage files
         /// </summary>
-        public static IEnumerable<CodeCoverageLineView> Generate(StreamReader codeCoverageTrunkFile, StreamReader codeCoverageBrancheFile)
+        public static List<CodeCoverageLineView> Generate(StreamReader codeCoverageTrunkFile, StreamReader codeCoverageBrancheFile)
         {
             List<CodeCoverageLineModel> codeCoverageTrunk = InitializeCodeCoverage(codeCoverageTrunkFile);
             codeCoverageTrunkFile.Close();

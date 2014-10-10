@@ -3,6 +3,8 @@
     using System.Collections.ObjectModel;
     using System.IO;
     using System.Linq;
+    using System.Threading.Tasks;
+    using System.Windows.Data;
 
     using CodeAnalysis.BusinessLogic;
     using CodeAnalysis.Core;
@@ -21,11 +23,13 @@
             ProceedCodeMetricsCommand = new RelayCommand(param => ProceedCodeMetrics());
 
             CodeMetricsTree = new ObservableCollection<CodeMetricsLineView>();
+            BindingOperations.EnableCollectionSynchronization(CodeMetricsTree, _lock);
         }
 
         public RelayCommand BrowseCodeMetricsTrunkFileCommand { get; set; }
         public RelayCommand BrowseCodeMetricsBrancheFileCommand { get; set; }
         public RelayCommand ProceedCodeMetricsCommand { get; set; }
+        private object _lock = new object();
 
         private string codeMetricsTrunkFilePath;
 
@@ -108,23 +112,27 @@
 
                 CodeMetricsTree.Clear();
 
-                if (CodeMetricsTrunkFilePath.EndsWith(XlsxFile) && CodeMetricsBrancheFilePath.EndsWith(XlsxFile))
+                Task.Factory.StartNew(() =>
                 {
-                    var codeMetricsTrunkFile = new StreamReader(CodeMetricsTrunkFilePath);
-                    var codeMetricsBrancheFile = new StreamReader(CodeMetricsBrancheFilePath);
-                    CodeMetricsTree = new ObservableCollection<CodeMetricsLineView>(CodeMetricsGeneratorFromExcel.Generate(codeMetricsTrunkFile, codeMetricsBrancheFile));
-                }
-                else if (CodeMetricsTrunkFilePath.EndsWith(XmlFile) && CodeMetricsBrancheFilePath.EndsWith(XmlFile))
-                {
-                    var codeMetricsTrunkFile = new StreamReader(CodeMetricsTrunkFilePath);
-                    var codeMetricsBrancheFile = new StreamReader(CodeMetricsBrancheFilePath);
-                    CodeMetricsTree = new ObservableCollection<CodeMetricsLineView>(CodeMetricsGeneratorFromXml.Generate(codeMetricsTrunkFile, codeMetricsBrancheFile));
-                }
+                    if (CodeMetricsTrunkFilePath.EndsWith(XlsxFile) && CodeMetricsBrancheFilePath.EndsWith(XlsxFile))
+                    {
+                        var codeMetricsTrunkFile = new StreamReader(CodeMetricsTrunkFilePath);
+                        var codeMetricsBrancheFile = new StreamReader(CodeMetricsBrancheFilePath);
 
-                if (CodeMetricsTree != null)
-                {
-                    AverageGenerator.AddCodeMetricsAverage(CodeMetricsTree);
-                }
+                        var tree = CodeMetricsGeneratorFromExcel.Generate(codeMetricsTrunkFile, codeMetricsBrancheFile);
+                        AverageGenerator.AddCodeMetricsAverage(tree);
+                        CodeMetricsTree = new ObservableCollection<CodeMetricsLineView>(tree);
+                    }
+                    else if (CodeMetricsTrunkFilePath.EndsWith(XmlFile) && CodeMetricsBrancheFilePath.EndsWith(XmlFile))
+                    {
+                        var codeMetricsTrunkFile = new StreamReader(CodeMetricsTrunkFilePath);
+                        var codeMetricsBrancheFile = new StreamReader(CodeMetricsBrancheFilePath);
+
+                        var tree = CodeMetricsGeneratorFromXml.Generate(codeMetricsTrunkFile, codeMetricsBrancheFile);
+                        AverageGenerator.AddCodeMetricsAverage(tree);
+                        CodeMetricsTree = new ObservableCollection<CodeMetricsLineView>(tree);
+                    }
+                });
             }
         }
     }
