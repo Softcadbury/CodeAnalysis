@@ -1,11 +1,11 @@
 ﻿<UserControl x:Class="CodeAnalysis.Views.CodeCoverageView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:businessLogic="clr-namespace:CodeAnalysis.BusinessLogic"
+             xmlns:converters="clr-namespace:CodeAnalysis.Converters"
              xmlns:core="clr-namespace:CodeAnalysis.Core">
     <UserControl.Resources>
-        <businessLogic:BackgroundColorConverter x:Key="BackgroundColorConverter"></businessLogic:BackgroundColorConverter>
-        <businessLogic:ForegroundColorConverter x:Key="ForegroundColorConverter"></businessLogic:ForegroundColorConverter>
+        <converters:BackgroundColorConverter x:Key="BackgroundColorConverter"></converters:BackgroundColorConverter>
+        <converters:ForegroundColorConverter x:Key="ForegroundColorConverter"></converters:ForegroundColorConverter>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
