@@ -23,7 +23,7 @@
             TrunkName = Settings.Default.TrunkName;
             BrancheName = Settings.Default.BrancheName;
 
-            Process cmdProcess = new Process
+            var cmdProcess = new Process
                                  {
                                      StartInfo =
                                      {
@@ -51,14 +51,6 @@
             cmdProcess.Start();
             cmdStreamWriter = cmdProcess.StandardInput;
             cmdProcess.BeginOutputReadLine();
-        }
-
-        private void haha(object sendingProcess, DataReceivedEventArgs outLine)
-        {
-            if (!String.IsNullOrEmpty(outLine.Data))
-            {
-                ConsoleOutput += (Environment.NewLine + outLine.Data);
-            }
         }
 
         private readonly StreamWriter cmdStreamWriter;
