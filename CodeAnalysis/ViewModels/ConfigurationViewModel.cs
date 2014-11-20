@@ -55,6 +55,13 @@
             set { isNotLoading = !value; OnPropertyChanged("IsNotLoading"); }
         }
 
+        private string consoleOutput;
+        public string ConsoleOutput
+        {
+            get { return consoleOutput; }
+            set { consoleOutput = value; OnPropertyChanged("ConsoleOutput"); }
+        }
+
         /// <summary>
         /// Update reposiroties
         /// </summary>
@@ -66,39 +73,6 @@
 
                 Task.Factory.StartNew(() =>
                 {
-                    string rootPath = AppDomain.CurrentDomain.BaseDirectory + "data";
-                    string trunkPath = rootPath + "\\" + TrunkName;
-                    string branchePath = rootPath + "\\" + BrancheName;
-                    string analysisPath = rootPath + "\\analysis";
-
-                    Directory.CreateDirectory(rootPath);
-                    Directory.CreateDirectory(trunkPath);
-                    Directory.CreateDirectory(branchePath);
-                    Directory.CreateDirectory(analysisPath);
-
-                    const string CmdCd = "cd {0}";
-                    const string CmdGitInit = "git init";
-                    const string CmdGitRemote = " git remote add -t {0} -f origin {1}";
-                    const string CmdGitCheckout = "git checkout {0}";
-
-                    var process = new Process();
-                    process.StartInfo.FileName = "cmd.exe";
-                    process.StartInfo.UseShellExecute = false;
-                    process.StartInfo.RedirectStandardOutput = false;
-                    process.StartInfo.RedirectStandardInput = true;
-                    process.Start();
-
-                    process.StandardInput.WriteLine(CmdCd, trunkPath);
-                    process.StandardInput.WriteLine(CmdGitInit);
-                    process.StandardInput.WriteLine(CmdGitRemote, trunkPath, RepositoryUrl);
-                    process.StandardInput.WriteLine(CmdGitCheckout, trunkPath);
-
-                    process.StandardInput.WriteLine(CmdCd, branchePath);
-                    process.StandardInput.WriteLine(CmdGitInit);
-                    process.StandardInput.WriteLine(CmdGitRemote, branchePath, RepositoryUrl);
-                    process.StandardInput.WriteLine(CmdGitCheckout, branchePath);
-                    process.WaitForExit();
-
                     IsNotLoading = true;
                 });
             }

@@ -39,5 +39,7 @@
                 Visibility="{Binding IsNotLoading, Converter={StaticResource VisibiltyConverter}}"></Button>
         <Button Grid.Row="0" Grid.RowSpan="3" Grid.Column="4" Width="140" Height="35" Content="Proceed Code Coverage" Command="{Binding ProceedCodeCoverageCommand}"
                 Visibility="{Binding IsNotLoading, Converter={StaticResource VisibiltyConverter}}"></Button>
+
+        <TextBlock Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="6" Margin="10" Padding="10,5" Text="{Binding Path=ConsoleOutput}" Background="Black" Foreground="White" />
     </Grid>
 </UserControl>
