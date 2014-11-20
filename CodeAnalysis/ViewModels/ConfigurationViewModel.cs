@@ -4,6 +4,7 @@
     using System.Diagnostics;
     using System.IO;
     using System.Threading.Tasks;
+
     using CodeAnalysis.Core;
     using CodeAnalysis.Properties;
 
@@ -21,7 +22,46 @@
             RepositoryUrl = Settings.Default.RepositoryUrl;
             TrunkName = Settings.Default.TrunkName;
             BrancheName = Settings.Default.BrancheName;
+
+            Process cmdProcess = new Process
+                                 {
+                                     StartInfo =
+                                     {
+                                         FileName = "cmd.exe",
+                                         UseShellExecute = false,
+                                         CreateNoWindow = true,
+                                         RedirectStandardOutput = true,
+                                         RedirectStandardInput = true
+                                     }
+                                 };
+
+            cmdProcess.OutputDataReceived += (sendingProcess, outLine) =>
+            {
+                if (!String.IsNullOrEmpty(outLine.Data))
+                {
+                    ConsoleOutput += (Environment.NewLine + outLine.Data);
+
+                    if (outLine.Data == "Update completed")
+                    {
+                        IsNotLoading = true;
+                    }
+                }
+            };
+
+            cmdProcess.Start();
+            cmdStreamWriter = cmdProcess.StandardInput;
+            cmdProcess.BeginOutputReadLine();
         }
+
+        private void haha(object sendingProcess, DataReceivedEventArgs outLine)
+        {
+            if (!String.IsNullOrEmpty(outLine.Data))
+            {
+                ConsoleOutput += (Environment.NewLine + outLine.Data);
+            }
+        }
+
+        private readonly StreamWriter cmdStreamWriter;
 
         public RelayCommand UpdateRepositoriesCommand { get; set; }
         public RelayCommand ProceedCodeMetricsCommand { get; set; }
@@ -73,7 +113,33 @@
 
                 Task.Factory.StartNew(() =>
                 {
-                    IsNotLoading = true;
+                    string commandCd = "cd {0}" + Environment.NewLine;
+                    string commandGitInit = "git init" + Environment.NewLine;
+                    string commandGitRemote = " git remote add -t {0} -f origin {1}" + Environment.NewLine;
+                    string commandGitCheckout = "git checkout {0}" + Environment.NewLine;
+                    string commandEchoCompleted = "echo Update completed" + Environment.NewLine;
+
+                    string rootPath = AppDomain.CurrentDomain.BaseDirectory + "data";
+                    string trunkPath = rootPath + "\\" + TrunkName;
+                    string branchePath = rootPath + "\\" + BrancheName;
+                    string analysisPath = rootPath + "\\analysis";
+
+                    Directory.CreateDirectory(rootPath);
+                    Directory.CreateDirectory(trunkPath);
+                    Directory.CreateDirectory(branchePath);
+                    Directory.CreateDirectory(analysisPath);
+
+                    string commandTrunk = string.Format(commandCd, trunkPath)
+                                          + commandGitInit
+                                          + string.Format(commandGitRemote, TrunkName, RepositoryUrl)
+                                          + string.Format(commandGitCheckout, TrunkName);
+
+                    string commandBranche = string.Format(commandCd, branchePath)
+                                             + commandGitInit
+                                             + string.Format(commandGitRemote, BrancheName, RepositoryUrl)
+                                             + string.Format(commandGitCheckout, BrancheName);
+
+                    cmdStreamWriter.Write(commandTrunk + commandBranche + commandEchoCompleted);
                 });
             }
         }
