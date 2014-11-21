@@ -31,26 +31,18 @@
                                          UseShellExecute = false,
                                          CreateNoWindow = true,
                                          RedirectStandardOutput = true,
-                                         RedirectStandardInput = true
+                                         RedirectStandardInput = true,
+                                         RedirectStandardError = true
                                      }
                                  };
 
-            cmdProcess.OutputDataReceived += (sendingProcess, outLine) =>
-            {
-                if (!String.IsNullOrEmpty(outLine.Data))
-                {
-                    ConsoleOutput += (Environment.NewLine + outLine.Data);
-
-                    if (outLine.Data == "Update completed")
-                    {
-                        IsNotLoading = true;
-                    }
-                }
-            };
-
+            cmdProcess.OutputDataReceived += AddConsoleOutput;
+            cmdProcess.ErrorDataReceived += AddConsoleOutput;
             cmdProcess.Start();
-            cmdStreamWriter = cmdProcess.StandardInput;
+            cmdProcess.BeginErrorReadLine();
             cmdProcess.BeginOutputReadLine();
+
+            cmdStreamWriter = cmdProcess.StandardInput;
         }
 
         private readonly StreamWriter cmdStreamWriter;
@@ -95,6 +87,24 @@
         }
 
         /// <summary>
+        /// Display commads result in the console
+        /// </summary>
+        /// <param name="sender">The sender</param>
+        /// <param name="outLine">The data received</param>
+        private void AddConsoleOutput(object sender, DataReceivedEventArgs outLine)
+        {
+            if (!String.IsNullOrEmpty(outLine.Data))
+            {
+                ConsoleOutput += (Environment.NewLine + outLine.Data);
+
+                if (outLine.Data == "Update completed")
+                {
+                    IsNotLoading = true;
+                }
+            }
+        }
+
+        /// <summary>
         /// Update reposiroties
         /// </summary>
         private void UpdateRepositories()
@@ -105,12 +115,6 @@
 
                 Task.Factory.StartNew(() =>
                 {
-                    string commandCd = "cd {0}" + Environment.NewLine;
-                    string commandGitInit = "git init" + Environment.NewLine;
-                    string commandGitRemote = " git remote add -t {0} -f origin {1}" + Environment.NewLine;
-                    string commandGitCheckout = "git checkout {0}" + Environment.NewLine;
-                    string commandEchoCompleted = "echo Update completed" + Environment.NewLine;
-
                     string rootPath = AppDomain.CurrentDomain.BaseDirectory + "data";
                     string trunkPath = rootPath + "\\" + TrunkName;
                     string branchePath = rootPath + "\\" + BrancheName;
@@ -121,17 +125,35 @@
                     Directory.CreateDirectory(branchePath);
                     Directory.CreateDirectory(analysisPath);
 
-                    string commandTrunk = string.Format(commandCd, trunkPath)
-                                          + commandGitInit
-                                          + string.Format(commandGitRemote, TrunkName, RepositoryUrl)
-                                          + string.Format(commandGitCheckout, TrunkName);
+                    // Git commands
+                    string templateCommandCd = "cd {0}" + Environment.NewLine;
+                    string templateCommandGitInit = "git init" + Environment.NewLine;
+                    string templateCommandGitRemote = " git remote add -t {0} -f origin {1}" + Environment.NewLine;
+                    string templateCommandGitCheckout = "git checkout {0}" + Environment.NewLine;
 
-                    string commandBranche = string.Format(commandCd, branchePath)
-                                             + commandGitInit
-                                             + string.Format(commandGitRemote, BrancheName, RepositoryUrl)
-                                             + string.Format(commandGitCheckout, BrancheName);
+                    string commandGitTrunk = string.Format(templateCommandCd, trunkPath)
+                                            + templateCommandGitInit
+                                            + string.Format(templateCommandGitRemote, TrunkName, RepositoryUrl)
+                                            + string.Format(templateCommandGitCheckout, TrunkName);
 
-                    cmdStreamWriter.Write(commandTrunk + commandBranche + commandEchoCompleted);
+                    string commandGitBranche = string.Format(templateCommandCd, branchePath)
+                                            + templateCommandGitInit
+                                            + string.Format(templateCommandGitRemote, BrancheName, RepositoryUrl)
+                                            + string.Format(templateCommandGitCheckout, BrancheName);
+
+                    string templateCommandNuggetRestore = @"{0}\.nuget\NuGet.exe restore {1}\iTS.sln" + Environment.NewLine;
+                    string templateCommandBuild = @"""C:\Program Files (x86)\MSBuild\12.0\Bin\MSBuild.Exe"" {0}\iTS.sln /v:q" + Environment.NewLine;
+
+                    // Build commands
+                    string commandBuildTrunk = string.Format(templateCommandNuggetRestore, trunkPath, TrunkName)
+                                            + string.Format(templateCommandBuild, trunkPath);
+
+                    string commandBuildBranche = string.Format(templateCommandNuggetRestore, branchePath, BrancheName)
+                                            + string.Format(templateCommandBuild, branchePath);
+
+                    // Execute commands
+                    string commandEchoCompleted = "echo Update completed" + Environment.NewLine;
+                    cmdStreamWriter.Write(commandGitTrunk + commandGitBranche + commandBuildTrunk + commandBuildBranche + commandEchoCompleted);
                 });
             }
         }
