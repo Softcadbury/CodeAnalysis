@@ -73,8 +73,8 @@
                     Directory.CreateDirectory(branchePath);
                     Directory.CreateDirectory(analysisPath);
 
-                    string trunkCommands = GetCommands(TrunkName, trunkPath);
-                    string brancheCommands = GetCommands(BrancheName, branchePath);
+                    string trunkCommands = GetCommands(TrunkName, trunkPath, analysisPath);
+                    string brancheCommands = GetCommands(BrancheName, branchePath, analysisPath);
 
                     var cmdProcessForTrunk = new Process
                     {
@@ -110,7 +110,7 @@
         /// <summary>
         /// Get the command for a specified name and path
         /// </summary>
-        private string GetCommands(string name, string path)
+        private string GetCommands(string name, string solutionPath, string analysisPath)
         {
             const string CommandInitializer = "/K ";
             const string CommandSeparator = " & ";
@@ -126,13 +126,19 @@
             const string TemplateCommandNuggetRestore = @"{0}\.nuget\NuGet.exe restore {0}\iTS.sln";
             const string TemplateCommandBuild = @"""C:\Program Files (x86)\MSBuild\12.0\Bin\MSBuild.Exe"" {0}\iTS.sln /v:q";
 
+            // Template metrics command
+            const string MetricsGeneratorPath = @"""C:\Program Files (x86)\Microsoft Visual Studio 12.0\Team Tools\Static Analysis Tools\FxCop\metrics.exe""";
+            const string DotNetOpenAuthPath = @"../../Library/DotNetOpenAuth.AspNet.dll";
+            const string TemplateCommandMetrics = @"{0} /f:iTS.Web.SPA\bin\iTS.*.dll /o:{1}\MetricsResults-{2}.xml /igc /gac /ref:{3}";
+
             return CommandInitializer
-                   + string.Format(TemplateCommandCd, path) + CommandSeparator
+                   + string.Format(TemplateCommandCd, solutionPath) + CommandSeparator
                    + TemplateCommandGitInit + CommandSeparator
                    + string.Format(TemplateCommandGitRemote, name, RepositoryUrl) + CommandSeparator
                    + string.Format(TemplateCommandGitCheckout, name) + CommandSeparator
-                   + string.Format(TemplateCommandNuggetRestore, path) + CommandSeparator
-                   + string.Format(TemplateCommandBuild, path)
+                   + string.Format(TemplateCommandNuggetRestore, solutionPath) + CommandSeparator
+                   + string.Format(TemplateCommandBuild, solutionPath) + CommandSeparator
+                   + string.Format(TemplateCommandMetrics, MetricsGeneratorPath, analysisPath, name, DotNetOpenAuthPath)
                    + PauseAndExit;
         }
     }
