@@ -22,30 +22,7 @@
             RepositoryUrl = Settings.Default.RepositoryUrl;
             TrunkName = Settings.Default.TrunkName;
             BrancheName = Settings.Default.BrancheName;
-
-            var cmdProcess = new Process
-                                 {
-                                     StartInfo =
-                                     {
-                                         FileName = "cmd.exe",
-                                         UseShellExecute = false,
-                                         CreateNoWindow = true,
-                                         RedirectStandardOutput = true,
-                                         RedirectStandardInput = true,
-                                         RedirectStandardError = true
-                                     }
-                                 };
-
-            cmdProcess.OutputDataReceived += AddConsoleOutput;
-            cmdProcess.ErrorDataReceived += AddConsoleOutput;
-            cmdProcess.Start();
-            cmdProcess.BeginErrorReadLine();
-            cmdProcess.BeginOutputReadLine();
-
-            cmdStreamWriter = cmdProcess.StandardInput;
         }
-
-        private readonly StreamWriter cmdStreamWriter;
 
         public RelayCommand UpdateRepositoriesCommand { get; set; }
         public RelayCommand ProceedCodeMetricsCommand { get; set; }
@@ -87,24 +64,6 @@
         }
 
         /// <summary>
-        /// Display commads result in the console
-        /// </summary>
-        /// <param name="sender">The sender</param>
-        /// <param name="outLine">The data received</param>
-        private void AddConsoleOutput(object sender, DataReceivedEventArgs outLine)
-        {
-            if (!String.IsNullOrEmpty(outLine.Data))
-            {
-                ConsoleOutput += (Environment.NewLine + outLine.Data);
-
-                if (outLine.Data == "Update completed")
-                {
-                    IsNotLoading = true;
-                }
-            }
-        }
-
-        /// <summary>
         /// Update reposiroties
         /// </summary>
         private void UpdateRepositories()
@@ -125,37 +84,67 @@
                     Directory.CreateDirectory(branchePath);
                     Directory.CreateDirectory(analysisPath);
 
-                    // Git commands
-                    string templateCommandCd = "cd {0}" + Environment.NewLine;
-                    string templateCommandGitInit = "git init" + Environment.NewLine;
-                    string templateCommandGitRemote = " git remote add -t {0} -f origin {1}" + Environment.NewLine;
-                    string templateCommandGitCheckout = "git checkout {0}" + Environment.NewLine;
+                    string trunkCommands = GetCommands(TrunkName, trunkPath);
+                    string brancheCommands = GetCommands(BrancheName, branchePath);
 
-                    string commandGitTrunk = string.Format(templateCommandCd, trunkPath)
-                                            + templateCommandGitInit
-                                            + string.Format(templateCommandGitRemote, TrunkName, RepositoryUrl)
-                                            + string.Format(templateCommandGitCheckout, TrunkName);
+                    var cmdProcessForTrunk = new Process
+                    {
+                        StartInfo =
+                        {
+                            FileName = "cmd.exe",
+                            UseShellExecute = false,
+                            Arguments = trunkCommands
+                        }
+                    };
 
-                    string commandGitBranche = string.Format(templateCommandCd, branchePath)
-                                            + templateCommandGitInit
-                                            + string.Format(templateCommandGitRemote, BrancheName, RepositoryUrl)
-                                            + string.Format(templateCommandGitCheckout, BrancheName);
+                    var cmdProcessForBranche = new Process
+                    {
+                        StartInfo =
+                        {
+                            FileName = "cmd.exe",
+                            UseShellExecute = false,
+                            Arguments = brancheCommands
+                        }
+                    };
 
-                    string templateCommandNuggetRestore = @"{0}\.nuget\NuGet.exe restore {1}\iTS.sln" + Environment.NewLine;
-                    string templateCommandBuild = @"""C:\Program Files (x86)\MSBuild\12.0\Bin\MSBuild.Exe"" {0}\iTS.sln /v:q" + Environment.NewLine;
+                    cmdProcessForTrunk.Start();
+                    cmdProcessForBranche.Start();
 
-                    // Build commands
-                    string commandBuildTrunk = string.Format(templateCommandNuggetRestore, trunkPath, TrunkName)
-                                            + string.Format(templateCommandBuild, trunkPath);
+                    cmdProcessForTrunk.WaitForExit();
+                    cmdProcessForBranche.WaitForExit();
 
-                    string commandBuildBranche = string.Format(templateCommandNuggetRestore, branchePath, BrancheName)
-                                            + string.Format(templateCommandBuild, branchePath);
-
-                    // Execute commands
-                    string commandEchoCompleted = "echo Update completed" + Environment.NewLine;
-                    cmdStreamWriter.Write(commandGitTrunk + commandGitBranche + commandBuildTrunk + commandBuildBranche + commandEchoCompleted);
+                    IsNotLoading = true;
                 });
             }
+        }
+
+        /// <summary>
+        /// Get the command for a specified name and path
+        /// </summary>
+        private string GetCommands(string name, string path)
+        {
+            const string CommandInitializer = "/K ";
+            const string CommandSeparator = " & ";
+            const string PauseAndExit = " & pause & exit";
+
+            // Template git commands
+            const string TemplateCommandCd = "cd {0}";
+            const string TemplateCommandGitInit = "git init";
+            const string TemplateCommandGitRemote = " git remote add -t {0} -f origin {1}";
+            const string TemplateCommandGitCheckout = "git checkout {0}";
+
+            // Template build commands
+            const string TemplateCommandNuggetRestore = @"{0}\.nuget\NuGet.exe restore {1}\iTS.sln";
+            const string TemplateCommandBuild = @"""C:\Program Files (x86)\MSBuild\12.0\Bin\MSBuild.Exe"" {0}\iTS.sln /v:q";
+
+            return CommandInitializer
+                   + string.Format(TemplateCommandCd, path) + CommandSeparator
+                   + TemplateCommandGitInit + CommandSeparator
+                   + string.Format(TemplateCommandGitRemote, name, RepositoryUrl) + CommandSeparator
+                   + string.Format(TemplateCommandGitCheckout, name) + CommandSeparator
+                   + string.Format(TemplateCommandNuggetRestore, path, name) + CommandSeparator
+                   + string.Format(TemplateCommandBuild, path)
+                   + PauseAndExit;
         }
 
         /// <summary>
