@@ -127,6 +127,7 @@
             const string TemplateCommandGitInit = "git init";
             const string TemplateCommandGitRemote = " git remote add -t {0} -f origin {1}";
             const string TemplateCommandGitCheckout = "git checkout {0}";
+            const string TemplateCommandGitRebase = "git rebase";
 
             // Template build commands
             const string TemplateCommandNuggetRestore = @"{0}\.nuget\NuGet.exe restore {0}\iTS.sln";
@@ -142,6 +143,7 @@
                    + TemplateCommandGitInit + CommandSeparator
                    + string.Format(TemplateCommandGitRemote, name, RepositoryUrl) + CommandSeparator
                    + string.Format(TemplateCommandGitCheckout, name) + CommandSeparator
+                   + TemplateCommandGitRebase + CommandSeparator
                    + string.Format(TemplateCommandNuggetRestore, solutionPath) + CommandSeparator
                    + string.Format(TemplateCommandBuild, solutionPath) + CommandSeparator
                    + string.Format(TemplateCommandMetrics, MetricsGeneratorPath, analysisPath, name, DotNetOpenAuthPath)
