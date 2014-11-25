@@ -15,18 +15,14 @@
     {
         public ConfigurationViewModel()
         {
-            UpdateRepositoriesCommand = new RelayCommand(param => UpdateRepositories());
-            ProceedCodeMetricsCommand = new RelayCommand(param => ProceedCodeMetrics());
-            ProceedCodeCoverageCommand = new RelayCommand(param => ProceedCodeCoverage());
+            ProceedAnalysisCommand = new RelayCommand(param => ProceedAnalysis());
 
             RepositoryUrl = Settings.Default.RepositoryUrl;
             TrunkName = Settings.Default.TrunkName;
             BrancheName = Settings.Default.BrancheName;
         }
 
-        public RelayCommand UpdateRepositoriesCommand { get; set; }
-        public RelayCommand ProceedCodeMetricsCommand { get; set; }
-        public RelayCommand ProceedCodeCoverageCommand { get; set; }
+        public RelayCommand ProceedAnalysisCommand { get; set; }
 
         private string repository;
         public string RepositoryUrl
@@ -56,17 +52,10 @@
             set { isNotLoading = !value; OnPropertyChanged("IsNotLoading"); }
         }
 
-        private string consoleOutput;
-        public string ConsoleOutput
-        {
-            get { return consoleOutput; }
-            set { consoleOutput = value; OnPropertyChanged("ConsoleOutput"); }
-        }
-
         /// <summary>
-        /// Update reposiroties
+        /// Procced the analysis on the specified branche and trunk
         /// </summary>
-        private void UpdateRepositories()
+        private void ProceedAnalysis()
         {
             if (!string.IsNullOrWhiteSpace(RepositoryUrl) && !string.IsNullOrWhiteSpace(TrunkName) && !string.IsNullOrWhiteSpace(BrancheName))
             {
@@ -145,26 +134,6 @@
                    + string.Format(TemplateCommandNuggetRestore, path, name) + CommandSeparator
                    + string.Format(TemplateCommandBuild, path)
                    + PauseAndExit;
-        }
-
-        /// <summary>
-        /// Generates code metrics
-        /// </summary>
-        private void ProceedCodeMetrics()
-        {
-            if (!string.IsNullOrWhiteSpace(RepositoryUrl) && !string.IsNullOrWhiteSpace(TrunkName) && !string.IsNullOrWhiteSpace(BrancheName))
-            {
-            }
-        }
-
-        /// <summary>
-        /// Generates code coverage
-        /// </summary>
-        private void ProceedCodeCoverage()
-        {
-            if (!string.IsNullOrWhiteSpace(RepositoryUrl) && !string.IsNullOrWhiteSpace(TrunkName) && !string.IsNullOrWhiteSpace(BrancheName))
-            {
-            }
         }
     }
 }
