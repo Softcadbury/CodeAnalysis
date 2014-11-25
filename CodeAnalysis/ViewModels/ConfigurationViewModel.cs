@@ -7,6 +7,7 @@
 
     using CodeAnalysis.Core;
     using CodeAnalysis.Properties;
+    using CodeAnalysis.Views;
 
     /// <summary>
     /// ViewModel for ConfigurationView
@@ -103,6 +104,11 @@
                     cmdProcessForBranche.WaitForExit();
 
                     IsNotLoading = true;
+
+                    const string TemplateMetricsResults = @"{0}\MetricsResults-{1}.xml";
+                    CodeMetricsView.ViewModel.CodeMetricsTrunkFilePath = string.Format(TemplateMetricsResults, analysisPath, TrunkName);
+                    CodeMetricsView.ViewModel.CodeMetricsBrancheFilePath = string.Format(TemplateMetricsResults, analysisPath, BrancheName);
+                    CodeMetricsView.ViewModel.ProceedCodeMetrics();
                 });
             }
         }

@@ -107,7 +107,7 @@
         /// <summary>
         /// Generates code metrics
         /// </summary>
-        private void ProceedCodeMetrics()
+        public void ProceedCodeMetrics()
         {
             if (File.Exists(CodeMetricsTrunkFilePath) && File.Exists(CodeMetricsBrancheFilePath))
             {

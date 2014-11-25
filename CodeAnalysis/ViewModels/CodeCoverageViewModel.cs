@@ -107,7 +107,7 @@
         /// <summary>
         /// Generates code coverage
         /// </summary>
-        private void ProceedCodeCoverage()
+        public void ProceedCodeCoverage()
         {
             if (File.Exists(CodeCoverageTrunkFilePath) && File.Exists(CodeCoverageBrancheFilePath))
             {

@@ -1,17 +1,21 @@
 ﻿namespace CodeAnalysis.Views
 {
-    using CodeAnalysis.ViewModels;
     using System.Windows.Controls;
+    using CodeAnalysis.ViewModels;
 
     /// <summary>
     /// Interaction logic for CodeCoverageView.xaml
     /// </summary>
     public partial class CodeCoverageView : UserControl
     {
+        public static CodeCoverageViewModel ViewModel;
+
         public CodeCoverageView()
         {
             InitializeComponent();
-            this.DataContext = new CodeCoverageViewModel();
+
+            ViewModel = new CodeCoverageViewModel();
+            this.DataContext = ViewModel;
         }
     }
 }

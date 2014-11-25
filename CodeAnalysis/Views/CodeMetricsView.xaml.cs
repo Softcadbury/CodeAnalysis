@@ -1,17 +1,21 @@
 ﻿namespace CodeAnalysis.Views
 {
-    using CodeAnalysis.ViewModels;
     using System.Windows.Controls;
+    using CodeAnalysis.ViewModels;
 
     /// <summary>
     /// Interaction logic for CodeMetricsView.xaml
     /// </summary>
     public partial class CodeMetricsView : UserControl
     {
+        public static CodeMetricsViewModel ViewModel;
+
         public CodeMetricsView()
         {
             InitializeComponent();
-            this.DataContext = new CodeMetricsViewModel();
+
+            ViewModel = new CodeMetricsViewModel();
+            this.DataContext = ViewModel;
         }
     }
 }
