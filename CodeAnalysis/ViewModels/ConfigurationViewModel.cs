@@ -123,7 +123,7 @@
             const string TemplateCommandGitCheckout = "git checkout {0}";
 
             // Template build commands
-            const string TemplateCommandNuggetRestore = @"{0}\.nuget\NuGet.exe restore {1}\iTS.sln";
+            const string TemplateCommandNuggetRestore = @"{0}\.nuget\NuGet.exe restore {0}\iTS.sln";
             const string TemplateCommandBuild = @"""C:\Program Files (x86)\MSBuild\12.0\Bin\MSBuild.Exe"" {0}\iTS.sln /v:q";
 
             return CommandInitializer
@@ -131,7 +131,7 @@
                    + TemplateCommandGitInit + CommandSeparator
                    + string.Format(TemplateCommandGitRemote, name, RepositoryUrl) + CommandSeparator
                    + string.Format(TemplateCommandGitCheckout, name) + CommandSeparator
-                   + string.Format(TemplateCommandNuggetRestore, path, name) + CommandSeparator
+                   + string.Format(TemplateCommandNuggetRestore, path) + CommandSeparator
                    + string.Format(TemplateCommandBuild, path)
                    + PauseAndExit;
         }
