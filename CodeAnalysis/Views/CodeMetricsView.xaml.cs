@@ -52,7 +52,7 @@
                 string trunkPath = AppDomain.CurrentDomain.BaseDirectory + "data\\" + ConfigurationView.ViewModel.TrunkName;
                 string branchePath = AppDomain.CurrentDomain.BaseDirectory + "data\\" + ConfigurationView.ViewModel.BrancheName;
 
-                var indexOfBadChar = lineView.Type.IndexOf('<');
+                var indexOfBadChar = lineView.Type.IndexOf('.');
                 var fileName = indexOfBadChar > -1 ? lineView.Type.Remove(indexOfBadChar) : lineView.Type;
                 fileName += ".cs";
 
