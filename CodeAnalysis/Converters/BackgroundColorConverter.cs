@@ -26,10 +26,12 @@
                     {
                         return new SolidColorBrush(Colors.Green);
                     }
+
+                    return null;
                 }
             }
 
-            return null;
+            return new SolidColorBrush(Colors.Plum);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
