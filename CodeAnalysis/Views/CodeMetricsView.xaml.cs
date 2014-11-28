@@ -56,10 +56,21 @@
                 var fileName = indexOfBadChar > -1 ? lineView.Type.Remove(indexOfBadChar) : lineView.Type;
                 fileName += ".cs";
 
-                var devFile = Directory.GetFiles(trunkPath, fileName, SearchOption.AllDirectories).FirstOrDefault();
-                var sprintFile = Directory.GetFiles(branchePath, fileName, SearchOption.AllDirectories).FirstOrDefault();
+                var trunkFile = Directory.GetFiles(trunkPath, fileName, SearchOption.AllDirectories).FirstOrDefault();
+                var brancheFile = Directory.GetFiles(branchePath, fileName, SearchOption.AllDirectories).FirstOrDefault();
 
-                Process.Start(TortoisemergeExe, "/base:\"" + devFile + "\" /mine:\"" + sprintFile + "\"");
+                if (trunkFile != null && brancheFile != null)
+                {
+                    Process.Start(TortoisemergeExe, "/base:\"" + trunkFile + "\" /mine:\"" + brancheFile + "\"");
+                }
+                else if (trunkFile != null)
+                {
+                    Process.Start(TortoisemergeExe, "/base:\"" + trunkFile + "\" /mine:\"" + trunkFile + "\"");
+                }
+                else if (brancheFile != null)
+                {
+                    Process.Start(TortoisemergeExe, "/base:\"" + brancheFile + "\" /mine:\"" + brancheFile + "\"");
+                }
             }
         }
     }
