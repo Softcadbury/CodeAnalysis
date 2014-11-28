@@ -39,7 +39,7 @@
                 return;
             }
 
-            var lineView = tree.SelectedValue as CodeMetricsLineView;
+            var lineView = tree.SelectedValue as CodeCoverageLineView;
             if (lineView == null)
             {
                 return;
