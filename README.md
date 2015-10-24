@@ -6,4 +6,4 @@ This project is a Wpf application useful to compare code metrics and code covera
 
 ## Screenshot
 
-![alt tag](https://raw.githubusercontent.com/Softcadbury/CodeAnalysis/master/Screenshot.png)
+![alt tag](https://raw.githubusercontent.com/Softcadbury/EPortfolio/master/EPortfolio/Content/Images/preview/code-analysis.png)
